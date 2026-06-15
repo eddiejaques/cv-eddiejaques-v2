@@ -1,0 +1,193 @@
+<header class="hero">
+  <div class="wrap">
+    <div class="eyebrow"><span class="dot"></span>Case Study · Product Analytics</div>
+    <h1>Five executive dashboards across three products, for <span class="accent">$0</span> in software costs.</h1>
+    <p class="sub">A fast-growing education startup ran three separate web products (Typesy, Spreeder, Wordela) but had no shared way to measure daily active users, retention, or feature engagement — and the budget only allowed Mixpanel's free plan. I designed and delivered the entire tracking setup to fit inside those limits.</p>
+    <p class="role"><b>Role</b> Led the analytics project end to end — audit, tracking design, and engineering rollout, working within Mixpanel's free-tier limits</p>
+    <div class="meta">
+      <span class="chip"><b>3</b> products covered</span>
+      <span class="chip"><b>5</b> dashboards delivered</span>
+      <span class="chip"><b>$0</b> software cost</span>
+      <span class="chip"><b>1</b> sprint</span>
+      <span class="chip">Mixpanel</span>
+    </div>
+    <div class="tags">
+      <span class="tag">EdTech</span>
+      <span class="tag">SaaS</span>
+      <span class="tag">Product Analytics</span>
+      <span class="tag">Freelance</span>
+    </div>
+  </div>
+</header>
+
+<section class="reveal">
+  <div class="wrap">
+    <div class="section-tag">01 — The Business Driver</div>
+    <h2>Three products, no shared way to measure them</h2>
+    <p class="lede">Leadership needed basic growth numbers — daily and monthly active users, retention, feature usage — across all three products, but no tracking setup existed to produce them.</p>
+    <div class="problems">
+      <div class="prob">
+        <div class="num">GAP</div>
+        <h3>No usage metrics, anywhere</h3>
+        <p>None of the three products had a working setup to measure how many people used them, or how often.</p>
+        <div class="stat">No usage data = <span>leadership can't see what's working</span></div>
+      </div>
+      <div class="prob">
+        <div class="num">BUDGET</div>
+        <h3>Paid analytics tools were off the table</h3>
+        <p>The startup's budget required staying on Mixpanel's free plan, which limits how much data and detail you can track.</p>
+        <div class="stat">Free plan only = <span>tracking has to be designed around real limits</span></div>
+      </div>
+      <div class="prob">
+        <div class="num">SCALE</div>
+        <h3>One setup had to work for three products</h3>
+        <p>Whatever was built needed to give a combined view across Typesy, Spreeder, and Wordela, not three separate setups.</p>
+        <div class="stat">3 separate products = <span>no easy way to compare them</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="reveal">
+  <div class="wrap">
+    <div class="section-tag">02 — The Obstacles</div>
+    <h2>What a full site audit turned up</h2>
+    <p class="lede">Before designing anything, I audited the live products end to end. That audit surfaced three problems standing in the way of clean tracking.</p>
+    <div class="problems">
+      <div class="prob">
+        <div class="num">DATA</div>
+        <h3>User actions were hidden behind ID codes</h3>
+        <p>The free plan blocked access to lookup tables, so events only showed raw codes like course_id or game_id — not anything a person could read.</p>
+        <div class="stat">Raw ID codes = <span>reports nobody can read or trust</span></div>
+      </div>
+      <div class="prob">
+        <div class="num">TRACKING</div>
+        <h3>The apps didn't change pages when used</h3>
+        <p>The core features (course player, game player, word lists) load content without changing the page URL, so standard page-view tracking couldn't see people dropping off mid-task.</p>
+        <div class="stat">No page changes = <span>drop-off points stay invisible</span></div>
+      </div>
+      <div class="prob">
+        <div class="num">QUALITY</div>
+        <h3>Each team was logging data differently</h3>
+        <p>Early tracking attempts across the three products used inconsistent names and formats, risking duplicate or conflicting data once combined.</p>
+        <div class="stat">Inconsistent logging = <span>combined reports don't add up</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="reveal">
+  <div class="wrap">
+    <div class="section-tag">03 — The Solution</div>
+    <h2>A tracking design built around the free plan's limits</h2>
+    <p class="lede">Working directly with leadership and engineering, I designed a tracking setup that worked around each limitation, then helped build and check it before launch.</p>
+    <div class="timeline">
+      <div class="spine"></div>
+
+      <div class="phase">
+        <div class="node">1</div>
+        <div class="ptitle">Define the KPIs with leadership <span class="flow">CXO interviews → roadmap</span></div>
+        <p>Worked directly with the startup's leadership team to agree on the core numbers that mattered — active users, retention, and feature engagement — and turned that into a tracking roadmap.<span class="tech">Stakeholder alignment</span></p>
+      </div>
+
+      <div class="phase">
+        <div class="node">2</div>
+        <div class="ptitle">Attach context to every event automatically</div>
+        <p>Set up a small set of shared details (which product, what type of user, which company) to be attached automatically to every action a user takes, so reports could be filtered and grouped without needing the paid lookup tables.<span class="tech">Shared event context</span></p>
+      </div>
+
+      <div class="phase era-ai">
+        <div class="node">3</div>
+        <div class="ptitle">Track in-app steps directly</div>
+        <p>Built custom tracking for the course player, game player, and word-list tools so each step a user takes inside these tools is recorded directly, even though the page itself never changes.<span class="tech">In-app step tracking</span></p>
+      </div>
+
+      <div class="phase era-ai">
+        <div class="node">4</div>
+        <div class="ptitle">Write the naming rules, then test live</div>
+        <p>Wrote a simple naming guide (consistent event and property names) for engineering to follow, then worked alongside engineers to fix bugs and check real, live data before anything went to production.<span class="tech">Naming guide · QA</span></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="results">
+  <div class="wrap">
+    <div class="results-inner reveal">
+      <div class="section-tag">04 — Quantified Impact</div>
+      <h2>One tracking setup, three products, zero cost</h2>
+      <div class="stat-grid">
+        <div class="stat">
+          <div class="big">$0</div>
+          <div class="k">Software cost</div>
+          <div class="s">Stayed on Mixpanel's free plan</div>
+        </div>
+        <div class="stat">
+          <div class="big">5</div>
+          <div class="k">Dashboards delivered</div>
+          <div class="s">Within the free plan's report limit</div>
+        </div>
+        <div class="stat">
+          <div class="big">3</div>
+          <div class="k">Products covered</div>
+          <div class="s">Typesy, Spreeder, Wordela — one shared view</div>
+        </div>
+        <div class="stat">
+          <div class="big">1</div>
+          <div class="k">Sprint to deliver</div>
+          <div class="s">Audit through to live dashboards</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="reveal">
+  <div class="wrap">
+    <div class="section-tag">05 — Strategic Outcomes Unlocked</div>
+    <h2>From no usage data to a shared, governed view</h2>
+    <div class="unlocked-grid">
+      <div class="unlock q full">
+        <div class="ico">⚡</div>
+        <h4>Leadership can finally see how the products are used</h4>
+        <p>The five dashboards give leadership and product teams a shared, working view of active users, retention, feature engagement, onboarding, and subscription conversion — across all three products, without any new software spend.</p>
+      </div>
+      <div class="unlock">
+        <div class="ico">⊕</div>
+        <h4>Readable data instead of raw ID codes</h4>
+        <p>Attaching shared context to every event turned unreadable database IDs into data that can actually be filtered and grouped by product, user type, or account.</p>
+      </div>
+      <div class="unlock">
+        <div class="ico">↻</div>
+        <h4>Drop-offs inside the apps are now visible</h4>
+        <p>Custom tracking inside the course, game, and word-list tools shows exactly where users get stuck, something standard page tracking could never see.</p>
+      </div>
+      <div class="unlock">
+        <div class="ico">⟲</div>
+        <h4>Consistent data going forward</h4>
+        <p>A written naming guide gives engineering clear rules for any new tracking, preventing the inconsistent logging that caused problems before.</p>
+      </div>
+      <div class="unlock">
+        <div class="ico">✕</div>
+        <h4>One owner for the tracking setup</h4>
+        <p>Only the data analyst can change the tracking schema now, removing the risk of engineers making untracked changes that break reports later.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot">
+      <div class="brand">Joyn <span>—</span> Product Analytics</div>
+      <div>No Usage Data → Shared Dashboards, $0 Cost</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const io=new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}});
+  },{threshold:0.12});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>

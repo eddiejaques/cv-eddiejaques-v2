@@ -1,0 +1,105 @@
+@import "tailwindcss";
+@import "./fonts.css";
+@config "../../tailwind.config.js";
+
+:root {
+  /* Colors */
+  --bg-primary: #FAF9F6;
+  --bg-surface: #FFFFFF;
+  --color-ink: #0D0E10;
+  --color-muted: #48494B;
+  --color-faint: #A8A8A8;
+  --color-accent: #FF5A00;
+  --color-border: rgba(13, 14, 16, 0.08);
+
+  /* Typography */
+  --font-display: 'Space Grotesk', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  /* Spacing */
+  --space-unit: 8px;
+  --space-xs: calc(var(--space-unit) * 1);    /* 8px */
+  --space-sm: calc(var(--space-unit) * 2);    /* 16px */
+  --space-md: calc(var(--space-unit) * 3);    /* 24px */
+  --space-lg: calc(var(--space-unit) * 4);    /* 32px */
+  --space-xl: calc(var(--space-unit) * 6);    /* 48px */
+  --space-2xl: calc(var(--space-unit) * 9);   /* 72px */
+
+  /* Typography Scale */
+  --text-xs: 12px;
+  --text-sm: 14px;
+  --text-base: 16px;
+  --text-lg: 18px;
+  --text-xl: 20px;
+  --text-2xl: 24px;
+  --text-3xl: 28px;
+  --text-4xl: 36px;
+  --text-5xl: 48px;
+  --text-6xl: 60px;
+
+  /* Border & Shadow */
+  --border-width: 1px;
+  --border-radius: 8px;
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 8px 16px rgba(0, 0, 0, 0.1);
+
+  /* Z-index */
+  --z-base: 1;
+  --z-dropdown: 100;
+  --z-sticky: 200;
+  --z-modal: 1000;
+}
+
+@theme {
+  /* Colors -> Tailwind utilities (bg-*, text-*, border-*) */
+  --color-bg-primary: var(--bg-primary);
+  --color-surface: var(--bg-surface);
+  --color-ink: var(--color-ink);
+  --color-muted: var(--color-muted);
+  --color-faint: var(--color-faint);
+  --color-accent: var(--color-accent);
+  --color-border: var(--color-border);
+
+  /* Fonts -> font-display / font-body / font-mono */
+  --font-display: var(--font-display);
+  --font-body: var(--font-body);
+  --font-mono: var(--font-mono);
+
+  /* Spacing -> p-xs, gap-md, etc. */
+  --spacing-xs: var(--space-xs);
+  --spacing-sm: var(--space-sm);
+  --spacing-md: var(--space-md);
+  --spacing-lg: var(--space-lg);
+  --spacing-xl: var(--space-xl);
+  --spacing-2xl: var(--space-2xl);
+
+  /* Font sizes -> text-xs ... text-6xl */
+  --font-size-xs: var(--text-xs);
+  --font-size-sm: var(--text-sm);
+  --font-size-base: var(--text-base);
+  --font-size-lg: var(--text-lg);
+  --font-size-xl: var(--text-xl);
+  --font-size-2xl: var(--text-2xl);
+  --font-size-3xl: var(--text-3xl);
+  --font-size-4xl: var(--text-4xl);
+  --font-size-5xl: var(--text-5xl);
+  --font-size-6xl: var(--text-6xl);
+
+  /* Radius & shadow */
+  --radius-DEFAULT: var(--border-radius);
+  --shadow-sm: var(--shadow-sm);
+  --shadow-md: var(--shadow-md);
+
+  /* Z-index */
+  --z-index-base: var(--z-base);
+  --z-index-dropdown: var(--z-dropdown);
+  --z-index-sticky: var(--z-sticky);
+  --z-index-modal: var(--z-modal);
+}
+
+body {
+  font-family: var(--font-body);
+  color: var(--color-ink);
+  background: var(--bg-primary);
+}

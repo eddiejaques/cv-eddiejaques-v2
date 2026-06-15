@@ -1,0 +1,192 @@
+<header class="hero">
+  <div class="wrap">
+    <div class="eyebrow"><span class="dot"></span>Case Study · Data Infrastructure</div>
+    <h1>Avoiding <span class="accent">$1M+</span> in data costs by rebuilding Joyn's event pipeline.</h1>
+    <p class="sub">Joyn's event pipeline was an unbounded, unbilled firehose — 144M calls a month on track to cost $1.05M over three years. Rebuilt in seven deliberate steps into a governed, cost-controlled, and now agent-operated data platform — without a single big-bang migration.</p>
+    <p class="role"><b>Role</b> Led the CDP migration end-to-end — cost diagnosis, schema governance, and the agentic tracking pipeline</p>
+    <div class="meta">
+      <span class="chip"><b>2021-current</b></span>
+      <span class="chip"><b>Joyn</b> · Regional streaming</span>
+      <span class="chip"><b>800K</b> monthly video users</span>
+      <span class="chip"><b>144M</b> heartbeats / month</span>
+      <span class="chip"><b>$1M+</b> cost avoided</span>
+    </div>
+  </div>
+</header>
+
+<section class="reveal">
+  <div class="wrap">
+    <div class="section-tag">01 — The Problem</div>
+    <h2>Three failures, compounding at once</h2>
+    <p class="lede">Cost, quality, and identity were each broken on their own — and each was making the other two worse.</p>
+    <div class="problems">
+      <div class="prob">
+        <div class="num">COST</div>
+        <h3>Spend scaled with every ping</h3>
+        <p>A heartbeat fired every 10 seconds to track playback. Raw 2KB payloads were routed unfiltered to every downstream tool — and CRM, analytics, and ad platforms all bill by volume.</p>
+        <div class="stat">144M calls/mo, billed by volume = <span>$1.05M data bill over 3 years</span></div>
+      </div>
+      <div class="prob">
+        <div class="num">QUALITY</div>
+        <h3>No schemas, no contracts</h3>
+        <p>Engineers could push any payload to production. Malformed events regularly broke downstream pipelines, taking marketing, CRM, and analytics down together.</p>
+        <div class="stat">No schema validation = <span>pipeline breaks hit production</span></div>
+      </div>
+      <div class="prob">
+        <div class="num">IDENTITY</div>
+        <h3>Users invisible across platforms</h3>
+        <p>Behaviour was siloed across six touchpoints — web, mobile, CTV, and offline billing — with no way to join them. LTV and cross-channel campaigns were guesswork.</p>
+        <div class="stat">6 touchpoints, 0 joins = <span>LTV and targeting were guesswork</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="reveal">
+  <div class="wrap">
+    <div class="section-tag">02 — The Journey</div>
+    <h2>Seven deliberate moves, not one big bang</h2>
+    <p class="lede">Each phase solved the most pressing problem of its moment — first cost, then governance, and finally the way events themselves get created. The track shifts from teal to purple where the platform stops being something engineers operate and starts operating itself.</p>
+
+    <div class="timeline">
+      <div class="spine"></div>
+
+      <div class="phase">
+        <div class="node">1</div>
+        <div class="ptitle">Heartbeats <span class="flow">legacy → Cloud Functions</span></div>
+        <p>Moved raw heartbeat events off the legacy stack into Google Cloud Functions. Fast to ship — but invocation cost scaled linearly with every ping, so it stayed too expensive at Joyn's volume.</p>
+      </div>
+
+      <div class="phase">
+        <div class="node">2</div>
+        <div class="ptitle">Always-warm compute <span class="flow">Cloud Functions → Cloud Run</span></div>
+        <p>Migrated heartbeat processing to Cloud Run for containerised, always-warm compute. Per-call infrastructure cost dropped sharply, giving the team a stable, scalable base to build on.</p>
+      </div>
+
+      <div class="phase">
+        <div class="node">3</div>
+        <div class="ptitle">Expanded tracking scope</div>
+        <p>With infrastructure cost under control, tracking grew beyond heartbeats — screen views first, then broader behavioural events. These non-heartbeat events added roughly <b>30% more event volume</b> on top of the heartbeat baseline, producing Joyn's first complete picture of how users actually navigate the product — and making disciplined cost and schema control matter across every event type, not just playback.</p>
+      </div>
+
+      <div class="phase">
+        <div class="node">4</div>
+        <div class="ptitle">Fibonacci heartbeat transmission</div>
+        <p>The boldest optimisation: instead of a fixed 10-second ping for the whole session, the client transmits on a Fibonacci schedule — 0s, 10s, 20s, 30s, 50s, 80s, and onward. High resolution early, widening intervals as confidence builds. Total server calls fell dramatically with no loss of meaningful playback signal.</p>
+      </div>
+
+      <div class="phase">
+        <div class="node">5</div>
+        <div class="ptitle">CDP + schema governance</div>
+        <p>Segment deployed as the central CDP. A formal tracking plan with hard schema validation replaced the free-for-all. Clean, structured data now routes by intent — heartbeats to Mixpanel only; conversion events to Braze, Adjust, Facebook, and Google.</p>
+      </div>
+
+      <div class="phase era-ai">
+        <div class="node">6</div>
+        <div class="ptitle">In-house tracking library <span class="badge">New</span></div>
+        <p>We wrote our own frontend tracking library to own event transmission, with the event specification compiled directly into it. A control failure — wrong field, wrong type, missing property — surfaces as a <b>compiler exception at development time</b>, not as a broken pipeline in production days later. It also ended the endless refinement debates over what value a field should carry: the answer is the specification, and the compiler enforces it. Fewer meetings, harder guarantees.</p>
+      </div>
+
+      <div class="phase era-ai">
+        <div class="node">7</div>
+        <div class="ptitle">Agentified event creation <span class="badge">Live today</span></div>
+        <p>Event creation is now an agentic workflow. A developer describes intent in plain language; agents handle the rest end to end.</p>
+        <div class="terminal">
+          <div class="term-bar">
+            <span class="d"></span><span class="d"></span><span class="d"></span>
+            <span class="lbl">event-agent · session</span>
+          </div>
+          <div class="term-body">
+            <div class="prompt">"I need an event to capture clicks on the new feature. My key KPIs are A and B."</div>
+            <div class="step"><b>Spec agent</b> reviews the docs, governance rules, and KPIs — and first checks whether an existing event already covers it</div>
+            <div class="step">drafts a compliant event specification from the tracking plan</div>
+            <div class="step"><b>Coding agent</b> with repo access applies the changes in the event-collection codebase</div>
+            <div class="out">opens a merge request, ready for review</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section class="results">
+  <div class="wrap">
+    <div class="results-inner reveal">
+      <div class="section-tag">03 — Results</div>
+      <h2>What the rebuild returned</h2>
+      <div class="stat-grid">
+        <div class="stat">
+          <div class="big">$1M+</div>
+          <div class="k">Cost avoided</div>
+          <div class="s">3-year cumulative</div>
+        </div>
+        <div class="stat">
+          <div class="big">$700K</div>
+          <div class="k">Year 1 savings</div>
+          <div class="s">Eliminated overhead</div>
+        </div>
+        <div class="stat">
+          <div class="big">$350K<span style="font-size:.5em">/yr</span></div>
+          <div class="k">Ongoing savings</div>
+          <div class="s">Sustained run-rate</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="reveal">
+  <div class="wrap">
+    <div class="section-tag">04 — What the team unlocked</div>
+    <h2>From cost control to a self-governing pipeline</h2>
+    <div class="unlocked-grid">
+      <div class="unlock q full">
+        <div class="ico">◇</div>
+        <h4>A step-change in data quality</h4>
+        <p>Quality is now enforced in three layers that reinforce each other: the compiler rejects bad events at development time, schema validation gates them in CI/CD, and the spec agent prevents malformed or duplicate events from ever being authored. Errors are designed out before they exist — not debugged after they ship.</p>
+      </div>
+      <div class="unlock">
+        <div class="ico">✕</div>
+        <h4>Zero pipeline failures</h4>
+        <p>Malformed events are caught at the compiler and at schema validation — before they reach any downstream system.</p>
+      </div>
+      <div class="unlock">
+        <div class="ico">↻</div>
+        <h4>Faster, calmer releases</h4>
+        <p>Tracking changes auto-validate in CI/CD, and agents draft and open the merge requests. No manual QA loop, no spec-debate meetings.</p>
+      </div>
+      <div class="unlock">
+        <div class="ico">⊕</div>
+        <h4>Unified user profiles</h4>
+        <p>Six touchpoints — web, mobile, CTV, and billing — merged into one identity, making accurate LTV possible for the first time.</p>
+      </div>
+      <div class="unlock">
+        <div class="ico">⚡</div>
+        <h4>Behaviour-triggered messaging</h4>
+        <p>Sub-second clean-data delivery into Braze enabled real-time, event-driven campaigns.</p>
+      </div>
+      <div class="unlock full">
+        <div class="ico">⟲</div>
+        <h4>Closed-loop attribution</h4>
+        <p>Offline billing events joined with online acquisition signals — giving the growth team accurate CAC and multi-touch attribution across the full funnel.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot">
+      <div class="brand">Joyn <span>—</span> CDP Migration &amp; Data Governance</div>
+      <div>Signals → Savings → Autonomy</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const io=new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}});
+  },{threshold:0.12});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
