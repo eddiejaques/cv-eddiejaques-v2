@@ -39,7 +39,7 @@ export default function Metrics({ metrics, variant, visible = true }: MetricsPro
 
   return (
     <div
-      className="grid divide-x divide-border"
+      className="grid w-full divide-x divide-border"
       style={{ gridTemplateColumns: `repeat(${metrics.length}, minmax(0, 1fr))` }}
     >
       {metrics.map((m) => (
