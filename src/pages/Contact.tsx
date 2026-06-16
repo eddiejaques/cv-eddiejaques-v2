@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { supabase } from '../lib/supabaseClient';
 import Button from '../components/Button';
 import SEO from '../components/SEO';
 
@@ -17,6 +16,7 @@ export default function Contact() {
   const [email, setEmail] = useState('');
   const [company, setCompany] = useState('');
   const [challenge, setChallenge] = useState('');
+  const [website, setWebsite] = useState(''); // honeypot — real users leave blank
   const [state, setState] = useState<State>('idle');
   const [errorMsg, setErrorMsg] = useState('');
 
@@ -29,21 +29,18 @@ export default function Contact() {
     setState('loading');
     setErrorMsg('');
 
-    const { error } = await supabase.from('contact_requests').insert({
-      name: name.trim() || null,
-      email: email.trim().toLowerCase(),
-      company: company.trim() || null,
-      challenge: challenge.trim() || null,
-      case_study_ref: ref,
-      source: 'contact-form',
-    });
-
-    if (error) {
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, company, challenge, ref, website }),
+      });
+      if (!res.ok) throw new Error();
+      setState('done');
+    } catch {
       setState('error');
       setErrorMsg('Something went wrong. Please email gauravkumar.dani@gmail.com directly.');
-      return;
     }
-    setState('done');
   }
 
   if (state === 'done') {
@@ -86,6 +83,17 @@ export default function Contact() {
       </p>
 
       <form onSubmit={handleSubmit} className="flex flex-col gap-5 mt-10" noValidate>
+        {/* Honeypot: hidden from humans, bots tend to fill it. */}
+        <input
+          type="text"
+          tabIndex={-1}
+          autoComplete="off"
+          value={website}
+          onChange={(e) => setWebsite(e.target.value)}
+          aria-hidden="true"
+          style={{ position: 'absolute', left: '-9999px', width: 1, height: 1 }}
+        />
+
         <Field label="Name">
           <input
             type="text"
