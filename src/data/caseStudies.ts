@@ -175,11 +175,11 @@ export const caseStudies: CaseStudy[] = [
   {
     id: '10',
     slug: 'data-enablement-vodafone',
-    title: 'Fixing Vodafone Egypt\'s App Analytics with Adobe Analytics',
+    title: 'Fixing Vodafone\'s App Analytics with Adobe Analytics',
     category: 'Data Platforms',
     organization: 'Vodafone',
     experienceStage: 'Vodafone',
-    description: 'Vodafone\'s legacy analytics implementation was inflating app penetration metrics by 30-40%, with no performance baseline and no way to personalize. In a 2-month sprint, I rebuilt the tracking foundation on Adobe Analytics, embedded on-site with the app team in Egypt.',
+    description: 'Vodafone\'s legacy analytics implementation was inflating app penetration metrics by 30-40%, with no performance baseline and no way to personalize. In a 2-month sprint, I rebuilt the tracking foundation on Adobe Analytics — travelling on-site to Cairo to deliver directly with Vodafone\'s 4-person app development team.',
     keyMetrics: [
       { label: 'Metric inflation fixed', value: '30-40%' },
       { label: 'Digital adoption', value: '36%' },
