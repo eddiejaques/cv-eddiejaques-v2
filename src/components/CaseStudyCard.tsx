@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
 import type { CaseStudy } from '../types/CaseStudy';
 import Card from './Card';
 import Metrics from './Metrics';
@@ -13,8 +12,8 @@ export default function CaseStudyCard({ caseStudy }: CaseStudyCardProps) {
   const metric = caseStudy.keyMetrics[0];
 
   return (
-    <Link
-      to={`/case-studies/${caseStudy.slug}`}
+    <a
+      href={caseStudy.staticHtmlPath}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       className="block"
@@ -33,6 +32,6 @@ export default function CaseStudyCard({ caseStudy }: CaseStudyCardProps) {
           </div>
         )}
       </Card>
-    </Link>
+    </a>
   );
 }

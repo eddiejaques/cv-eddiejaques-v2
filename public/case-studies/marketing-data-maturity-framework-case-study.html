@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Marketing Data Maturity Ladder — Five Levels, Three Bottlenecks</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;450;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#F6F8F8;
+    --surface:#FFFFFF;
+    --ink:#15201E;
+    --muted:#56635F;
+    --faint:#8A958F;
+    --teal:#1A8A7A;
+    --teal-deep:#127063;
+    --purple:#6B4FA0;
+    --purple-deep:#553D85;
+    --line:rgba(21,32,30,0.10);
+    --line-soft:rgba(21,32,30,0.06);
+    --teal-wash:rgba(26,138,122,0.07);
+    --purple-wash:rgba(107,79,160,0.07);
+    --display:'Space Grotesk',sans-serif;
+    --body:'Inter',sans-serif;
+    --mono:'JetBrains Mono',monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:var(--body);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    font-feature-settings:"ss01","cv11";
+  }
+  .wrap{max-width:980px;margin:0 auto;padding:0 28px}
+
+  /* ---------- eyebrow / labels ---------- */
+  .eyebrow{
+    font-family:var(--mono);
+    font-size:11px;
+    letter-spacing:.22em;
+    text-transform:uppercase;
+    color:var(--teal-deep);
+    font-weight:600;
+  }
+  .section-tag{
+    font-family:var(--mono);
+    font-size:11px;
+    letter-spacing:.2em;
+    text-transform:uppercase;
+    color:var(--faint);
+    font-weight:500;
+    display:flex;align-items:center;gap:12px;
+    margin-bottom:30px;
+  }
+  .section-tag::after{content:"";flex:1;height:1px;background:var(--line)}
+
+  /* ---------- hero ---------- */
+  header.hero{
+    padding:84px 0 60px;
+    border-bottom:1px solid var(--line);
+    background:
+      radial-gradient(120% 100% at 100% 0%, var(--teal-wash) 0%, transparent 55%),
+      radial-gradient(90% 90% at 0% 10%, var(--purple-wash) 0%, transparent 50%);
+  }
+  .hero .eyebrow{margin-bottom:26px;display:inline-flex;align-items:center;gap:10px}
+  .hero .dot{width:7px;height:7px;border-radius:50%;background:var(--teal);box-shadow:0 0 0 4px var(--teal-wash)}
+  h1{
+    font-family:var(--display);
+    font-weight:600;
+    font-size:clamp(34px,6vw,60px);
+    line-height:1.02;
+    letter-spacing:-0.02em;
+    max-width:18ch;
+  }
+  h1 .accent{
+    background:linear-gradient(100deg,var(--teal),var(--purple));
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+  .sub{
+    margin-top:24px;
+    font-size:18px;
+    color:var(--muted);
+    max-width:64ch;
+    line-height:1.5;
+  }
+  .role{margin-top:14px;font-family:var(--mono);font-size:12px;letter-spacing:.02em;color:var(--muted)}
+  .role b{color:var(--teal-deep);font-weight:600;margin-right:8px}
+  .meta{
+    margin-top:34px;
+    display:flex;flex-wrap:wrap;gap:10px;
+    font-family:var(--mono);
+    font-size:12px;
+    letter-spacing:.02em;
+  }
+  .chip{
+    border:1px solid var(--line);
+    background:var(--surface);
+    padding:7px 13px;
+    border-radius:100px;
+    color:var(--muted);
+  }
+  .chip b{color:var(--ink);font-weight:600}
+
+  /* ---------- generic section ---------- */
+  section{padding:72px 0;border-bottom:1px solid var(--line)}
+  h2{
+    font-family:var(--display);
+    font-weight:600;
+    font-size:clamp(24px,3.4vw,34px);
+    letter-spacing:-0.015em;
+    line-height:1.1;
+  }
+  .lede{margin-top:16px;color:var(--muted);font-size:17px;max-width:64ch}
+
+  /* ---------- journey timeline (ladder) ---------- */
+  .timeline{margin-top:48px;position:relative}
+  .spine{
+    position:absolute;left:31px;top:8px;bottom:8px;width:2px;
+    background:linear-gradient(180deg,var(--teal) 0%,var(--teal) 40%,var(--purple) 70%,var(--purple) 100%);
+    border-radius:2px;opacity:.55;
+  }
+  .phase{
+    position:relative;
+    padding:0 0 38px 86px;
+  }
+  .phase:last-child{padding-bottom:0}
+  .node{
+    position:absolute;left:14px;top:2px;
+    width:36px;height:36px;border-radius:10px;
+    background:var(--surface);border:1.5px solid var(--teal);
+    display:flex;align-items:center;justify-content:center;
+    font-family:var(--mono);font-size:14px;font-weight:600;color:var(--teal-deep);
+    z-index:2;
+  }
+  .phase.era-ai .node{border-color:var(--purple);color:var(--purple-deep)}
+  .phase .ptitle{
+    font-family:var(--display);font-weight:600;font-size:19px;
+    letter-spacing:-0.01em;display:flex;flex-wrap:wrap;align-items:baseline;gap:10px;
+  }
+  .phase .flow{
+    font-family:var(--mono);font-size:12.5px;color:var(--teal-deep);
+    font-weight:500;letter-spacing:.01em;
+  }
+  .phase.era-ai .flow{color:var(--purple-deep)}
+  .phase p{margin-top:9px;font-size:15px;color:var(--muted);line-height:1.6;max-width:70ch}
+  .phase ul{margin-top:9px;padding-left:0;list-style:none;max-width:70ch}
+  .phase ul li{
+    font-size:14.5px;color:var(--muted);line-height:1.6;
+    padding-left:18px;position:relative;margin-bottom:4px;
+  }
+  .phase ul li::before{content:"—";position:absolute;left:0;color:var(--teal-deep);font-weight:600}
+  .phase.era-ai ul li::before{color:var(--purple-deep)}
+  .phase .verdict{
+    margin-top:10px;font-family:var(--mono);font-size:12.5px;
+    color:var(--ink);font-weight:500;
+  }
+  .phase .verdict span{color:var(--purple)}
+
+  /* ---------- framework image ---------- */
+  .framework-img{
+    margin-top:48px;border:1px solid var(--line);border-radius:14px;
+    overflow:hidden;background:var(--surface);
+  }
+  .framework-img img{display:block;width:100%;height:auto}
+
+  /* ---------- gap analysis ---------- */
+  .gaps{
+    display:grid;grid-template-columns:repeat(4,1fr);gap:1px;
+    margin-top:44px;background:var(--line-soft);
+    border:1px solid var(--line);border-radius:14px;overflow:hidden;
+  }
+  .gap{background:var(--surface);padding:26px 22px}
+  .gap .num{
+    font-family:var(--mono);font-size:12px;color:var(--teal-deep);
+    font-weight:600;letter-spacing:.08em;
+  }
+  .gap h3{
+    font-family:var(--display);font-weight:600;font-size:16px;
+    margin:12px 0 8px;letter-spacing:-0.01em;
+  }
+  .gap p{font-size:13.5px;color:var(--muted);line-height:1.55}
+
+  /* ---------- results band ---------- */
+  .results{
+    background:var(--ink);color:#fff;border-bottom:none;
+    border-radius:20px;margin:0 0 0;
+  }
+  .results .wrap{padding-top:0;padding-bottom:0}
+  .results-inner{padding:60px 36px}
+  .results .section-tag{color:rgba(255,255,255,.5)}
+  .results .section-tag::after{background:rgba(255,255,255,.15)}
+  .results h2{color:#fff}
+  .results .lede{color:rgba(255,255,255,.65)}
+  .results .lede b{color:#fff}
+
+  /* ---------- footer ---------- */
+  footer{padding:46px 0 70px}
+  .foot{
+    display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:16px;
+    font-family:var(--mono);font-size:12px;color:var(--faint);letter-spacing:.03em;
+  }
+  .foot .brand{color:var(--ink);font-weight:600}
+  .foot .brand span{color:var(--teal)}
+
+  /* ---------- reveal ---------- */
+  .reveal{opacity:0;transform:translateY(14px);transition:opacity .6s ease,transform .6s ease}
+  .reveal.in{opacity:1;transform:none}
+
+  /* ---------- responsive ---------- */
+  @media(max-width:760px){
+    .gaps{grid-template-columns:1fr 1fr}
+    .phase{padding-left:64px}
+    .node{left:6px;width:32px;height:32px}
+    .spine{left:21px}
+    section{padding:54px 0}
+  }
+  @media(max-width:440px){
+    .gaps{grid-template-columns:1fr}
+  }
+  @media(prefers-reduced-motion:reduce){
+    .reveal{opacity:1;transform:none;transition:none}
+    html{scroll-behavior:auto}
+  }
+  @media print{
+    body{background:#fff}
+    .reveal{opacity:1;transform:none}
+    section,header.hero{break-inside:avoid}
+    .results{background:#15201E !important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="eyebrow"><span class="dot"></span>Framework · Marketing Data Strategy</div>
+    <h1>Most marketing teams aren't short on data. They're short on the <span class="accent">right level</span> of capability.</h1>
+    <p class="sub">A five-rung maturity ladder for marketing data — and why most teams are trying to climb rung 4 before they've stabilised rung 2.</p>
+    <p class="role"><b>Role</b> Framework developed from 12 years working across analytics, product, and strategy roles</p>
+    <div class="meta">
+      <span class="chip"><b>5</b> maturity levels</span>
+      <span class="chip"><b>4</b> jump types: tech, collaboration, trust, infrastructure</span>
+      <span class="chip">12 years across analytics, product &amp; strategy</span>
+    </div>
+  </div>
+</header>
+
+<section class="reveal">
+  <div class="wrap">
+    <div class="section-tag">01 — The Ladder</div>
+    <h2>Five levels, each with its own job to finish</h2>
+    <p class="lede">Each level solves a specific problem. Skipping one doesn't make a team faster — it makes every level above it unreliable.</p>
+
+    <div class="timeline">
+      <div class="spine"></div>
+
+      <div class="phase">
+        <div class="node">1</div>
+        <div class="ptitle">Get the basics right <span class="flow">Foundation</span></div>
+        <p>Fix the foundation before anything else — if it's lying to you, everything built on top of it is too.</p>
+        <ul>
+          <li>Server-side tracking, so signals survive cookie blocking</li>
+          <li>Consent management that actually works — not a banner nobody reads</li>
+          <li>Clean event data landing in the warehouse with proper attribution hygiene</li>
+        </ul>
+      </div>
+
+      <div class="phase">
+        <div class="node">2</div>
+        <div class="ptitle">Know your audiences <span class="flow">Solid ground</span></div>
+        <p>This is where most teams live. It's solid ground — it's just not the finish line.</p>
+        <ul>
+          <li>First-party audience segments flowing into Braze, Meta, and Google</li>
+          <li>A/B testing with real holdout groups — not just creative variants</li>
+          <li>A next-best-action model that matches the right product to the right user</li>
+        </ul>
+      </div>
+
+      <div class="phase">
+        <div class="node">3</div>
+        <div class="ptitle">Know your customer's future <span class="flow">Mindset shift</span></div>
+        <p>You stop optimising for the cheapest click and start optimising for the most valuable customer. Harder to build — worth every bit of the effort.</p>
+        <ul>
+          <li>LTV models embedded directly into campaign bidding — not sitting in a notebook</li>
+          <li>Lookalike modelling built on your best customers, not your most recent ones</li>
+          <li>Probabilistic identity resolution stitching together web, app, and CRM signals</li>
+        </ul>
+      </div>
+
+      <div class="phase era-ai">
+        <div class="node">4</div>
+        <div class="ptitle">Prove marketing is working <span class="flow">Evidence over projections</span></div>
+        <p>Marketing stops being a cost centre and starts walking into budget conversations with evidence. Most CMOs want to be here — fewer actually are.</p>
+        <ul>
+          <li>Marketing Mix Modelling that decomposes revenue across channels, seasonality, and external factors</li>
+          <li>Incrementality tests running continuously, not just once a year</li>
+          <li>Multi-touch attribution that stops crediting the last click for everything</li>
+        </ul>
+      </div>
+
+      <div class="phase era-ai">
+        <div class="node">5</div>
+        <div class="ptitle">Let the machines run (some of) it <span class="flow">Not fully here, industry-wide</span></div>
+        <p>The infrastructure decisions made at Levels 1–4 determine whether this level is ever realistic.</p>
+        <ul>
+          <li>A semantic data layer so AI agents have something reliable to reason over</li>
+          <li>Agents that monitor performance, flag upstream data issues, and rebalance budgets within guardrails</li>
+          <li>Reinforcement learning optimising bid decisions on outcome signals, not just click-through rates</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section class="reveal">
+  <div class="wrap">
+    <div class="section-tag">02 — The Framework</div>
+    <h2>From data hygiene to AI autonomy</h2>
+    <p class="lede">The same five levels, mapped against business impact and core capabilities.</p>
+    <div class="framework-img">
+      <img src="assets/marketing-data-maturity-framework.png" alt="The Marketing Maturity Framework: From Data Hygiene to AI Autonomy — five stages from real-time signal activation to AI-driven autonomous agents">
+    </div>
+  </div>
+</section>
+
+<section class="results">
+  <div class="wrap">
+    <div class="results-inner reveal">
+      <div class="section-tag">03 — What Each Jump Actually Requires</div>
+      <h2>The bottleneck changes at every level</h2>
+      <p class="lede">The teams that move fastest aren't the ones with the biggest budgets — they're the ones who resist the temptation to skip levels.</p>
+      <div class="gaps" style="background:rgba(255,255,255,.10);border-color:rgba(255,255,255,.10)">
+        <div class="gap" style="background:#1A2624">
+          <div class="num" style="color:#5BD3BE">1 → 2</div>
+          <h3 style="color:#fff">A tech problem</h3>
+          <p style="color:rgba(255,255,255,.6)">Tracking, consent, and clean pipelines.</p>
+        </div>
+        <div class="gap" style="background:#1A2624">
+          <div class="num" style="color:#5BD3BE">2 → 3</div>
+          <h3 style="color:#fff">A collaboration problem</h3>
+          <p style="color:rgba(255,255,255,.6)">Data science and marketing actually working together — not just handing files back and forth.</p>
+        </div>
+        <div class="gap" style="background:#1A2624">
+          <div class="num" style="color:#A88BE0">3 → 4</div>
+          <h3 style="color:#fff">A trust problem</h3>
+          <p style="color:rgba(255,255,255,.6)">Getting finance and marketing to agree on what proof of growth actually looks like.</p>
+        </div>
+        <div class="gap" style="background:#1A2624">
+          <div class="num" style="color:#A88BE0">4 → 5</div>
+          <h3 style="color:#fff">An infrastructure &amp; patience problem</h3>
+          <p style="color:rgba(255,255,255,.6)">The groundwork from Levels 1–4 determines whether autonomy is ever realistic.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot">
+      <div class="brand">Marketing Data Maturity <span>—</span> A Five-Level Framework</div>
+      <div>#MarketingData #DataStrategy #GrowthMarketing</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const io=new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}});
+  },{threshold:0.12});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>

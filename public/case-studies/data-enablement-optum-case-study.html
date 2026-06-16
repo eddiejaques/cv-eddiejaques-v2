@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Migrating Optum's Tag Management to Adobe Experience Platform Launch</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;450;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#F6F8F8;--surface:#FFFFFF;--ink:#15201E;--muted:#56635F;--faint:#8A958F;
+    --teal:#1A8A7A;--teal-deep:#127063;--purple:#6B4FA0;--purple-deep:#553D85;
+    --line:rgba(21,32,30,0.10);--line-soft:rgba(21,32,30,0.06);
+    --teal-wash:rgba(26,138,122,0.07);--purple-wash:rgba(107,79,160,0.07);
+    --display:'Space Grotesk',sans-serif;--body:'Inter',sans-serif;--mono:'JetBrains Mono',monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--ink);font-family:var(--body);line-height:1.6;-webkit-font-smoothing:antialiased;font-feature-settings:"ss01","cv11"}
+  .wrap{max-width:980px;margin:0 auto;padding:0 28px}
+  .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--teal-deep);font-weight:600}
+  .section-tag{font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--faint);font-weight:500;display:flex;align-items:center;gap:12px;margin-bottom:30px}
+  .section-tag::after{content:"";flex:1;height:1px;background:var(--line)}
+  header.hero{padding:84px 0 60px;border-bottom:1px solid var(--line);background:radial-gradient(120% 100% at 100% 0%, var(--teal-wash) 0%, transparent 55%),radial-gradient(90% 90% at 0% 10%, var(--purple-wash) 0%, transparent 50%)}
+  .hero .eyebrow{margin-bottom:26px;display:inline-flex;align-items:center;gap:10px}
+  .hero .dot{width:7px;height:7px;border-radius:50%;background:var(--teal);box-shadow:0 0 0 4px var(--teal-wash)}
+  h1{font-family:var(--display);font-weight:600;font-size:clamp(34px,6vw,60px);line-height:1.02;letter-spacing:-0.02em;max-width:15ch}
+  h1 .accent{background:linear-gradient(100deg,var(--teal),var(--purple));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .sub{margin-top:24px;font-size:18px;color:var(--muted);max-width:60ch;line-height:1.5}
+  .role{margin-top:14px;font-family:var(--mono);font-size:12px;letter-spacing:.02em;color:var(--muted)}
+  .role b{color:var(--teal-deep);font-weight:600;margin-right:8px}
+  .meta{margin-top:34px;display:flex;flex-wrap:wrap;gap:10px;font-family:var(--mono);font-size:12px;letter-spacing:.02em}
+  .chip{border:1px solid var(--line);background:var(--surface);padding:7px 13px;border-radius:100px;color:var(--muted)}
+  .chip b{color:var(--ink);font-weight:600}
+  section{padding:72px 0;border-bottom:1px solid var(--line)}
+  h2{font-family:var(--display);font-weight:600;font-size:clamp(24px,3.4vw,34px);letter-spacing:-0.015em;line-height:1.1}
+  .lede{margin-top:16px;color:var(--muted);font-size:17px;max-width:64ch}
+  .problems{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;margin-top:44px;background:var(--line-soft);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  .prob{background:var(--surface);padding:30px 26px}
+  .prob .num{font-family:var(--mono);font-size:12px;color:var(--teal-deep);font-weight:600;letter-spacing:.08em}
+  .prob h3{font-family:var(--display);font-weight:600;font-size:18px;margin:14px 0 10px;letter-spacing:-0.01em}
+  .prob p{font-size:14.5px;color:var(--muted);line-height:1.58}
+  .prob .stat{margin-top:16px;font-family:var(--mono);font-size:13px;color:var(--ink);font-weight:500;border-top:1px dashed var(--line);padding-top:14px}
+  .prob .stat span{color:var(--purple);font-weight:600}
+  .timeline{margin-top:48px;position:relative}
+  .spine{position:absolute;left:31px;top:8px;bottom:8px;width:2px;background:linear-gradient(180deg,var(--teal) 0%,var(--teal) 48%,var(--purple) 58%,var(--purple) 100%);border-radius:2px;opacity:.55}
+  .phase{position:relative;padding:0 0 38px 86px}
+  .phase:last-child{padding-bottom:0}
+  .node{position:absolute;left:14px;top:2px;width:36px;height:36px;border-radius:10px;background:var(--surface);border:1.5px solid var(--teal);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:14px;font-weight:600;color:var(--teal-deep);z-index:2}
+  .phase.era-ai .node{border-color:var(--purple);color:var(--purple-deep)}
+  .phase .ptitle{font-family:var(--display);font-weight:600;font-size:19px;letter-spacing:-0.01em;display:flex;flex-wrap:wrap;align-items:baseline;gap:10px}
+  .phase .flow{font-family:var(--mono);font-size:12.5px;color:var(--teal-deep);font-weight:500;letter-spacing:.01em}
+  .phase.era-ai .flow{color:var(--purple-deep)}
+  .phase p{margin-top:9px;font-size:15px;color:var(--muted);line-height:1.6;max-width:70ch}
+  .tech{display:inline-block;font-family:var(--mono);font-size:11px;letter-spacing:.04em;color:var(--teal-deep);background:var(--teal-wash);padding:2px 8px;border-radius:5px;margin-left:6px}
+  .phase.era-ai .tech{color:var(--purple-deep);background:var(--purple-wash)}
+  .results{background:var(--ink);color:#fff;border-bottom:none;border-radius:20px;margin:0}
+  .results .wrap{padding-top:0;padding-bottom:0}
+  .results-inner{padding:60px 36px}
+  .results .section-tag{color:rgba(255,255,255,.5)}
+  .results .section-tag::after{background:rgba(255,255,255,.15)}
+  .results h2{color:#fff}
+  .stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;margin-top:40px;background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.10);border-radius:14px;overflow:hidden}
+  .stat-grid .stat{background:#1A2624;padding:30px 24px}
+  .stat-grid .stat .big{font-family:var(--display);font-weight:600;font-size:clamp(30px,4.4vw,44px);letter-spacing:-0.02em;line-height:1;background:linear-gradient(120deg,#5BD3BE,#A88BE0);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .stat-grid .stat .k{margin-top:12px;font-size:14px;font-weight:600;color:#fff}
+  .stat-grid .stat .s{margin-top:4px;font-family:var(--mono);font-size:11.5px;color:rgba(255,255,255,.5);letter-spacing:.02em}
+  .unlocked-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;margin-top:44px;background:var(--line-soft);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  .unlock{background:var(--surface);padding:26px 26px}
+  .unlock .ico{width:32px;height:32px;border-radius:8px;background:var(--teal-wash);display:flex;align-items:center;justify-content:center;margin-bottom:14px;color:var(--teal-deep)}
+  .unlock h4{font-family:var(--display);font-weight:600;font-size:16px;letter-spacing:-0.01em}
+  .unlock p{margin-top:7px;font-size:14px;color:var(--muted);line-height:1.55}
+  .unlock.full{grid-column:1 / -1}
+  .unlock.q .ico{background:var(--purple-wash);color:var(--purple-deep)}
+  footer{padding:46px 0 70px}
+  .foot{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:16px;font-family:var(--mono);font-size:12px;color:var(--faint);letter-spacing:.03em}
+  .foot .brand{color:var(--ink);font-weight:600}
+  .foot .brand span{color:var(--teal)}
+  .reveal{opacity:0;transform:translateY(14px);transition:opacity .6s ease,transform .6s ease}
+  .reveal.in{opacity:1;transform:none}
+  @media(max-width:760px){.problems{grid-template-columns:1fr}.stat-grid{grid-template-columns:1fr 1fr}.unlocked-grid{grid-template-columns:1fr}.phase{padding-left:64px}.node{left:6px;width:32px;height:32px}.spine{left:21px}section{padding:54px 0}}
+  @media(max-width:440px){.stat-grid{grid-template-columns:1fr}}
+  @media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}html{scroll-behavior:auto}}
+  @media print{
+    @page{size:A4;margin:10mm 12mm}
+    body{background:#fff;line-height:1.35;font-size:12px}
+    .reveal{opacity:1;transform:none}
+
+    .results{background:#15201E !important;-webkit-print-color-adjust:exact;print-color-adjust:exact;break-inside:avoid;page-break-inside:avoid}
+    .stat-grid{break-inside:avoid;page-break-inside:avoid}
+    .results-inner{padding:24px 20px}
+    .stat-grid .stat{padding:14px 14px}
+    .stat-grid .stat .big{
+      background:none;-webkit-background-clip:initial;background-clip:initial;
+      -webkit-text-fill-color:#5BD3BE;color:#5BD3BE;
+    }
+
+    header.hero{padding:0 0 16px}
+    .hero .eyebrow{margin-bottom:10px}
+    h1{font-size:28px;line-height:1.08;max-width:none}
+    h1 .accent{
+      background:none;-webkit-background-clip:initial;background-clip:initial;
+      -webkit-text-fill-color:var(--teal-deep);color:var(--teal-deep);
+    }
+    .sub{margin-top:10px;font-size:13px;max-width:none}
+    .role{margin-top:8px;font-size:11px}
+    .meta{margin-top:14px;gap:6px}
+    .chip{padding:4px 10px}
+
+    section{padding:14px 0;border-bottom:1px solid var(--line)}
+    .section-tag{margin-bottom:12px}
+    h2{font-size:18px}
+    .lede{margin-top:6px;font-size:12.5px;max-width:none}
+
+    .problems{margin-top:14px;break-inside:avoid;page-break-inside:avoid}
+    .prob{padding:14px 14px;break-inside:avoid;page-break-inside:avoid}
+    .prob h3{margin:6px 0 4px}
+    .prob p{font-size:11.5px;line-height:1.4}
+
+    .spine{display:none}
+    .phase{padding:0 0 16px 60px;break-inside:avoid;page-break-inside:avoid}
+    .phase p{margin-top:4px;font-size:11.5px;line-height:1.4;max-width:none}
+
+    .unlocked-grid{margin-top:10px}
+    .unlock{padding:10px 12px;break-inside:avoid;page-break-inside:avoid}
+    .unlock .ico{margin-bottom:8px}
+    .unlock p{margin-top:4px;font-size:11px;line-height:1.4}
+
+    footer{padding:10px 0 8px}
+
+    img,svg{max-width:100%}
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="eyebrow"><span class="dot"></span>Case Study · Tag Management Migration</div>
+    <h1>Migrating 900 tags across 40+ domains with <span class="accent">zero reporting disruption</span>.</h1>
+    <p class="sub">Optum's Dynamic Tag Manager was end-of-life with no third-party plugin support, but every insight and report had to keep running through the cutover. I planned and led the migration to Adobe Experience Platform Launch end to end.</p>
+    <p class="role"><b>Role</b> Led the tag management migration — As-Is audit, phased migration plan, go-live, and governance recommendations</p>
+    <div class="meta">
+      <span class="chip"><b>2018-2020</b></span>
+      <span class="chip"><b>900</b> rules, data elements &amp; tags</span>
+      <span class="chip"><b>40+</b> domains</span>
+      <span class="chip"><b>3-4 months</b> · Feb-May '19</span>
+      <span class="chip"><b>0</b> reporting disruption</span>
+    </div>
+  </div>
+</header>
+
+<section class="reveal">
+  <div class="wrap">
+    <div class="section-tag">01 — The Business Driver</div>
+    <h2>The legacy tag manager was running out of road</h2>
+    <p class="lede">Optum's Dynamic Tag Manager was approaching end-of-life with no vendor support, forcing a migration to Adobe Experience Platform Launch before it broke.</p>
+    <div class="problems">
+      <div class="prob">
+        <div class="num">END-OF-LIFE</div>
+        <h3>No support for the old tool</h3>
+        <p>Adobe's Dynamic Tag Manager was being sunset, leaving Optum on an unsupported platform for core data collection.</p>
+        <div class="stat">Vendor support ending = <span>core data collection at risk</span></div>
+      </div>
+      <div class="prob">
+        <div class="num">ECOSYSTEM</div>
+        <h3>No third-party plugin support</h3>
+        <p>The legacy tool couldn't integrate with the broader martech stack, limiting what the tag layer could do.</p>
+        <div class="stat">No plugin ecosystem = <span>martech stack stuck in place</span></div>
+      </div>
+      <div class="prob">
+        <div class="num">CONTINUITY</div>
+        <h3>Reporting couldn't break</h3>
+        <p>The migration had to preserve the insight-generation and reporting pipelines that the business depended on daily.</p>
+        <div class="stat">Daily reporting depends on this layer = <span>no room for downtime</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="reveal">
+  <div class="wrap">
+    <div class="section-tag">02 — The Obstacles</div>
+    <h2>What made this more than a lift-and-shift</h2>
+    <p class="lede">A straightforward tool swap on paper became a full re-platforming effort once scale, missing documentation, and governance gaps surfaced.</p>
+    <div class="problems">
+      <div class="prob">
+        <div class="num">SCALE</div>
+        <h3>900 items across 40+ domains</h3>
+        <p>Every rule, data element, and tag had to be inventoried and migrated individually across the full domain footprint.</p>
+        <div class="stat">900 items, 40+ domains = <span>no shortcut to a full re-platform</span></div>
+      </div>
+      <div class="prob">
+        <div class="num">DOCUMENTATION</div>
+        <h3>Missing documentation</h3>
+        <p>Much of the existing tag configuration had no documentation, so current state had to be reconstructed before migration could be planned.</p>
+        <div class="stat">No documentation = <span>current state had to be reverse-engineered first</span></div>
+      </div>
+      <div class="prob">
+        <div class="num">GOVERNANCE</div>
+        <h3>Weak data governance</h3>
+        <p>Underlying data governance gaps meant the migration also had to surface and address quality issues, not just relocate tags.</p>
+        <div class="stat">Weak data governance = <span>quality issues hidden inside the migration</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="reveal">
+  <div class="wrap">
+    <div class="section-tag">03 — The Solution</div>
+    <h2>An As-Is audit, phased migration, and governed go-live</h2>
+    <p class="lede">The migration was sequenced to document current state first, then move 900 items with a go-live plan designed to minimize data loss.</p>
+    <div class="timeline">
+      <div class="spine"></div>
+      <div class="phase">
+        <div class="node">1</div>
+        <div class="ptitle">As-Is documentation <span class="flow">current state → baseline</span></div>
+        <p>Created an As-Is plan documenting the current Dynamic Tag Manager configuration across all 40+ domains as the migration baseline.<span class="tech">Audit · documentation</span></p>
+      </div>
+      <div class="phase">
+        <div class="node">2</div>
+        <div class="ptitle">Phased migration plan</div>
+        <p>Drafted a project plan breaking the 900-item migration into phases across the 3-4 month window.<span class="tech">Project planning</span></p>
+      </div>
+      <div class="phase era-ai">
+        <div class="node">3</div>
+        <div class="ptitle">Go-live with loss prevention</div>
+        <p>Introduced a go-live plan designed to minimize data loss during cutover from Dynamic Tag Manager to Adobe Launch.<span class="tech">Adobe Launch · cutover</span></p>
+      </div>
+      <div class="phase era-ai">
+        <div class="node">4</div>
+        <div class="ptitle">Governance recommendations</div>
+        <p>Submitted recommendations to improve data governance, addressing the gaps surfaced during the migration.<span class="tech">Data governance</span></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="results">
+  <div class="wrap">
+    <div class="results-inner reveal">
+      <div class="section-tag">04 — Quantified Impact</div>
+      <h2>A clean cutover with zero reporting disruption</h2>
+      <div class="stat-grid">
+        <div class="stat">
+          <div class="big">900</div>
+          <div class="k">Items migrated</div>
+          <div class="s">Rules, data elements, tags</div>
+        </div>
+        <div class="stat">
+          <div class="big">40+</div>
+          <div class="k">Domains migrated</div>
+          <div class="s">Full footprint</div>
+        </div>
+        <div class="stat">
+          <div class="big">4</div>
+          <div class="k">Months end-to-end</div>
+          <div class="s">Feb–May 2019</div>
+        </div>
+        <div class="stat">
+          <div class="big">0</div>
+          <div class="k">Reporting disruption</div>
+          <div class="s">Core constraint met</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="reveal">
+  <div class="wrap">
+    <div class="section-tag">05 — Strategic Outcomes Unlocked</div>
+    <h2>From a forced tool swap to a governance roadmap</h2>
+    <div class="unlocked-grid">
+      <div class="unlock q full">
+        <div class="ico">⚡</div>
+        <h4>A governed, plugin-ready tag layer</h4>
+        <p>Optum moved off an unsupported tool onto Adobe Experience Platform Launch with full third-party plugin support, plus a concrete set of data governance fixes identified along the way.</p>
+      </div>
+      <div class="unlock">
+        <div class="ico">⊕</div>
+        <h4>Reusable As-Is migration playbook</h4>
+        <p>The audit-first, phased-migration, governed-go-live approach is reusable for future platform migrations.</p>
+      </div>
+      <div class="unlock">
+        <div class="ico">↻</div>
+        <h4>Key reporting issues identified</h4>
+        <p>The migration surfaced report-related issues for the business, with concrete improvement paths for data governance.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot">
+      <div class="brand">Optum (UnitedHealthcare) <span>—</span> Tag Management Migration</div>
+      <div>Legacy DTM → Adobe Experience Platform Launch</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const io=new IntersectionObserver((entries)=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:0.12});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>

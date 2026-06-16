@@ -18,6 +18,7 @@ export const caseStudies: CaseStudy[] = [
     publishedDate: '2015-09-01',
     readTime: 6,
     contentPath: 'src/data/case-studies/case-study-intercom-1.html',
+    staticHtmlPath: '/case-studies/case-study-intercom-1-case-study.html',
     tags: ['Marketing Tech', 'Earlier Roles'],
   },
   {
@@ -37,6 +38,7 @@ export const caseStudies: CaseStudy[] = [
     publishedDate: '2020-10-01',
     readTime: 5,
     contentPath: 'src/data/case-studies/cro-optum-2.html',
+    staticHtmlPath: '/case-studies/cro-optum-2-case-study.html',
     tags: ['Growth', 'Optum'],
   },
   {
@@ -56,6 +58,7 @@ export const caseStudies: CaseStudy[] = [
     publishedDate: '2020-04-01',
     readTime: 5,
     contentPath: 'src/data/case-studies/cro-optum-bank.html',
+    staticHtmlPath: '/case-studies/cro-optum-bank-case-study.html',
     tags: ['Growth', 'Optum'],
   },
   {
@@ -75,6 +78,7 @@ export const caseStudies: CaseStudy[] = [
     publishedDate: '2016-08-01',
     readTime: 6,
     contentPath: 'src/data/case-studies/cro-pinupgirlprotein.html',
+    staticHtmlPath: '/case-studies/cro-pinupgirlprotein-case-study.html',
     tags: ['Growth', 'Earlier Roles'],
   },
   {
@@ -94,6 +98,7 @@ export const caseStudies: CaseStudy[] = [
     publishedDate: '2016-03-01',
     readTime: 5,
     contentPath: 'src/data/case-studies/cro-thrifitfy.html',
+    staticHtmlPath: '/case-studies/cro-thrifitfy-case-study.html',
     tags: ['Growth', 'Earlier Roles'],
   },
   {
@@ -113,6 +118,7 @@ export const caseStudies: CaseStudy[] = [
     publishedDate: '2017-11-01',
     readTime: 4,
     contentPath: 'src/data/case-studies/cro-vodafone.html',
+    staticHtmlPath: '/case-studies/cro-vodafone-case-study.html',
     tags: ['Growth', 'Vodafone'],
   },
   {
@@ -132,6 +138,7 @@ export const caseStudies: CaseStudy[] = [
     publishedDate: '2019-09-01',
     readTime: 4,
     contentPath: 'src/data/case-studies/customer-data-platform-adobe-experience-cloud-optum.html',
+    staticHtmlPath: '/case-studies/customer-data-platform-adobe-experience-cloud-optum-case-study.html',
     tags: ['Data Platforms', 'Optum'],
   },
   {
@@ -151,6 +158,7 @@ export const caseStudies: CaseStudy[] = [
     publishedDate: '2023-05-01',
     readTime: 5,
     contentPath: 'src/data/case-studies/customer-relationship-management-braze.html',
+    staticHtmlPath: '/case-studies/customer-relationship-management-braze-case-study.html',
     tags: ['Marketing Tech', 'Joyn'],
   },
   {
@@ -170,6 +178,7 @@ export const caseStudies: CaseStudy[] = [
     publishedDate: '2020-01-01',
     readTime: 4,
     contentPath: 'src/data/case-studies/data-enablement-optum.html',
+    staticHtmlPath: '/case-studies/data-enablement-optum-case-study.html',
     tags: ['Data Platforms', 'Optum'],
   },
   {
@@ -189,6 +198,7 @@ export const caseStudies: CaseStudy[] = [
     publishedDate: '2017-04-01',
     readTime: 4,
     contentPath: 'src/data/case-studies/data-enablement-vodafone.html',
+    staticHtmlPath: '/case-studies/data-enablement-vodafone-case-study.html',
     tags: ['Data Platforms', 'Vodafone'],
   },
   {
@@ -208,6 +218,7 @@ export const caseStudies: CaseStudy[] = [
     publishedDate: '2019-05-01',
     readTime: 4,
     contentPath: 'src/data/case-studies/data-strategy-optum-store.html',
+    staticHtmlPath: '/case-studies/data-strategy-optum-store-case-study.html',
     tags: ['Data Platforms', 'Optum'],
   },
   {
@@ -226,6 +237,7 @@ export const caseStudies: CaseStudy[] = [
     publishedDate: '2018-09-01',
     readTime: 6,
     contentPath: 'src/data/case-studies/enautics-segmentsync-personalization.html',
+    staticHtmlPath: '/case-studies/enautics-segmentsync-personalization-case-study.html',
     tags: ['Marketing Tech', 'Earlier Roles'],
   },
   {
@@ -245,6 +257,7 @@ export const caseStudies: CaseStudy[] = [
     publishedDate: '2024-02-01',
     readTime: 6,
     contentPath: 'src/data/case-studies/hightouch-audience-activation.html',
+    staticHtmlPath: '/case-studies/hightouch-audience-activation-case-study.html',
     tags: ['Data Platforms', 'Earlier Roles'],
   },
   {
@@ -263,6 +276,7 @@ export const caseStudies: CaseStudy[] = [
     publishedDate: '2025-09-01',
     readTime: 7,
     contentPath: 'src/data/case-studies/joyn-cdp.html',
+    staticHtmlPath: '/case-studies/joyn-cdp-case-study.html',
     tags: ['Data Platforms', 'Joyn'],
   },
   {
@@ -282,6 +296,7 @@ export const caseStudies: CaseStudy[] = [
     publishedDate: '2025-06-01',
     readTime: 5,
     contentPath: 'src/data/case-studies/joyn-recommendation-platform.html',
+    staticHtmlPath: '/case-studies/joyn-recommendation-platform-case-study.html',
     tags: ['AI', 'Joyn'],
   },
   {
@@ -301,6 +316,7 @@ export const caseStudies: CaseStudy[] = [
     publishedDate: '2025-03-01',
     readTime: 5,
     contentPath: 'src/data/case-studies/joyn-search-product-discovery.html',
+    staticHtmlPath: '/case-studies/joyn-search-product-discovery-case-study.html',
     tags: ['AI', 'Joyn'],
   },
   {
@@ -318,6 +334,7 @@ export const caseStudies: CaseStudy[] = [
     publishedDate: '2024-09-01',
     readTime: 5,
     contentPath: 'src/data/case-studies/marketing-data-maturity-framework.html',
+    staticHtmlPath: '/case-studies/marketing-data-maturity-framework-case-study.html',
     tags: ['Marketing Tech', 'Earlier Roles'],
   },
   {
@@ -336,6 +353,7 @@ export const caseStudies: CaseStudy[] = [
     publishedDate: '2023-01-01',
     readTime: 5,
     contentPath: 'src/data/case-studies/marketing-tech-implementation-for-running-campaigns-app.html',
+    staticHtmlPath: '/case-studies/marketing-tech-implementation-for-running-campaigns-app-case-study.html',
     tags: ['Marketing Tech', 'Earlier Roles'],
   },
   {
@@ -353,6 +371,7 @@ export const caseStudies: CaseStudy[] = [
     publishedDate: '2022-08-01',
     readTime: 5,
     contentPath: 'src/data/case-studies/mixpanel-databricks-python-spark.html',
+    staticHtmlPath: '/case-studies/mixpanel-databricks-python-spark-case-study.html',
     tags: ['Data Platforms', 'Earlier Roles'],
   },
   {
@@ -372,6 +391,7 @@ export const caseStudies: CaseStudy[] = [
     publishedDate: '2021-07-01',
     readTime: 5,
     contentPath: 'src/data/case-studies/project-plan-implement-mixpanel-25-30-hours.html',
+    staticHtmlPath: '/case-studies/project-plan-implement-mixpanel-25-30-hours-case-study.html',
     tags: ['Data Platforms', 'Earlier Roles'],
   },
   {
@@ -391,6 +411,7 @@ export const caseStudies: CaseStudy[] = [
     publishedDate: '2021-06-01',
     readTime: 5,
     contentPath: 'src/data/case-studies/project-plan-implement-segment-or-segment-like-cdp-50-55-hours.html',
+    staticHtmlPath: '/case-studies/project-plan-implement-segment-or-segment-like-cdp-50-55-hours-case-study.html',
     tags: ['Data Platforms', 'Earlier Roles'],
   },
   {
@@ -410,6 +431,7 @@ export const caseStudies: CaseStudy[] = [
     publishedDate: '2022-03-01',
     readTime: 6,
     contentPath: 'src/data/case-studies/taming-the-data-pipeline-reverse-etl.html',
+    staticHtmlPath: '/case-studies/taming-the-data-pipeline-reverse-etl-case-study.html',
     tags: ['Data Platforms', 'Earlier Roles'],
   },
   {
@@ -429,6 +451,7 @@ export const caseStudies: CaseStudy[] = [
     publishedDate: '2021-11-01',
     readTime: 6,
     contentPath: 'src/data/case-studies/zero-dollar-telemetry-multi-tenant-analytics.html',
+    staticHtmlPath: '/case-studies/zero-dollar-telemetry-multi-tenant-analytics-case-study.html',
     tags: ['Data Platforms', 'Earlier Roles'],
   },
 ];

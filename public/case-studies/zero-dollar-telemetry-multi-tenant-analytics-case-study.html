@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zero-Dollar Telemetry: Multi-Tenant Product Analytics on Mixpanel's Free Tier</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;450;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#F6F8F8;
+    --surface:#FFFFFF;
+    --ink:#15201E;
+    --muted:#56635F;
+    --faint:#8A958F;
+    --teal:#1A8A7A;
+    --teal-deep:#127063;
+    --purple:#6B4FA0;
+    --purple-deep:#553D85;
+    --line:rgba(21,32,30,0.10);
+    --line-soft:rgba(21,32,30,0.06);
+    --teal-wash:rgba(26,138,122,0.07);
+    --purple-wash:rgba(107,79,160,0.07);
+    --display:'Space Grotesk',sans-serif;
+    --body:'Inter',sans-serif;
+    --mono:'JetBrains Mono',monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:var(--body);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    font-feature-settings:"ss01","cv11";
+  }
+  .wrap{max-width:980px;margin:0 auto;padding:0 28px}
+  .eyebrow{
+    font-family:var(--mono);font-size:11px;letter-spacing:.22em;
+    text-transform:uppercase;color:var(--teal-deep);font-weight:600;
+  }
+  .section-tag{
+    font-family:var(--mono);font-size:11px;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--faint);font-weight:500;
+    display:flex;align-items:center;gap:12px;margin-bottom:30px;
+  }
+  .section-tag::after{content:"";flex:1;height:1px;background:var(--line)}
+  header.hero{
+    padding:84px 0 60px;border-bottom:1px solid var(--line);
+    background:
+      radial-gradient(120% 100% at 100% 0%, var(--teal-wash) 0%, transparent 55%),
+      radial-gradient(90% 90% at 0% 10%, var(--purple-wash) 0%, transparent 50%);
+  }
+  .hero .eyebrow{margin-bottom:26px;display:inline-flex;align-items:center;gap:10px}
+  .hero .dot{width:7px;height:7px;border-radius:50%;background:var(--teal);box-shadow:0 0 0 4px var(--teal-wash)}
+  h1{
+    font-family:var(--display);font-weight:600;font-size:clamp(34px,6vw,60px);
+    line-height:1.02;letter-spacing:-0.02em;max-width:15ch;
+  }
+  h1 .accent{
+    background:linear-gradient(100deg,var(--teal),var(--purple));
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+  .sub{margin-top:24px;font-size:18px;color:var(--muted);max-width:60ch;line-height:1.5}
+  .role{margin-top:14px;font-family:var(--mono);font-size:12px;letter-spacing:.02em;color:var(--muted)}
+  .role b{color:var(--teal-deep);font-weight:600;margin-right:8px}
+  .meta{margin-top:34px;display:flex;flex-wrap:wrap;gap:10px;font-family:var(--mono);font-size:12px;letter-spacing:.02em}
+  .chip{border:1px solid var(--line);background:var(--surface);padding:7px 13px;border-radius:100px;color:var(--muted)}
+  .chip b{color:var(--ink);font-weight:600}
+  .tags{margin-top:14px;display:flex;flex-wrap:wrap;gap:8px}
+  .tag{font-family:var(--mono);font-size:11px;letter-spacing:.04em;color:var(--teal-deep);background:var(--teal-wash);padding:4px 10px;border-radius:100px}
+  section{padding:72px 0;border-bottom:1px solid var(--line)}
+  h2{font-family:var(--display);font-weight:600;font-size:clamp(24px,3.4vw,34px);letter-spacing:-0.015em;line-height:1.1}
+  .lede{margin-top:16px;color:var(--muted);font-size:17px;max-width:64ch}
+  .problems{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:1px;
+    margin-top:44px;background:var(--line-soft);
+    border:1px solid var(--line);border-radius:14px;overflow:hidden;
+  }
+  .prob{background:var(--surface);padding:30px 26px}
+  .prob .num{font-family:var(--mono);font-size:12px;color:var(--teal-deep);font-weight:600;letter-spacing:.08em}
+  .prob h3{font-family:var(--display);font-weight:600;font-size:18px;margin:14px 0 10px;letter-spacing:-0.01em}
+  .prob p{font-size:14.5px;color:var(--muted);line-height:1.58}
+  .prob .stat{margin-top:16px;font-family:var(--mono);font-size:13px;color:var(--ink);font-weight:500;border-top:1px dashed var(--line);padding-top:14px}
+  .prob .stat span{color:var(--purple);font-weight:600}
+  .timeline{margin-top:48px;position:relative}
+  .spine{
+    position:absolute;left:31px;top:8px;bottom:8px;width:2px;
+    background:linear-gradient(180deg,var(--teal) 0%,var(--teal) 48%,var(--purple) 58%,var(--purple) 100%);
+    border-radius:2px;opacity:.55;
+  }
+  .phase{position:relative;padding:0 0 38px 86px}
+  .phase:last-child{padding-bottom:0}
+  .node{
+    position:absolute;left:14px;top:2px;width:36px;height:36px;border-radius:10px;
+    background:var(--surface);border:1.5px solid var(--teal);
+    display:flex;align-items:center;justify-content:center;
+    font-family:var(--mono);font-size:14px;font-weight:600;color:var(--teal-deep);z-index:2;
+  }
+  .phase.era-ai .node{border-color:var(--purple);color:var(--purple-deep)}
+  .phase .ptitle{font-family:var(--display);font-weight:600;font-size:19px;letter-spacing:-0.01em;display:flex;flex-wrap:wrap;align-items:baseline;gap:10px}
+  .phase .flow{font-family:var(--mono);font-size:12.5px;color:var(--teal-deep);font-weight:500;letter-spacing:.01em}
+  .phase.era-ai .flow{color:var(--purple-deep)}
+  .phase p{margin-top:9px;font-size:15px;color:var(--muted);line-height:1.6;max-width:70ch}
+  .tech{
+    display:inline-block;font-family:var(--mono);font-size:11px;letter-spacing:.04em;
+    color:var(--teal-deep);background:var(--teal-wash);padding:2px 8px;border-radius:5px;margin-left:6px;
+  }
+  .phase.era-ai .tech{color:var(--purple-deep);background:var(--purple-wash)}
+  .results{background:var(--ink);color:#fff;border-bottom:none;border-radius:20px;margin:0}
+  .results .wrap{padding-top:0;padding-bottom:0}
+  .results-inner{padding:60px 36px}
+  .results .section-tag{color:rgba(255,255,255,.5)}
+  .results .section-tag::after{background:rgba(255,255,255,.15)}
+  .results h2{color:#fff}
+  .stat-grid{
+    display:grid;grid-template-columns:repeat(2,1fr);gap:1px;
+    margin-top:40px;background:rgba(255,255,255,.10);
+    border:1px solid rgba(255,255,255,.10);border-radius:14px;overflow:hidden;
+  }
+  .stat-grid .stat{background:#1A2624;padding:30px 24px}
+  .stat-grid .stat .big{
+    font-family:var(--display);font-weight:600;font-size:clamp(30px,4.4vw,44px);
+    letter-spacing:-0.02em;line-height:1;
+    background:linear-gradient(120deg,#5BD3BE,#A88BE0);
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+  .stat-grid .stat .k{margin-top:12px;font-size:14px;font-weight:600;color:#fff}
+  .stat-grid .stat .s{margin-top:4px;font-family:var(--mono);font-size:11.5px;color:rgba(255,255,255,.5);letter-spacing:.02em}
+  .unlocked-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;margin-top:44px;
+    background:var(--line-soft);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  .unlock{background:var(--surface);padding:26px 26px}
+  .unlock .ico{width:32px;height:32px;border-radius:8px;background:var(--teal-wash);display:flex;align-items:center;justify-content:center;margin-bottom:14px;color:var(--teal-deep)}
+  .unlock h4{font-family:var(--display);font-weight:600;font-size:16px;letter-spacing:-0.01em}
+  .unlock p{margin-top:7px;font-size:14px;color:var(--muted);line-height:1.55}
+  .unlock.full{grid-column:1 / -1}
+  .unlock.q .ico{background:var(--purple-wash);color:var(--purple-deep)}
+  footer{padding:46px 0 70px}
+  .foot{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:16px;font-family:var(--mono);font-size:12px;color:var(--faint);letter-spacing:.03em}
+  .foot .brand{color:var(--ink);font-weight:600}
+  .foot .brand span{color:var(--teal)}
+  .reveal{opacity:0;transform:translateY(14px);transition:opacity .6s ease,transform .6s ease}
+  .reveal.in{opacity:1;transform:none}
+  @media(max-width:760px){
+    .problems{grid-template-columns:1fr}
+    .stat-grid{grid-template-columns:1fr 1fr}
+    .unlocked-grid{grid-template-columns:1fr}
+    .phase{padding-left:64px}
+    .node{left:6px;width:32px;height:32px}
+    .spine{left:21px}
+    section{padding:54px 0}
+  }
+  @media(max-width:440px){.stat-grid{grid-template-columns:1fr}}
+  @media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}html{scroll-behavior:auto}}
+  @media print{
+    @page{size:A4;margin:10mm 12mm}
+    body{background:#fff;line-height:1.35;font-size:12px}
+    .reveal{opacity:1;transform:none}
+
+    .results{background:#15201E !important;-webkit-print-color-adjust:exact;print-color-adjust:exact;break-inside:avoid;page-break-inside:avoid}
+    .stat-grid{break-inside:avoid;page-break-inside:avoid;grid-template-columns:repeat(2,1fr)}
+    .results-inner{padding:24px 20px}
+    .stat-grid .stat{padding:14px 14px}
+    .stat-grid .stat .big{
+      background:none;-webkit-background-clip:initial;background-clip:initial;
+      -webkit-text-fill-color:#5BD3BE;color:#5BD3BE;
+    }
+
+    header.hero{padding:0 0 16px}
+    .hero .eyebrow{margin-bottom:10px}
+    h1{font-size:28px;line-height:1.08;max-width:none}
+    h1 .accent{
+      background:none;-webkit-background-clip:initial;background-clip:initial;
+      -webkit-text-fill-color:var(--teal-deep);color:var(--teal-deep);
+    }
+    .sub{margin-top:10px;font-size:13px;max-width:none}
+    .role{margin-top:8px;font-size:11px}
+    .meta{margin-top:14px;gap:6px}
+    .chip{padding:4px 10px}
+    .tags{margin-top:8px}
+
+    section{padding:14px 0;border-bottom:1px solid var(--line)}
+    .section-tag{margin-bottom:12px}
+    h2{font-size:18px}
+    .lede{margin-top:6px;font-size:12.5px;max-width:none}
+
+    .problems{margin-top:14px;break-inside:avoid;page-break-inside:avoid}
+    .prob{padding:14px 14px;break-inside:avoid;page-break-inside:avoid}
+    .prob h3{margin:6px 0 4px}
+    .prob p{font-size:11.5px;line-height:1.4}
+
+    .spine{display:none}
+    .phase{padding:0 0 16px 60px;break-inside:avoid;page-break-inside:avoid}
+    .phase p{margin-top:4px;font-size:11.5px;line-height:1.4;max-width:none}
+
+    .unlocked-grid{margin-top:10px}
+    .unlock{padding:10px 12px;break-inside:avoid;page-break-inside:avoid}
+    .unlock .ico{margin-bottom:8px}
+    .unlock p{margin-top:4px;font-size:11px;line-height:1.4}
+
+    footer{padding:10px 0 8px}
+
+    img,svg{max-width:100%}
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="eyebrow"><span class="dot"></span>Case Study · Product Analytics</div>
+    <h1>Five executive dashboards across three products, for <span class="accent">$0</span> in software costs.</h1>
+    <p class="sub">A fast-growing education startup ran three separate web products (Typesy, Spreeder, Wordela) but had no shared way to measure daily active users, retention, or feature engagement — and the budget only allowed Mixpanel's free plan. I designed and delivered the entire tracking setup to fit inside those limits.</p>
+    <p class="role"><b>Role</b> Led the analytics project end to end — audit, tracking design, and engineering rollout, working within Mixpanel's free-tier limits</p>
+    <div class="meta">
+      <span class="chip"><b>3</b> products covered</span>
+      <span class="chip"><b>5</b> dashboards delivered</span>
+      <span class="chip"><b>$0</b> software cost</span>
+      <span class="chip"><b>1</b> sprint</span>
+      <span class="chip">Mixpanel</span>
+    </div>
+    <div class="tags">
+      <span class="tag">EdTech</span>
+      <span class="tag">SaaS</span>
+      <span class="tag">Product Analytics</span>
+      <span class="tag">Freelance</span>
+    </div>
+  </div>
+</header>
+
+<section class="reveal">
+  <div class="wrap">
+    <div class="section-tag">01 — The Business Driver</div>
+    <h2>Three products, no shared way to measure them</h2>
+    <p class="lede">Leadership needed basic growth numbers — daily and monthly active users, retention, feature usage — across all three products, but no tracking setup existed to produce them.</p>
+    <div class="problems">
+      <div class="prob">
+        <div class="num">GAP</div>
+        <h3>No usage metrics, anywhere</h3>
+        <p>None of the three products had a working setup to measure how many people used them, or how often.</p>
+        <div class="stat">No usage data = <span>leadership can't see what's working</span></div>
+      </div>
+      <div class="prob">
+        <div class="num">BUDGET</div>
+        <h3>Paid analytics tools were off the table</h3>
+        <p>The startup's budget required staying on Mixpanel's free plan, which limits how much data and detail you can track.</p>
+        <div class="stat">Free plan only = <span>tracking has to be designed around real limits</span></div>
+      </div>
+      <div class="prob">
+        <div class="num">SCALE</div>
+        <h3>One setup had to work for three products</h3>
+        <p>Whatever was built needed to give a combined view across Typesy, Spreeder, and Wordela, not three separate setups.</p>
+        <div class="stat">3 separate products = <span>no easy way to compare them</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="reveal">
+  <div class="wrap">
+    <div class="section-tag">02 — The Obstacles</div>
+    <h2>What a full site audit turned up</h2>
+    <p class="lede">Before designing anything, I audited the live products end to end. That audit surfaced three problems standing in the way of clean tracking.</p>
+    <div class="problems">
+      <div class="prob">
+        <div class="num">DATA</div>
+        <h3>User actions were hidden behind ID codes</h3>
+        <p>The free plan blocked access to lookup tables, so events only showed raw codes like course_id or game_id — not anything a person could read.</p>
+        <div class="stat">Raw ID codes = <span>reports nobody can read or trust</span></div>
+      </div>
+      <div class="prob">
+        <div class="num">TRACKING</div>
+        <h3>The apps didn't change pages when used</h3>
+        <p>The core features (course player, game player, word lists) load content without changing the page URL, so standard page-view tracking couldn't see people dropping off mid-task.</p>
+        <div class="stat">No page changes = <span>drop-off points stay invisible</span></div>
+      </div>
+      <div class="prob">
+        <div class="num">QUALITY</div>
+        <h3>Each team was logging data differently</h3>
+        <p>Early tracking attempts across the three products used inconsistent names and formats, risking duplicate or conflicting data once combined.</p>
+        <div class="stat">Inconsistent logging = <span>combined reports don't add up</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="reveal">
+  <div class="wrap">
+    <div class="section-tag">03 — The Solution</div>
+    <h2>A tracking design built around the free plan's limits</h2>
+    <p class="lede">Working directly with leadership and engineering, I designed a tracking setup that worked around each limitation, then helped build and check it before launch.</p>
+    <div class="timeline">
+      <div class="spine"></div>
+
+      <div class="phase">
+        <div class="node">1</div>
+        <div class="ptitle">Define the KPIs with leadership <span class="flow">CXO interviews → roadmap</span></div>
+        <p>Worked directly with the startup's leadership team to agree on the core numbers that mattered — active users, retention, and feature engagement — and turned that into a tracking roadmap.<span class="tech">Stakeholder alignment</span></p>
+      </div>
+
+      <div class="phase">
+        <div class="node">2</div>
+        <div class="ptitle">Attach context to every event automatically</div>
+        <p>Set up a small set of shared details (which product, what type of user, which company) to be attached automatically to every action a user takes, so reports could be filtered and grouped without needing the paid lookup tables.<span class="tech">Shared event context</span></p>
+      </div>
+
+      <div class="phase era-ai">
+        <div class="node">3</div>
+        <div class="ptitle">Track in-app steps directly</div>
+        <p>Built custom tracking for the course player, game player, and word-list tools so each step a user takes inside these tools is recorded directly, even though the page itself never changes.<span class="tech">In-app step tracking</span></p>
+      </div>
+
+      <div class="phase era-ai">
+        <div class="node">4</div>
+        <div class="ptitle">Write the naming rules, then test live</div>
+        <p>Wrote a simple naming guide (consistent event and property names) for engineering to follow, then worked alongside engineers to fix bugs and check real, live data before anything went to production.<span class="tech">Naming guide · QA</span></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="results">
+  <div class="wrap">
+    <div class="results-inner reveal">
+      <div class="section-tag">04 — Quantified Impact</div>
+      <h2>One tracking setup, three products, zero cost</h2>
+      <div class="stat-grid">
+        <div class="stat">
+          <div class="big">$0</div>
+          <div class="k">Software cost</div>
+          <div class="s">Stayed on Mixpanel's free plan</div>
+        </div>
+        <div class="stat">
+          <div class="big">5</div>
+          <div class="k">Dashboards delivered</div>
+          <div class="s">Within the free plan's report limit</div>
+        </div>
+        <div class="stat">
+          <div class="big">3</div>
+          <div class="k">Products covered</div>
+          <div class="s">Typesy, Spreeder, Wordela — one shared view</div>
+        </div>
+        <div class="stat">
+          <div class="big">1</div>
+          <div class="k">Sprint to deliver</div>
+          <div class="s">Audit through to live dashboards</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="reveal">
+  <div class="wrap">
+    <div class="section-tag">05 — Strategic Outcomes Unlocked</div>
+    <h2>From no usage data to a shared, governed view</h2>
+    <div class="unlocked-grid">
+      <div class="unlock q full">
+        <div class="ico">⚡</div>
+        <h4>Leadership can finally see how the products are used</h4>
+        <p>The five dashboards give leadership and product teams a shared, working view of active users, retention, feature engagement, onboarding, and subscription conversion — across all three products, without any new software spend.</p>
+      </div>
+      <div class="unlock">
+        <div class="ico">⊕</div>
+        <h4>Readable data instead of raw ID codes</h4>
+        <p>Attaching shared context to every event turned unreadable database IDs into data that can actually be filtered and grouped by product, user type, or account.</p>
+      </div>
+      <div class="unlock">
+        <div class="ico">↻</div>
+        <h4>Drop-offs inside the apps are now visible</h4>
+        <p>Custom tracking inside the course, game, and word-list tools shows exactly where users get stuck, something standard page tracking could never see.</p>
+      </div>
+      <div class="unlock">
+        <div class="ico">⟲</div>
+        <h4>Consistent data going forward</h4>
+        <p>A written naming guide gives engineering clear rules for any new tracking, preventing the inconsistent logging that caused problems before.</p>
+      </div>
+      <div class="unlock">
+        <div class="ico">✕</div>
+        <h4>One owner for the tracking setup</h4>
+        <p>Only the data analyst can change the tracking schema now, removing the risk of engineers making untracked changes that break reports later.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot">
+      <div class="brand">Joyn <span>—</span> Product Analytics</div>
+      <div>No Usage Data → Shared Dashboards, $0 Cost</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const io=new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}});
+  },{threshold:0.12});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>
