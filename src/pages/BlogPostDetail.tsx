@@ -4,7 +4,8 @@ import { loadBlogPosts } from '../utils/loadBlogPosts';
 import SEO from '../components/SEO';
 import NotFound from './NotFound';
 
-function formatRunLog(date: string): string {
+function formatRunLog(date?: string): string {
+  if (!date) return '[RUN-LOG // UNDATED]';
   const d = new Date(date);
   const yyyy = d.getFullYear();
   const mm = String(d.getMonth() + 1).padStart(2, '0');
@@ -12,7 +13,8 @@ function formatRunLog(date: string): string {
   return `[RUN-LOG // ${yyyy}.${mm}.${dd}]`;
 }
 
-function formatDate(date: string): string {
+function formatDate(date?: string): string {
+  if (!date) return '';
   return new Date(date).toLocaleDateString('en-US', {
     year: 'numeric',
     month: 'long',
@@ -22,9 +24,14 @@ function formatDate(date: string): string {
 
 export default function BlogPostDetail() {
   const { slug } = useParams<{ slug: string }>();
-  const posts = [...loadBlogPosts()].sort(
-    (a, b) => new Date(b.publishedDate).getTime() - new Date(a.publishedDate).getTime(),
-  );
+  const posts = [...loadBlogPosts()].sort((a, b) => {
+    const aTime = a.publishedDate ? new Date(a.publishedDate).getTime() : NaN;
+    const bTime = b.publishedDate ? new Date(b.publishedDate).getTime() : NaN;
+    if (Number.isNaN(aTime) && Number.isNaN(bTime)) return 0;
+    if (Number.isNaN(aTime)) return 1;
+    if (Number.isNaN(bTime)) return -1;
+    return bTime - aTime;
+  });
   const index = posts.findIndex((p) => p.slug === slug);
 
   if (index === -1) {
@@ -46,7 +53,7 @@ export default function BlogPostDetail() {
           '@type': 'BlogPosting',
           headline: post.title,
           description: post.description,
-          datePublished: post.publishedDate,
+          ...(post.publishedDate ? { datePublished: post.publishedDate } : {}),
           author: { '@type': 'Person', name: 'Gaurav Kumar Dani' },
         }}
       />
@@ -59,7 +66,7 @@ export default function BlogPostDetail() {
       </div>
       <h1 className="font-display font-bold text-ink text-[clamp(2rem,5vw,3rem)] mt-2">{post.title}</h1>
       <div className="font-mono text-xs text-faint mt-4 flex flex-wrap gap-4">
-        <span>{formatDate(post.publishedDate)}</span>
+        {post.publishedDate && <span>{formatDate(post.publishedDate)}</span>}
         <span>{post.readTime} min read</span>
       </div>
 
@@ -95,7 +102,7 @@ export default function BlogPostDetail() {
       </div>
 
       <div className="mt-12 pt-6 border-t border-border font-body text-sm text-muted">
-        <p>By Gaurav Kumar Dani · {formatDate(post.publishedDate)}</p>
+        <p>By Gaurav Kumar Dani{post.publishedDate ? ` · ${formatDate(post.publishedDate)}` : ''}</p>
         <div className="mt-3 flex flex-wrap gap-3">
           {post.tags.map((tag) => (
             <Link

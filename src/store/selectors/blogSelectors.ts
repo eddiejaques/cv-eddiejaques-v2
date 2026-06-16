@@ -22,7 +22,13 @@ export function selectSortedPosts(state: RootState, sortBy: BlogSortBy): BlogPos
   const sorted = [...filtered];
 
   sorted.sort((a, b) => {
-    const diff = new Date(b.publishedDate).getTime() - new Date(a.publishedDate).getTime();
+    const aTime = a.publishedDate ? new Date(a.publishedDate).getTime() : NaN;
+    const bTime = b.publishedDate ? new Date(b.publishedDate).getTime() : NaN;
+    // Undated posts always sort to the bottom, regardless of direction.
+    if (Number.isNaN(aTime) && Number.isNaN(bTime)) return 0;
+    if (Number.isNaN(aTime)) return 1;
+    if (Number.isNaN(bTime)) return -1;
+    const diff = bTime - aTime;
     return sortBy === 'newest' ? diff : -diff;
   });
 

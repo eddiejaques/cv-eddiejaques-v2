@@ -9,7 +9,8 @@ import SEO from '../components/SEO';
 
 const PAGE_SIZE = 10;
 
-function formatRunLog(date: string): string {
+function formatRunLog(date?: string): string {
+  if (!date) return '[RUN-LOG // UNDATED]';
   const d = new Date(date);
   const yyyy = d.getFullYear();
   const mm = String(d.getMonth() + 1).padStart(2, '0');

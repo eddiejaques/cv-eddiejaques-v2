@@ -3,7 +3,6 @@ id: "4"
 slug: "no-bs-guide-to-cro"
 title: "The No-B.S. Guide to Conversion Rate Optimization"
 description: "CRO isn't changing a button from blue to green and hoping. It's a four-step loop — discover, optimize, analyze, repeat — that I've run across 50+ tests."
-publishedDate: "2026-06-16"
 tags: ["CRO", "Experimentation", "Analytics"]
 featured: true
 ---
