@@ -17,8 +17,8 @@ const socialLinks = [
 ];
 
 const linkClass = ({ isActive }: { isActive: boolean }) =>
-  `font-body font-medium text-sm transition-colors duration-200 hover:text-accent hover:underline ${
-    isActive ? 'text-accent underline' : 'text-ink'
+  `font-mono text-[11px] uppercase tracking-[0.18em] transition-colors duration-200 hover:text-accent ${
+    isActive ? 'text-accent' : 'text-muted'
   }`;
 
 export default function Header() {
@@ -46,7 +46,7 @@ export default function Header() {
               href={link.href}
               target="_blank"
               rel="noopener noreferrer"
-              className="font-body font-medium text-sm text-ink transition-colors duration-200 hover:text-accent hover:underline"
+              className="font-mono text-[11px] uppercase tracking-[0.18em] text-muted transition-colors duration-200 hover:text-accent"
             >
               {link.label}
             </a>
