@@ -40,8 +40,8 @@ export default function ResumeGate({ onUnlock }: Props) {
   }
 
   return (
-    <main className="min-h-[calc(100vh-72px)] flex flex-col items-center justify-center px-6 py-16">
-      <div className="w-full max-w-md">
+    <main className="min-h-[calc(100vh-72px)] px-6 py-16">
+      <div className="max-w-md mx-auto">
         <h1 className="font-display font-bold text-ink text-[32px] leading-tight">
           Request the Resume
         </h1>
