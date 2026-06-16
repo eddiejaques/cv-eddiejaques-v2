@@ -9,29 +9,18 @@ create table if not exists resume_leads (
   source text
 );
 
--- Column-level constraints (apply even to service_role writes).
--- Guard against oversized / malformed payloads and storage abuse.
-alter table resume_leads
-  drop constraint if exists resume_leads_email_len,
-  drop constraint if exists resume_leads_email_shape,
-  drop constraint if exists resume_leads_name_len,
-  drop constraint if exists resume_leads_source_len,
-  drop constraint if exists resume_leads_message_len;
-
-alter table resume_leads
-  add constraint resume_leads_email_len   check (char_length(email) <= 254),
-  add constraint resume_leads_email_shape check (position('@' in email) > 1),
-  add constraint resume_leads_name_len    check (name is null or char_length(name) <= 120),
-  add constraint resume_leads_source_len  check (source is null or char_length(source) <= 40),
-  add constraint resume_leads_message_len check (message is null or char_length(message) <= 2000);
-
+-- ---------------------------------------------------------------------------
+-- Row Level Security (do this FIRST so the security fix lands even if a later
+-- statement is skipped).
+-- ---------------------------------------------------------------------------
 alter table resume_leads enable row level security;
 -- Defense in depth: deny by default even if the table is altered later.
 alter table resume_leads force row level security;
 
 -- Drop EVERY existing policy on resume_leads first. Multiple permissive
 -- policies are OR'd together by Postgres, so a leftover `with check (true)`
--- policy would defeat the stricter one below.
+-- (or any SELECT policy that exposes captured emails) would defeat the
+-- stricter setup below.
 do $$
 declare p record;
 begin
@@ -61,3 +50,22 @@ create policy "anon insert only"
     and role is null
     and message is null
   );
+
+-- ---------------------------------------------------------------------------
+-- Column-level constraints (apply to ALL writers, incl. service_role).
+-- Added NOT VALID so pre-existing rows can't abort this migration; they still
+-- apply to every new insert/update.
+-- ---------------------------------------------------------------------------
+alter table resume_leads
+  drop constraint if exists resume_leads_email_len,
+  drop constraint if exists resume_leads_email_shape,
+  drop constraint if exists resume_leads_name_len,
+  drop constraint if exists resume_leads_source_len,
+  drop constraint if exists resume_leads_message_len;
+
+alter table resume_leads
+  add constraint resume_leads_email_len   check (char_length(email) <= 254) not valid,
+  add constraint resume_leads_email_shape check (position('@' in email) > 1) not valid,
+  add constraint resume_leads_name_len    check (name is null or char_length(name) <= 120) not valid,
+  add constraint resume_leads_source_len  check (source is null or char_length(source) <= 40) not valid,
+  add constraint resume_leads_message_len check (message is null or char_length(message) <= 2000) not valid;
