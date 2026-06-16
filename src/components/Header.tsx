@@ -7,7 +7,6 @@ const navLinks = [
   { to: '/case-studies', label: 'Case Studies' },
   { to: '/blog', label: 'Blog' },
   { to: '/resume', label: 'Resume' },
-  { to: '/about', label: 'About' },
 ];
 
 const { contact } = resumeData;
