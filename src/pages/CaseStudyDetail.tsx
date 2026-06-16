@@ -1,38 +1,54 @@
-import { Link, useParams } from 'react-router-dom';
+import { useEffect, useRef, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import { caseStudies } from '../data/caseStudies';
-import { loadCaseStudyContent } from '../utils/loadCaseStudyContent';
-import Metrics from '../components/Metrics';
-import Button from '../components/Button';
 import SEO from '../components/SEO';
 import NotFound from './NotFound';
-import '../styles/caseStudyContent.css';
-
-function formatDate(date: string): string {
-  return new Date(date).toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  });
-}
-
-function stripHero(html: string): string {
-  return html.replace(/<header class="hero">[\s\S]*?<\/header>/, '');
-}
 
 export default function CaseStudyDetail() {
   const { slug } = useParams<{ slug: string }>();
   const index = caseStudies.findIndex((c) => c.slug === slug);
 
-  if (index === -1) {
-    return <NotFound />;
-  }
+  if (index === -1) return <NotFound />;
 
   const caseStudy = caseStudies[index];
-  const next = caseStudies[(index + 1) % caseStudies.length];
-  const content = stripHero(loadCaseStudyContent(caseStudy.contentPath));
+  const iframeRef = useRef<HTMLIFrameElement>(null);
+  const [blobUrl, setBlobUrl] = useState<string | null>(null);
+  const [error, setError] = useState(false);
+
+  useEffect(() => {
+    let objectUrl: string;
+
+    fetch(caseStudy.staticHtmlPath)
+      .then((res) => {
+        if (!res.ok) throw new Error('fetch failed');
+        return res.text();
+      })
+      .then((html) => {
+        const blob = new Blob([html], { type: 'text/html' });
+        objectUrl = URL.createObjectURL(blob);
+        setBlobUrl(objectUrl);
+      })
+      .catch(() => setError(true));
+
+    return () => {
+      if (objectUrl) URL.revokeObjectURL(objectUrl);
+    };
+  }, [caseStudy.staticHtmlPath]);
+
+  // Expand iframe to match its content height
+  function onIframeLoad() {
+    const iframe = iframeRef.current;
+    if (!iframe) return;
+    try {
+      const h = iframe.contentDocument?.body?.scrollHeight;
+      if (h) iframe.style.height = `${h}px`;
+    } catch {
+      // cross-origin guard (shouldn't happen with blob URLs)
+    }
+  }
 
   return (
-    <main className="px-6 py-16">
+    <>
       <SEO
         title={caseStudy.title}
         description={caseStudy.description}
@@ -46,48 +62,31 @@ export default function CaseStudyDetail() {
           author: { '@type': 'Person', name: 'Gaurav Kumar Dani' },
         }}
       />
-      <div className="max-w-[720px] mx-auto">
-        <nav className="font-body text-sm mb-8">
-          <Link to="/case-studies" className="font-medium text-accent hover:underline">
-            ← Back to Case Studies
-          </Link>
-          <div className="text-faint mt-1">
-            Case Studies / <span className="text-muted">{caseStudy.title}</span>
-          </div>
-        </nav>
 
-        <div className="font-mono text-xs uppercase text-accent mb-4">
-          {caseStudy.category} · {caseStudy.experienceStage}
+      {error && (
+        <main className="px-6 py-16 max-w-[720px] mx-auto">
+          <p className="font-body text-muted">
+            Could not load this case study.{' '}
+            <a href="/case-studies" className="text-accent hover:underline">← Back</a>
+          </p>
+        </main>
+      )}
+
+      {!error && !blobUrl && (
+        <div className="flex items-center justify-center min-h-[60vh]">
+          <span className="font-mono text-sm text-muted">Loading…</span>
         </div>
-        <h1 className="font-display font-bold text-ink text-[clamp(2rem,5vw,3rem)] max-w-[60ch] leading-tight">
-          {caseStudy.title}
-        </h1>
-        <p className="font-body text-lg text-muted mt-4 max-w-[70ch]">{caseStudy.description}</p>
-        <div className="font-mono text-xs text-faint mt-6 flex flex-wrap gap-4">
-          <span>{formatDate(caseStudy.publishedDate)}</span>
-          <span>{caseStudy.readTime} min read</span>
-          <span>{caseStudy.organization}</span>
-        </div>
-      </div>
+      )}
 
-      <div className="case-study-content mt-16" dangerouslySetInnerHTML={{ __html: content }} />
-
-      <div className="max-w-[720px] mx-auto mt-16">
-        <h2 className="font-display font-bold text-2xl text-ink mb-6">Key Metrics</h2>
-        <Metrics metrics={caseStudy.keyMetrics} variant="callout" />
-      </div>
-
-      <div className="max-w-[720px] mx-auto mt-16 flex flex-col gap-4">
-        <Button as="link" to="/case-studies" variant="primary" className="w-full text-center">
-          Back to Case Studies
-        </Button>
-        <Link
-          to={`/case-studies/${next.slug}`}
-          className="font-body font-semibold text-sm text-accent hover:underline text-center"
-        >
-          Read Next Case Study →
-        </Link>
-      </div>
-    </main>
+      {blobUrl && (
+        <iframe
+          ref={iframeRef}
+          src={blobUrl}
+          onLoad={onIframeLoad}
+          title={caseStudy.title}
+          style={{ width: '100%', border: 'none', display: 'block', minHeight: '100vh' }}
+        />
+      )}
+    </>
   );
 }
