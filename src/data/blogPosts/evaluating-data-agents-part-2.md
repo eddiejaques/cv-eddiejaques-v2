@@ -8,7 +8,7 @@ tags: ["AI", "Data Platforms", "Evaluation"]
 featured: false
 ---
 
-> This post continues from [Evaluating Data Agents, Part 1](https://www.linkedin.com/pulse/evaluating-data-agents-part-1-gaurav-kumar-dani-5fgwf). If you haven't read that one, it's worth starting there.
+> This post continues from [Evaluating Data Agents, Part 1](/blog/evaluating-data-agents-part-1) (also on [LinkedIn](https://www.linkedin.com/pulse/evaluating-data-agents-part-1-gaurav-kumar-dani-5fgwf)). If you haven't read that one, it's worth starting there.
 
 ## Why metrics matter
 
