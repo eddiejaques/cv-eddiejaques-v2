@@ -28,3 +28,6 @@ tasks/
 
 # Local env with real secrets
 .env
+
+# Case study HTML files (served from Supabase Storage)
+public/case-studies/
