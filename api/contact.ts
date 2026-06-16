@@ -52,7 +52,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (RESEND_API_KEY) {
     const cs = record.case_study_ref ? ` · from case study: ${record.case_study_ref}` : '';
     try {
-      await fetch('https://api.resend.com/emails', {
+      const mail = await fetch('https://api.resend.com/emails', {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${RESEND_API_KEY}`,
@@ -74,8 +74,13 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           ].join('\n'),
         }),
       });
-    } catch {
-      /* notification is best-effort; the row is already saved */
+      // Best-effort: the row is already saved. But log failures so they're
+      // visible in Vercel logs instead of vanishing silently.
+      if (!mail.ok) {
+        console.error('Resend notification failed', mail.status, await mail.text());
+      }
+    } catch (err) {
+      console.error('Resend notification threw', err);
     }
   }
 

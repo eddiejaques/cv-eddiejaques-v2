@@ -83,7 +83,6 @@ export default function Home() {
         <p className="font-body text-lg text-muted max-w-[58ch]">
           14+ years moving fast across data platforms, AI products, and marketing tech.
           Currently rebuilding how Joyn's product works.
-          Targeting your team next.
         </p>
 
         {/* Metrics — expanded row, left-aligned, full content width */}
