@@ -1,9 +1,21 @@
+import { useState } from 'react';
 import { resumeData } from '../data/resume';
 import Button from '../components/Button';
 import SEO from '../components/SEO';
+import ResumeGate from '../components/ResumeGate';
 
 export default function Resume() {
+  const [unlocked, setUnlocked] = useState(false);
   const { contact, summary, coreCompetencies, experience, education, skills, certifications } = resumeData;
+
+  if (!unlocked) {
+    return (
+      <>
+        <SEO title="Resume" description={summary} path="/resume" />
+        <ResumeGate onUnlock={() => setUnlocked(true)} />
+      </>
+    );
+  }
 
   return (
     <main className="px-6 py-16 max-w-[760px] mx-auto">
