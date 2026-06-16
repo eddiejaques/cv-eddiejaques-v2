@@ -14,7 +14,6 @@ export default function Resume() {
           <p className="font-display font-semibold text-ink text-lg mt-1">{contact.title}</p>
           <p className="font-body text-xs text-muted mt-3 flex flex-wrap gap-x-2">
             <span>{contact.location}</span>
-            {contact.phone && <span>| {contact.phone}</span>}
             <span>| {contact.email}</span>
           </p>
           <p className="font-body text-xs mt-2 flex flex-wrap gap-x-4">
@@ -30,8 +29,8 @@ export default function Resume() {
             )}
           </p>
         </div>
-        <Button as="link" to="/resume.pdf" variant="secondary" className="print:hidden">
-          Download PDF
+        <Button as="button" variant="secondary" className="print:hidden" onClick={() => window.print()}>
+          Print / Save PDF
         </Button>
       </div>
 

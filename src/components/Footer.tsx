@@ -1,7 +1,10 @@
+import { resumeData } from '../data/resume';
+
+const { contact } = resumeData;
 const socialLinks = [
-  { href: 'https://github.com/', label: 'GitHub' },
-  { href: 'https://linkedin.com/', label: 'LinkedIn' },
-  { href: 'mailto:hello@eddiejaques.me', label: 'Email' },
+  { href: contact.github ?? '#', label: 'GitHub' },
+  { href: contact.linkedin ?? '#', label: 'LinkedIn' },
+  { href: `mailto:${contact.email}`, label: 'Email' },
 ];
 
 export default function Footer() {

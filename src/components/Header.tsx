@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
+import { resumeData } from '../data/resume';
 
 const navLinks = [
   { to: '/', label: 'Home' },
@@ -9,10 +10,11 @@ const navLinks = [
   { to: '/about', label: 'About' },
 ];
 
+const { contact } = resumeData;
 const socialLinks = [
-  { href: 'https://github.com/', label: 'GitHub' },
-  { href: 'https://linkedin.com/', label: 'LinkedIn' },
-  { href: 'mailto:hello@eddiejaques.me', label: 'Email' },
+  { href: contact.github ?? '#', label: 'GitHub' },
+  { href: contact.linkedin ?? '#', label: 'LinkedIn' },
+  { href: `mailto:${contact.email}`, label: 'Email' },
 ];
 
 const linkClass = ({ isActive }: { isActive: boolean }) =>

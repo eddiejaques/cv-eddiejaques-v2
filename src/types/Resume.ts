@@ -2,7 +2,6 @@ export interface ResumeContact {
   name: string;
   title: string;
   location: string;
-  phone?: string;
   email: string;
   linkedin?: string;
   github?: string;

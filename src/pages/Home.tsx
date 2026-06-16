@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import Button from '../components/Button';
 import Metrics from '../components/Metrics';
 import SEO from '../components/SEO';
 import { resumeData } from '../data/resume';
@@ -51,20 +50,11 @@ export default function Home() {
         </p>
       </div>
 
-      <div className="w-full max-w-2xl">
+      <div className="w-full max-w-2xl mx-auto">
         <Metrics metrics={heroMetrics} variant="banner" />
       </div>
 
-      <div className="flex flex-col min-[760px]:flex-row gap-4 w-full max-w-xl">
-        <Button as="link" to="/case-studies" variant="secondary" className="flex-1 text-center">
-          Read a Stat
-        </Button>
-        <Button as="link" to="/blog" variant="secondary" className="flex-1 text-center">
-          Read a Thought
-        </Button>
-      </div>
-
-      <p className="font-body text-sm text-muted">
+<p className="font-body text-sm text-muted">
         Led 8+ cross-functional teams | Shipped 0→1 products | Built frameworks adopted company-wide
       </p>
 

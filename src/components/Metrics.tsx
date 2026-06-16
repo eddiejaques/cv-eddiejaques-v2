@@ -26,9 +26,9 @@ export default function Metrics({ metrics, variant, visible = true }: MetricsPro
 
   if (variant === 'callout') {
     return (
-      <div className="metrics-callout grid grid-cols-2 md:grid-cols-3 divide-x divide-border">
-        {metrics.map((m) => (
-          <div key={m.label} className="text-center px-4">
+      <div className="metrics-callout grid grid-cols-2 md:grid-cols-3">
+        {metrics.map((m, i) => (
+          <div key={m.label} className={`text-center px-4 min-w-0${i > 0 ? ' border-l border-border' : ''}`}>
             <div className="font-display font-bold text-4xl text-accent">{m.value}</div>
             <div className="font-body font-medium text-sm text-muted mt-1">{m.label}</div>
           </div>
@@ -38,14 +38,11 @@ export default function Metrics({ metrics, variant, visible = true }: MetricsPro
   }
 
   return (
-    <div
-      className="grid w-full divide-x divide-border"
-      style={{ gridTemplateColumns: `repeat(${metrics.length}, minmax(0, 1fr))` }}
-    >
-      {metrics.map((m) => (
-        <div key={m.label} className="text-center px-4">
+    <div className="flex justify-center">
+      {metrics.map((m, i) => (
+        <div key={m.label} className={`text-center px-12${i > 0 ? ' border-l border-border' : ''}`}>
           <div className="font-display font-bold text-4xl text-ink">{m.value}</div>
-          <div className="font-mono text-xs text-accent uppercase tracking-wide mt-1">{m.label}</div>
+          <div className="font-mono text-xs text-accent uppercase tracking-wide mt-1 whitespace-nowrap">{m.label}</div>
         </div>
       ))}
     </div>

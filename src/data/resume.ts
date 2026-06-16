@@ -5,7 +5,6 @@ export const resumeData: Resume = {
     name: 'Gaurav Kumar Dani',
     title: 'Director / Principal Product Manager — Data Products, AI & Marketing Tech',
     location: 'Munich, Germany',
-    phone: '+49-170-550-8071',
     email: 'gauravkumar.dani@gmail.com',
     linkedin: 'https://linkly.link/2kPrF',
     github: 'https://github.com/eddiejaques',
