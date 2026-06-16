@@ -12,8 +12,7 @@ export interface CaseStudy {
   }[];
   publishedDate: string;       // ISO 8601
   readTime: number;            // Minutes
-  contentPath: string;         // Path to body HTML content (legacy)
-  staticHtmlPath: string;      // Path to full standalone HTML page in public/
+  staticHtmlPath: string;      // Path to full standalone HTML page in Supabase Storage
   heroImage?: string;          // Path to hero image
   tags?: string[];             // Search/filtering tags
 }

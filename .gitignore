@@ -31,3 +31,4 @@ tasks/
 
 # Case study HTML files (served from Supabase Storage)
 public/case-studies/
+src/data/case-studies/

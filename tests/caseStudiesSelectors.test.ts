@@ -18,7 +18,6 @@ const mockItems: CaseStudy[] = [
     keyMetrics: [{ label: 'Cost Avoided', value: '$1M+' }],
     publishedDate: '2024-01-01',
     readTime: 5,
-    contentPath: '',
     tags: ['cdp', 'data'],
   },
   {
@@ -32,7 +31,6 @@ const mockItems: CaseStudy[] = [
     keyMetrics: [{ label: 'CTR', value: '5% -> 25%' }],
     publishedDate: '2024-06-01',
     readTime: 7,
-    contentPath: '',
     tags: ['ai', 'search'],
   },
   {
@@ -46,7 +44,6 @@ const mockItems: CaseStudy[] = [
     keyMetrics: [{ label: 'Conversion', value: '200%+' }],
     publishedDate: '2022-01-01',
     readTime: 6,
-    contentPath: '',
     tags: ['cro', 'growth'],
   },
   {
@@ -60,7 +57,6 @@ const mockItems: CaseStudy[] = [
     keyMetrics: [{ label: 'Reach', value: '10x' }],
     publishedDate: '2020-01-01',
     readTime: 4,
-    contentPath: '',
     tags: ['marketing', 'automation'],
   },
 ];
