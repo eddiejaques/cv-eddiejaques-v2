@@ -4,9 +4,9 @@ type Variant = 'primary' | 'secondary' | 'text';
 
 const variantClasses: Record<Variant, string> = {
   primary:
-    'bg-accent text-white font-body font-semibold text-sm px-6 py-3.5 min-h-12 rounded transition-colors duration-200 hover:brightness-90 active:brightness-75',
+    'bg-accent text-[#100F0D] font-body font-semibold text-sm px-6 py-3.5 min-h-12 rounded transition-all duration-200 hover:bg-accent-deep hover:-translate-y-0.5 active:translate-y-0',
   secondary:
-    'bg-transparent text-accent border-2 border-accent font-body font-semibold text-sm px-6 py-3.5 min-h-12 rounded transition-colors duration-200 hover:bg-accent hover:text-white whitespace-nowrap',
+    'bg-transparent text-ink border border-border font-body font-semibold text-sm px-6 py-3.5 min-h-12 rounded transition-colors duration-200 hover:border-accent hover:text-accent whitespace-nowrap',
   text:
     'bg-transparent text-accent font-body font-semibold text-sm p-0 no-underline hover:underline [text-decoration-thickness:2px] transition-all duration-200',
 };

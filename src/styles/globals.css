@@ -3,25 +3,25 @@
 @config "../../tailwind.config.js";
 
 :root {
-  /* Colors — matches case study generator design system */
-  --bg-primary: #F6F8F8;
-  --bg-surface: #FFFFFF;
-  --color-ink: #15201E;
-  --color-muted: #56635F;
-  --color-faint: #8A958F;
-  --color-accent: #1A8A7A;          /* teal — primary accent */
-  --color-accent-deep: #127063;     /* teal deep */
-  --color-purple: #6B4FA0;          /* purple — secondary accent */
-  --color-purple-deep: #553D85;
-  --color-dark: #15201E;            /* dark panel background */
-  --color-teal-wash: rgba(26, 138, 122, 0.07);
-  --color-purple-wash: rgba(107, 79, 160, 0.07);
-  --color-border: rgba(21, 32, 30, 0.10);
+  /* Colors — "Midnight Editorial": warm obsidian, bone, acid-chartreuse */
+  --bg-primary: #100F0D;            /* warm obsidian canvas */
+  --bg-surface: #1A1714;            /* faint lifted surface */
+  --color-ink: #EDE7DA;             /* warm bone (primary text) */
+  --color-muted: #A39B8C;           /* warm taupe (secondary) */
+  --color-faint: #6A6357;           /* dim (tertiary) */
+  --color-accent: #C6F94E;          /* acid chartreuse — single accent */
+  --color-accent-deep: #A6D938;     /* chartreuse deep (hover) */
+  --color-purple: #C6F94E;          /* alias -> accent (legacy refs) */
+  --color-purple-deep: #A6D938;
+  --color-dark: #0A0907;            /* deepest panel */
+  --color-teal-wash: rgba(198, 249, 78, 0.08);
+  --color-purple-wash: rgba(198, 249, 78, 0.05);
+  --color-border: rgba(237, 231, 218, 0.12);
 
   /* Typography */
-  --font-display: 'Space Grotesk', sans-serif;
-  --font-body: 'Inter', sans-serif;
-  --font-mono: 'JetBrains Mono', monospace;
+  --font-display: 'Fraunces Variable', 'Fraunces', serif;
+  --font-body: 'Hanken Grotesk Variable', 'Hanken Grotesk', sans-serif;
+  --font-mono: 'IBM Plex Mono', monospace;
 
   /* Spacing */
   --space-unit: 8px;
@@ -110,8 +110,68 @@
   --z-index-modal: var(--z-modal);
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   font-family: var(--font-body);
   color: var(--color-ink);
   background: var(--bg-primary);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  /* Atmosphere: warm accent glow top-left + cool depth bottom-right */
+  background-image:
+    radial-gradient(120% 90% at 0% 0%, rgba(198, 249, 78, 0.06) 0%, transparent 45%),
+    radial-gradient(100% 80% at 100% 100%, rgba(120, 130, 160, 0.05) 0%, transparent 50%);
+  background-attachment: fixed;
+  position: relative;
+}
+
+/* Film grain overlay — sits above the canvas, below content */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.5;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+}
+
+/* Keep app content above the grain layer */
+#root {
+  position: relative;
+  z-index: 1;
+}
+
+/* Fraunces optical/character tuning for big display type */
+.font-display {
+  font-optical-sizing: auto;
+  font-variation-settings: "SOFT" 0, "WONK" 0, "opsz" 96;
+  letter-spacing: -0.02em;
+}
+
+::selection {
+  background: var(--color-accent);
+  color: #100F0D;
+}
+
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: var(--bg-primary); }
+::-webkit-scrollbar-thumb { background: #2A2722; border-radius: 8px; }
+::-webkit-scrollbar-thumb:hover { background: var(--color-faint); }
+
+/* Orchestrated page-load reveal — apply .reveal + inline animation-delay */
+@keyframes ej-rise {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.reveal {
+  opacity: 0;
+  animation: ej-rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+@media (prefers-reduced-motion: reduce) {
+  .reveal { animation: none; opacity: 1; }
+  html { scroll-behavior: auto; }
 }

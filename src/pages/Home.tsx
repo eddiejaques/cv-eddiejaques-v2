@@ -21,7 +21,7 @@ export default function Home() {
   }, []);
 
   return (
-    <main className="min-h-screen flex flex-col justify-center px-6 py-16">
+    <main className="relative min-h-screen overflow-hidden px-6 md:px-10 py-20 flex flex-col justify-center">
       <SEO
         title="Home"
         description="Director of Data & AI Products with 14+ years shipping data platforms, AI products, and marketing tech. Metrics-first portfolio and case studies."
@@ -37,79 +37,88 @@ export default function Home() {
         }}
       />
 
-      <div className="max-w-4xl mx-auto w-full flex flex-col gap-10">
+      {/* Accent glow behind the headline */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -top-40 -left-40 w-[680px] h-[680px] rounded-full"
+        style={{ background: 'radial-gradient(circle, rgba(198,249,78,0.10) 0%, transparent 60%)' }}
+      />
+      {/* Hairline vertical rule for editorial rhythm */}
+      <div aria-hidden className="hidden lg:block absolute top-0 bottom-0 left-1/2 w-px bg-border" />
 
-        {/* Avatar + Greeting + Headline */}
-        <div className="flex items-center gap-8 md:gap-10">
-          {/* Circular photo */}
-          <div className="flex-shrink-0">
-            <img
-              src="/images/eddie-jaques.jpg"
-              alt="Eddie Jaques"
-              className="w-[88px] h-[88px] sm:w-[120px] sm:h-[120px] md:w-[148px] md:h-[148px] rounded-full object-cover object-top"
-              style={{ boxShadow: '0 0 0 3px #FAF9F6, 0 0 0 6px #FF5A00' }}
-            />
-          </div>
-
-          {/* Greeting + Headline */}
-          <div className="flex flex-col gap-2">
-            <p className="font-mono text-sm text-muted tracking-wide">
-              Hi, I'm <span className="text-ink font-semibold">Eddie Jaques</span>,
-            </p>
-            <h1 className="font-display font-bold text-ink leading-[1.05] text-[clamp(1.6rem,4vw,3.25rem)]">
-              Director of Data &amp; AI Products
-              <br />
-              <span className="text-accent">Who Ships, Leads,</span>
-              <br />
-              and Proves It Works
-            </h1>
-          </div>
+      <div className="relative max-w-6xl mx-auto w-full">
+        {/* Eyebrow */}
+        <div className="reveal flex items-center gap-3 mb-8" style={{ animationDelay: '0.05s' }}>
+          <span className="w-2 h-2 rounded-full bg-accent" style={{ boxShadow: '0 0 12px 2px rgba(198,249,78,0.6)' }} />
+          <p className="font-mono text-xs uppercase tracking-[0.3em] text-muted">
+            Director · Data &amp; AI Products
+          </p>
         </div>
 
-        {/* Stage pills */}
-        <nav className="flex flex-wrap gap-3">
-          {stages.map((stage) => (
-            <Link
-              key={stage}
-              to={`/case-studies?stage=${encodeURIComponent(stage)}`}
-              className="font-body font-medium text-sm text-ink border border-[rgba(13,14,16,0.15)] rounded-full px-4 py-1.5 hover:border-accent hover:text-accent transition-colors duration-200"
-            >
-              {stage}
-            </Link>
-          ))}
-        </nav>
+        {/* Headline — expressive Fraunces, mixed roman + italic */}
+        <h1 className="reveal font-display text-ink font-semibold leading-[0.94] text-[clamp(2.8rem,9vw,7rem)]" style={{ animationDelay: '0.12s' }}>
+          I ship data &amp; AI
+          <br />
+          products that{' '}
+          <span className="italic text-accent" style={{ fontVariationSettings: '"SOFT" 8, "opsz" 96' }}>
+            prove
+          </span>{' '}
+          their
+          <br />
+          worth.
+        </h1>
 
-        {/* Sub-copy */}
-        <p className="font-body text-lg text-muted max-w-[58ch]">
-          14+ years moving fast across data platforms, AI products, and marketing tech.
-          Currently rebuilding how Joyn's product works.
-        </p>
+        {/* Sub-copy + avatar row */}
+        <div className="reveal mt-10 flex items-start gap-8 flex-wrap" style={{ animationDelay: '0.22s' }}>
+          <img
+            src="/images/eddie-jaques.jpg"
+            alt="Eddie Jaques"
+            className="w-16 h-16 rounded-full object-cover object-top grayscale flex-shrink-0"
+            style={{ boxShadow: '0 0 0 1px var(--color-border), 0 0 0 5px rgba(198,249,78,0.18)' }}
+          />
+          <p className="font-body text-lg md:text-xl text-muted max-w-[48ch] leading-relaxed">
+            14+ years moving fast across data platforms, AI products, and marketing tech.
+            Currently rebuilding how Joyn's product works — measured in dollars saved and
+            engagement earned, not slideware.
+          </p>
+        </div>
 
-        {/* Metrics — expanded row, left-aligned, full content width */}
-        <div className="flex border-t border-b border-[rgba(13,14,16,0.08)] py-6">
-          {heroMetrics.map((m, i) => (
-            <div
-              key={m.label}
-              className={`flex-1 ${i > 0 ? 'border-l border-[rgba(13,14,16,0.08)] pl-8' : 'pr-8'}`}
-            >
-              <div className="font-display font-bold text-[2.5rem] leading-none text-ink">{m.value}</div>
-              <div className="font-mono text-xs text-accent uppercase tracking-[0.12em] mt-2">{m.label}</div>
+        {/* Metrics — editorial ledger row */}
+        <div className="reveal mt-14 grid grid-cols-1 sm:grid-cols-3 border-t border-border" style={{ animationDelay: '0.32s' }}>
+          {heroMetrics.map((m) => (
+            <div key={m.label} className="py-6 sm:pr-8 border-b sm:border-b-0 border-border group">
+              <div className="font-display text-ink font-semibold text-[3rem] leading-none tabular-nums transition-colors duration-200 group-hover:text-accent">
+                {m.value}
+              </div>
+              <div className="font-mono text-[11px] uppercase tracking-[0.18em] text-faint mt-3">
+                {m.label}
+              </div>
             </div>
           ))}
         </div>
 
-        <p className="font-body text-sm text-muted">
-          Led 8+ cross-functional teams · Shipped 0→1 products · Built frameworks adopted company-wide
-        </p>
-
+        {/* Stage links */}
+        <nav className="reveal mt-12 flex flex-wrap items-center gap-x-8 gap-y-3" style={{ animationDelay: '0.42s' }}>
+          <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-faint">Where ↗</span>
+          {stages.map((stage) => (
+            <Link
+              key={stage}
+              to={`/case-studies?stage=${encodeURIComponent(stage)}`}
+              className="group font-body text-sm text-ink relative"
+            >
+              {stage}
+              <span className="absolute left-0 -bottom-1 h-px w-0 bg-accent transition-all duration-300 group-hover:w-full" />
+            </Link>
+          ))}
+        </nav>
       </div>
 
       <p
-        className={`font-body text-xs text-faint text-center mt-16 transition-opacity duration-300 ${
+        className={`relative font-mono text-[11px] uppercase tracking-[0.2em] text-faint text-center mt-20 transition-opacity duration-500 ${
           showScrollHint ? 'opacity-100' : 'opacity-0'
         }`}
       >
-        Scroll for more ↓
+        Scroll ↓
       </p>
     </main>
   );
