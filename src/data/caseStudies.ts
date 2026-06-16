@@ -313,7 +313,7 @@ export const caseStudies: CaseStudy[] = [
     description: 'A five-rung maturity ladder for marketing data — and why most teams are trying to climb rung 4 before they\'ve stabilised rung 2.',
     keyMetrics: [
       { label: 'Maturity Levels', value: '5' },
-      { label: 'Bottlenecks Identified', value: '3' },
+      { label: 'Bottlenecks Identified', value: '4' },
     ],
     publishedDate: '2024-09-01',
     readTime: 5,
@@ -325,8 +325,8 @@ export const caseStudies: CaseStudy[] = [
     slug: 'marketing-tech-implementation-for-running-campaigns-app',
     title: 'Marketing Tech Implementation for Mobile Campaign Optimization at Joyn',
     category: 'Marketing Tech',
-    organization: 'Freelance',
-    experienceStage: 'Earlier Roles',
+    organization: 'Joyn',
+    experienceStage: 'Joyn',
     description: 'Marketing had no way to attribute installs, compare paid channels, or build first-party audiences for a leanback 21-35 audience split across free and subscription tiers. I devised a data strategy, working with engineering, to implement Adjust across Android, iOS, Fire TV, and Roku and forward conversion events server-side to power lookalike, churn-risk, and exclusion audiences.',
     keyMetrics: [
       { label: 'Platforms instrumented', value: '4' },
@@ -343,8 +343,8 @@ export const caseStudies: CaseStudy[] = [
     slug: 'mixpanel-databricks-python-spark',
     title: 'Improving Return on Ad Spend with a Spark + Databricks Data Pipeline',
     category: 'Data Platforms',
-    organization: 'Freelance',
-    experienceStage: 'Earlier Roles',
+    organization: 'Joyn',
+    experienceStage: 'Joyn',
     description: 'Subscription behavior lived outside GA4 and the 300K-user dataset exceeded what Excel could process, leaving marketing unable to segment campaigns by real subscriber behavior. I built a Python and Spark pipeline on Databricks to stream that data into GA4 continuously.',
     keyMetrics: [
       { label: 'Campaign ROI', value: '+21%' },
@@ -398,8 +398,8 @@ export const caseStudies: CaseStudy[] = [
     slug: 'taming-the-data-pipeline-reverse-etl',
     title: 'Taming the Data Pipeline: Shifting from Real-Time Ingestion to a Governed Reverse ETL',
     category: 'Data Platforms',
-    organization: 'Freelance',
-    experienceStage: 'Earlier Roles',
+    organization: 'Joyn',
+    experienceStage: 'Joyn',
     description: 'Real-time, unvalidated ingestion into Mixpanel let rogue events spike Monthly Tracked Users, overcounting our user base by 1M+ per month and costing $20K monthly in overage fees — while Mixpanel numbers never matched our Snowflake source of truth. I redesigned the ingestion model around Snowflake and dbt.',
     keyMetrics: [
       { label: 'Saved annually', value: '$240K' },
