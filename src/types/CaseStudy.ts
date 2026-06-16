@@ -15,4 +15,5 @@ export interface CaseStudy {
   staticHtmlPath: string;      // Path to full standalone HTML page in Supabase Storage
   heroImage?: string;          // Path to hero image
   tags?: string[];             // Search/filtering tags
+  teaser?: string;             // Conversion-optimized question used in the home-page teaser lane
 }

@@ -56,6 +56,7 @@ export const caseStudies: CaseStudy[] = [
     publishedDate: '2020-04-01',
     readTime: 5,
     staticHtmlPath: 'https://hpsyoanvfysdntpgqebm.supabase.co/storage/v1/object/public/case-studies/cro-optum-bank-case-study.html',
+    teaser: 'Curious how a single A/B test doubled HSA enrollments?',
     tags: ['Growth', 'Optum'],
   },
   {
@@ -113,6 +114,7 @@ export const caseStudies: CaseStudy[] = [
     publishedDate: '2017-11-01',
     readTime: 4,
     staticHtmlPath: 'https://hpsyoanvfysdntpgqebm.supabase.co/storage/v1/object/public/case-studies/cro-vodafone-case-study.html',
+    teaser: 'Want to know how one checkout fix recovered $15M in revenue?',
     tags: ['Growth', 'Vodafone'],
   },
   {
@@ -132,6 +134,7 @@ export const caseStudies: CaseStudy[] = [
     publishedDate: '2019-09-01',
     readTime: 4,
     staticHtmlPath: 'https://hpsyoanvfysdntpgqebm.supabase.co/storage/v1/object/public/case-studies/customer-data-platform-adobe-experience-cloud-optum-case-study.html',
+    teaser: 'Curious how I killed every third-party script and still tracked everything?',
     tags: ['Data Platforms', 'Optum'],
   },
   {
@@ -245,6 +248,7 @@ export const caseStudies: CaseStudy[] = [
     publishedDate: '2024-02-01',
     readTime: 6,
     staticHtmlPath: 'https://hpsyoanvfysdntpgqebm.supabase.co/storage/v1/object/public/case-studies/hightouch-audience-activation-case-study.html',
+    teaser: 'Want to see how I turned warehouse data into live, targetable audiences?',
     tags: ['Data Platforms', 'Earlier Roles'],
   },
   {
@@ -263,6 +267,7 @@ export const caseStudies: CaseStudy[] = [
     publishedDate: '2025-09-01',
     readTime: 7,
     staticHtmlPath: 'https://hpsyoanvfysdntpgqebm.supabase.co/storage/v1/object/public/case-studies/joyn-cdp-case-study.html',
+    teaser: 'Wondering how I unified 20M fragmented users into one profile?',
     tags: ['Data Platforms', 'Joyn'],
   },
   {
@@ -282,6 +287,7 @@ export const caseStudies: CaseStudy[] = [
     publishedDate: '2025-06-01',
     readTime: 5,
     staticHtmlPath: 'https://hpsyoanvfysdntpgqebm.supabase.co/storage/v1/object/public/case-studies/joyn-recommendation-platform-case-study.html',
+    teaser: 'Curious how I built the recommendation engine behind Joyn\'s homepage?',
     tags: ['AI', 'Joyn'],
   },
   {
@@ -353,6 +359,7 @@ export const caseStudies: CaseStudy[] = [
     publishedDate: '2022-08-01',
     readTime: 5,
     staticHtmlPath: 'https://hpsyoanvfysdntpgqebm.supabase.co/storage/v1/object/public/case-studies/mixpanel-databricks-python-spark-case-study.html',
+    teaser: 'Curious how I scaled product analytics on Databricks and Spark?',
     tags: ['Data Platforms', 'Earlier Roles'],
   },
   {
@@ -429,6 +436,7 @@ export const caseStudies: CaseStudy[] = [
     publishedDate: '2021-11-01',
     readTime: 6,
     staticHtmlPath: 'https://hpsyoanvfysdntpgqebm.supabase.co/storage/v1/object/public/case-studies/zero-dollar-telemetry-multi-tenant-analytics-case-study.html',
+    teaser: 'Want to know how I ran analytics for 3 products on a $0 budget?',
     tags: ['Data Platforms', 'Earlier Roles'],
   },
   {
@@ -448,6 +456,7 @@ export const caseStudies: CaseStudy[] = [
     publishedDate: '2023-09-01',
     readTime: 5,
     staticHtmlPath: 'https://hpsyoanvfysdntpgqebm.supabase.co/storage/v1/object/public/case-studies/joyn-self-serve-crm-braze-case-study.html',
+    teaser: 'Want to see how CRM came to drive 17% of monthly video views?',
     tags: ['Marketing Tech', 'Joyn'],
   },
 ];

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import SEO from '../components/SEO';
+import CaseStudyTeasers from '../components/CaseStudyTeasers';
 import { resumeData } from '../data/resume';
 
 const heroMetrics = [
@@ -21,7 +22,7 @@ export default function Home() {
   }, []);
 
   return (
-    <main className="relative min-h-screen overflow-hidden px-6 md:px-10 py-20 flex flex-col justify-center">
+    <main className="relative">
       <SEO
         title="Home"
         description="Director of Data & AI Products with 14+ years shipping data platforms, AI products, and marketing tech. Metrics-first portfolio and case studies."
@@ -37,6 +38,7 @@ export default function Home() {
         }}
       />
 
+      <section className="relative min-h-screen overflow-hidden px-6 md:px-10 py-20 flex flex-col justify-center">
       {/* Accent glow behind the headline */}
       <div
         aria-hidden
@@ -120,6 +122,9 @@ export default function Home() {
       >
         Scroll ↓
       </p>
+      </section>
+
+      <CaseStudyTeasers />
     </main>
   );
 }
