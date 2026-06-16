@@ -10,10 +10,19 @@ const env = readFileSync('.env', 'utf8')
     return acc;
   }, {});
 
-const supabase = createClient(
-  env.VITE_SUPABASE_URL,
-  env.VITE_SUPABASE_ANON_KEY
-);
+// Writes must use the service_role key (server-side only, never VITE_-prefixed
+// so Vite cannot inline it into the client bundle). The bucket denies writes
+// from the public anon key — see supabase/storage-policies.sql.
+const serviceKey = env.SUPABASE_SERVICE_ROLE_KEY;
+if (!serviceKey) {
+  console.error(
+    'Missing SUPABASE_SERVICE_ROLE_KEY in .env — required to upload to Storage.\n' +
+    'Find it in Supabase → Project Settings → API → service_role (keep it secret).'
+  );
+  process.exit(1);
+}
+
+const supabase = createClient(env.VITE_SUPABASE_URL, serviceKey);
 
 const DIR = 'public/case-studies';
 const BUCKET = 'case-studies';

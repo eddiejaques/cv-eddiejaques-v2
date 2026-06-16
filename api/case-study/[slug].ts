@@ -2,10 +2,16 @@ import type { VercelRequest, VercelResponse } from '@vercel/node';
 
 const SUPABASE_URL = process.env.VITE_SUPABASE_URL;
 
-export default async function handler(req: VercelRequest, res: VercelResponse) {
-  const { slug } = req.query as { slug: string };
+// Slugs are lowercase alphanumerics + hyphens only. Reject anything else
+// (dots, slashes, %-encoding, uppercase) to prevent path traversal / SSRF
+// into other storage objects or buckets.
+const SLUG_RE = /^[a-z0-9][a-z0-9-]{0,99}$/;
 
-  if (!slug || typeof slug !== 'string') {
+export default async function handler(req: VercelRequest, res: VercelResponse) {
+  const raw = req.query.slug;
+  const slug = Array.isArray(raw) ? raw[0] : raw;
+
+  if (!slug || typeof slug !== 'string' || !SLUG_RE.test(slug)) {
     return res.status(400).send('Bad request');
   }
 
