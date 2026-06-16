@@ -8,27 +8,38 @@
 -- executes as eddiejaques.me. Therefore: PUBLIC READ, NO PUBLIC WRITE.
 --
 -- Uploads must use the SERVICE ROLE key (server-side only), which bypasses
--- RLS. The anon key — which ships in the client bundle — must NOT be able to
--- write. Run this in the Supabase SQL editor.
+-- RLS. Run this in the Supabase SQL editor.
+--
+-- NOTE: this drops ALL existing policies on storage.objects and recreates a
+-- single public-read policy. That is correct for this project (one bucket:
+-- `case-studies`). If you later add other buckets, re-add their policies.
 -- ============================================================================
 
--- Make the bucket public-read (objects readable, not listable-as-private).
+-- Inspect current policies first (optional — run this SELECT on its own to see
+-- what exists before/after):
+--   select policyname, cmd, roles, qual, with_check
+--   from pg_policies where schemaname = 'storage' and tablename = 'objects';
+
+-- Make the bucket public-read.
 update storage.buckets set public = true where id = 'case-studies';
 
--- Remove any previously-created permissive policies on this bucket.
-drop policy if exists "anon insert case-studies"  on storage.objects;
-drop policy if exists "anon update case-studies"  on storage.objects;
-drop policy if exists "anon write case-studies"   on storage.objects;
-drop policy if exists "public read case-studies"  on storage.objects;
+-- Drop EVERY existing policy on storage.objects (handles dashboard-created
+-- policies whose names we can't predict), then recreate only public read.
+do $$
+declare p record;
+begin
+  for p in
+    select policyname from pg_policies
+    where schemaname = 'storage' and tablename = 'objects'
+  loop
+    execute format('drop policy if exists %I on storage.objects', p.policyname);
+  end loop;
+end $$;
 
--- Read-only for everyone (anon + authenticated). No insert/update/delete
--- policies are defined, so RLS denies all writes from those roles.
+-- Read-only for everyone. No insert/update/delete policies exist, so RLS
+-- denies all writes from anon/authenticated. service_role bypasses RLS.
 create policy "public read case-studies"
   on storage.objects
   for select
   to public
   using (bucket_id = 'case-studies');
-
--- NOTE: do NOT add insert/update/delete policies for anon/authenticated here.
--- The upload script authenticates with the service_role key, which is exempt
--- from RLS and can still write.

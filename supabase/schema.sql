@@ -29,9 +29,22 @@ alter table resume_leads enable row level security;
 -- Defense in depth: deny by default even if the table is altered later.
 alter table resume_leads force row level security;
 
+-- Drop EVERY existing policy on resume_leads first. Multiple permissive
+-- policies are OR'd together by Postgres, so a leftover `with check (true)`
+-- policy would defeat the stricter one below.
+do $$
+declare p record;
+begin
+  for p in
+    select policyname from pg_policies
+    where schemaname = 'public' and tablename = 'resume_leads'
+  loop
+    execute format('drop policy if exists %I on resume_leads', p.policyname);
+  end loop;
+end $$;
+
 -- anon may INSERT leads only. No select/update/delete policies exist for anon,
 -- so RLS denies reads/edits of captured emails by default.
-drop policy if exists "anon insert only" on resume_leads;
 create policy "anon insert only"
   on resume_leads
   for insert
