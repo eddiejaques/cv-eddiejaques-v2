@@ -1,21 +1,19 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <!-- Google tag (gtag.js) — ID injected at build time from VITE_GA_ID -->
+    <!-- Google tag (gtag.js) — ID injected at build time from VITE_GA_ID.
+         Static <script async> so the browser's preload scanner fetches gtag.js
+         immediately during HTML parse, instead of waiting behind the JS bundle. -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=%VITE_GA_ID%"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
-      (function () {
-        var id = '%VITE_GA_ID%';
-        // Skip if no/unset id (Vite leaves the literal "%VITE_GA_ID%" placeholder)
-        if (id.charAt(0) !== 'G') return;
-        var s = document.createElement('script');
-        s.async = true;
-        s.src = 'https://www.googletagmanager.com/gtag/js?id=' + id;
-        document.head.appendChild(s);
+      // Only init for a real id; when VITE_GA_ID is unset Vite leaves the
+      // literal "%VITE_GA_ID%" placeholder, which fails this guard.
+      if ('%VITE_GA_ID%'.charAt(0) === 'G') {
         gtag('js', new Date());
-        gtag('config', id);
-      })();
+        gtag('config', '%VITE_GA_ID%');
+      }
     </script>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />

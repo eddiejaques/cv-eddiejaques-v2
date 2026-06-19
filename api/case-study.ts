@@ -1,6 +1,20 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
 const SUPABASE_URL = process.env.VITE_SUPABASE_URL;
+const GA_ID = process.env.VITE_GA_ID;
+
+// The case-study HTML in Storage has no analytics of its own. These pages are
+// served as standalone documents (not the SPA shell), so inject the GA tag into
+// their <head> at request time. No-ops unless VITE_GA_ID is a valid G-... id.
+function injectGa(html: string): string {
+  if (!GA_ID || !/^G-[A-Z0-9]+$/i.test(GA_ID)) return html;
+  const tag =
+    `<!-- Google tag (gtag.js) -->` +
+    `<script async src="https://www.googletagmanager.com/gtag/js?id=${GA_ID}"></script>` +
+    `<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}` +
+    `gtag('js',new Date());gtag('config','${GA_ID}');</script>`;
+  return html.replace(/<head[^>]*>/i, (m) => m + tag);
+}
 
 // Slugs are lowercase alphanumerics + hyphens only. Reject anything else
 // (dots, slashes, %-encoding, uppercase) to prevent path traversal / SSRF
@@ -22,7 +36,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     if (!upstream.ok) {
       return res.status(404).send('Case study not found');
     }
-    const html = await upstream.text();
+    const html = injectGa(await upstream.text());
     res.setHeader('Content-Type', 'text/html; charset=utf-8');
     res.setHeader('Cache-Control', 's-maxage=604800, stale-while-revalidate=2592000');
     return res.status(200).send(html);
