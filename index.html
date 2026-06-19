@@ -1,14 +1,21 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-YMSL2QN0VG"></script>
+    <!-- Google tag (gtag.js) — ID injected at build time from VITE_GA_ID -->
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-
-      gtag('config', 'G-YMSL2QN0VG');
+      (function () {
+        var id = '%VITE_GA_ID%';
+        // Skip if no/unset id (Vite leaves the literal "%VITE_GA_ID%" placeholder)
+        if (id.charAt(0) !== 'G') return;
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=' + id;
+        document.head.appendChild(s);
+        gtag('js', new Date());
+        gtag('config', id);
+      })();
     </script>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
