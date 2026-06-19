@@ -40,6 +40,10 @@ SUPABASE_SERVICE_ROLE_KEY=...               # used by upload script + serverless
 
 > **Analytics:** `VITE_GA_ID` is injected into `index.html`'s gtag snippet at build time
 > (`%VITE_GA_ID%`). When unset, the tag no-ops, so dev/preview builds don't pollute analytics.
+> GA runs under **Consent Mode v2**: it loads denied-by-default (cookieless) and only sets
+> analytics cookies after the visitor accepts via the consent banner (`ConsentBanner` +
+> `src/utils/consent.ts`). The choice persists in `localStorage` (`cmp-consent-v1`) and can be
+> changed via the footer "Cookie settings" link.
 
 > ⚠️ **Key safety:** anything `VITE_`-prefixed is shipped to every browser. Put only the
 > **publishable/anon** key in `VITE_SUPABASE_ANON_KEY` — never a `sb_secret_` or

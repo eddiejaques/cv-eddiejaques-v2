@@ -9,6 +9,7 @@ import Contact from './pages/Contact';
 import NotFound from './pages/NotFound';
 import Header from './components/Header';
 import Footer from './components/Footer';
+import ConsentBanner from './components/ConsentBanner';
 import { usePageViews } from './utils/analytics';
 
 function App() {
@@ -27,6 +28,7 @@ function App() {
         <Route path="*" element={<NotFound />} />
       </Routes>
       <Footer />
+      <ConsentBanner />
     </>
   );
 }

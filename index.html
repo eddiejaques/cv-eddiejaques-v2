@@ -8,6 +8,21 @@
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
+      // Consent Mode v2: deny everything by default (before config) so GA
+      // starts cookieless. The React CMP banner updates this on the visitor's
+      // choice; returning visitors are restored from localStorage here.
+      gtag('consent', 'default', {
+        ad_storage: 'denied',
+        ad_user_data: 'denied',
+        ad_personalization: 'denied',
+        analytics_storage: 'denied',
+        wait_for_update: 500
+      });
+      try {
+        if (localStorage.getItem('cmp-consent-v1') === 'granted') {
+          gtag('consent', 'update', { analytics_storage: 'granted' });
+        }
+      } catch (e) {}
       // Only init for a real id; when VITE_GA_ID is unset Vite leaves the
       // literal "%VITE_GA_ID%" placeholder, which fails this guard.
       if ('%VITE_GA_ID%'.charAt(0) === 'G') {

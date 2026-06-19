@@ -19,6 +19,11 @@ function injectGa(html: string): string {
     `<!-- Google tag (gtag.js) -->` +
     `<script async src="https://www.googletagmanager.com/gtag/js?id=${GA_ID}"></script>` +
     `<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}` +
+    // Consent Mode v2: deny by default, honor stored choice (same-origin localStorage).
+    `gtag('consent','default',{ad_storage:'denied',ad_user_data:'denied',` +
+    `ad_personalization:'denied',analytics_storage:'denied',wait_for_update:500});` +
+    `try{if(localStorage.getItem('cmp-consent-v1')==='granted'){` +
+    `gtag('consent','update',{analytics_storage:'granted'});}}catch(e){}` +
     `gtag('js',new Date());gtag('config','${GA_ID}');</script>`;
   return html.replace(/<head[^>]*>/i, (m) => m + tag);
 }

@@ -1,4 +1,5 @@
 import { resumeData } from '../data/resume';
+import { openConsentSettings } from '../utils/consent';
 
 const { contact } = resumeData;
 const socialLinks = [
@@ -26,6 +27,13 @@ export default function Footer() {
               {link.label}
             </a>
           ))}
+          <button
+            type="button"
+            onClick={openConsentSettings}
+            className="font-body font-medium text-sm text-ink transition-colors duration-200 hover:text-accent hover:underline"
+          >
+            Cookie settings
+          </button>
         </div>
       </div>
     </footer>
