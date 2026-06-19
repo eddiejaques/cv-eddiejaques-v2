@@ -14,6 +14,7 @@ A Director of Data & AI Products portfolio site with a brutalist aesthetic and m
 - **Supabase** — Postgres (lead capture) + Storage (case study HTML), all behind RLS
 - **Vercel Serverless Functions** (`api/`) — case study proxy + contact form handler
 - **Resend** — email notifications on contact submissions
+- **Google Analytics 4** — page/visitor analytics via gtag.js (ID from `VITE_GA_ID`)
 
 ## Local Dev
 
@@ -31,19 +32,25 @@ pnpm test     # Vitest
 # PUBLIC — bundled into client JS by Vite. Only RLS-safe keys here.
 VITE_SUPABASE_URL=https://your-project-ref.supabase.co
 VITE_SUPABASE_ANON_KEY=sb_publishable_...   # publishable/anon key — RESPECTS RLS
+VITE_GA_ID=G-XXXXXXXXXX                      # Google Analytics 4 ID (optional; blank disables analytics)
 
 # SECRET — server-side only, NEVER VITE_-prefixed.
 SUPABASE_SERVICE_ROLE_KEY=...               # used by upload script + serverless functions
 ```
 
+> **Analytics:** `VITE_GA_ID` is injected into `index.html`'s gtag snippet at build time
+> (`%VITE_GA_ID%`). When unset, the tag no-ops, so dev/preview builds don't pollute analytics.
+
 > ⚠️ **Key safety:** anything `VITE_`-prefixed is shipped to every browser. Put only the
 > **publishable/anon** key in `VITE_SUPABASE_ANON_KEY` — never a `sb_secret_` or
 > `service_role` key, which bypass RLS and would expose all data. See `.env.example`.
 
-**Vercel env vars:** set the two `VITE_*` vars, plus — because the contact form runs through
-`api/contact.ts` — `SUPABASE_SERVICE_ROLE_KEY` (server-side insert) and `RESEND_API_KEY`
-(notifications), with optional `CONTACT_NOTIFY_EMAIL`. The case-study proxy needs no key
-(public read only); the service-role key is required only for the contact function.
+**Vercel env vars:** set the `VITE_*` vars (`VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`, and
+`VITE_GA_ID` for analytics), plus — because the contact form runs through `api/contact.ts` —
+`SUPABASE_SERVICE_ROLE_KEY` (server-side insert) and `RESEND_API_KEY` (notifications), with
+optional `CONTACT_NOTIFY_EMAIL`. The case-study proxy needs no key (public read only); the
+service-role key is required only for the contact function. `VITE_GA_ID` must be set in Vercel
+for analytics to fire in production — it's inlined at build time.
 
 ## Project Structure
 
@@ -110,7 +117,9 @@ On success the visitor is offered a calendar link for an immediate conversation.
   server-write-only (RLS on, no anon policy); the `case-studies` Storage bucket is
   public-read with no public write. See `supabase/*.sql`.
 - **Security headers** in `vercel.json`: CSP, X-Frame-Options, X-Content-Type-Options,
-  Referrer-Policy, HSTS, Permissions-Policy, COOP.
+  Referrer-Policy, HSTS, Permissions-Policy, COOP. The CSP allowlists Supabase plus the
+  Google Analytics domains (`googletagmanager.com`, `*.google-analytics.com`) — extend
+  `script-src`/`connect-src` there if you add other third-party scripts.
 - **Input validation** on the case-study slug (anti-SSRF/path-traversal) and contact form.
 - Run `supabase/diagnose.sql` in the SQL editor to verify the live RLS/policy state.
 
@@ -176,7 +185,8 @@ Update `.env.example` with placeholders for my own Supabase project. Remind me t
 2. In the SQL editor, run `supabase/schema.sql`, `supabase/contact-requests.sql`, and `supabase/storage-policies.sql`.
 3. Put the **publishable/anon** key (never a secret key) in `VITE_SUPABASE_ANON_KEY`, and the service-role key in `SUPABASE_SERVICE_ROLE_KEY` (server-only).
 4. Set the env vars in `.env` and in Vercel. For the contact form, add `RESEND_API_KEY` (from resend.com) in Vercel.
-5. Verify lockdown by running `supabase/diagnose.sql`.
+5. For analytics, create a Google Analytics 4 property, then set `VITE_GA_ID` (the `G-XXXXXXXXXX` measurement ID) in `.env` and Vercel. Leave it blank to disable analytics — the gtag snippet in `index.html` no-ops when unset.
+6. Verify lockdown by running `supabase/diagnose.sql`.
 
 ## Step 6 — Iterative review
 
