@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { supabase } from '../lib/supabaseClient';
 import Button from './Button';
+import { trackEvent } from '../utils/analytics';
 
 interface Props {
   onUnlock: () => void;
@@ -35,6 +36,7 @@ export default function ResumeGate({ onUnlock }: Props) {
       return;
     }
 
+    trackEvent('unlock_resume', { form: 'resume-gate' });
     setState('idle');
     onUnlock();
   }

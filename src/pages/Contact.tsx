@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import Button from '../components/Button';
 import SEO from '../components/SEO';
+import { trackEvent } from '../utils/analytics';
 
 // TODO: replace with your real booking link (Cal.com / Calendly).
 const CALENDAR_URL = 'https://cal.com/eddiejaques/15min';
@@ -36,6 +37,7 @@ export default function Contact() {
         body: JSON.stringify({ name, email, company, challenge, ref, website }),
       });
       if (!res.ok) throw new Error();
+      trackEvent('generate_lead', { form: 'contact', ref: ref ?? undefined });
       setState('done');
     } catch {
       setState('error');
