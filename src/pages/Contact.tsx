@@ -4,7 +4,6 @@ import Button from '../components/Button';
 import SEO from '../components/SEO';
 import { trackEvent } from '../utils/analytics';
 
-// TODO: replace with your real booking link (Cal.com / Calendly).
 const CALENDAR_URL = 'https://cal.com/eddiejaques/15min';
 
 type State = 'idle' | 'loading' | 'done' | 'error';

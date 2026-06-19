@@ -24,14 +24,12 @@ type ButtonAsLink = {
 type ButtonProps = ButtonAsButton | ButtonAsLink;
 
 export default function Button(props: ButtonProps) {
-  const { variant = 'primary', className = '', ...rest } = props;
+  const { as, variant = 'primary', className = '', ...rest } = props;
   const classes = `${variantClasses[variant]} ${className}`.trim();
 
-  if (props.as === 'link') {
-    const { as: _as, variant: _v, ...linkProps } = rest as ButtonAsLink;
-    return <Link className={classes} {...linkProps} />;
+  if (as === 'link') {
+    return <Link className={classes} {...(rest as Omit<ButtonAsLink, 'as' | 'variant'>)} />;
   }
 
-  const { as: _as, variant: _v, ...buttonProps } = rest as ButtonAsButton;
-  return <button className={classes} {...buttonProps} />;
+  return <button className={classes} {...(rest as Omit<ButtonAsButton, 'as' | 'variant'>)} />;
 }
