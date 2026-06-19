@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { resumeData } from '../data/resume';
 import { openConsentSettings } from '../utils/consent';
 
@@ -27,6 +28,12 @@ export default function Footer() {
               {link.label}
             </a>
           ))}
+          <Link
+            to="/privacy"
+            className="font-body font-medium text-sm text-ink transition-colors duration-200 hover:text-accent hover:underline"
+          >
+            Privacy
+          </Link>
           <button
             type="button"
             onClick={openConsentSettings}

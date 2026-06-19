@@ -15,7 +15,7 @@ const blogSlugs = readdirSync(blogDir)
   .filter((f) => f.endsWith('.md'))
   .map((f) => matter(readFileSync(path.join(blogDir, f), 'utf-8')).data.slug);
 
-const staticRoutes = ['/', '/case-studies', '/blog', '/resume', '/about'];
+const staticRoutes = ['/', '/case-studies', '/blog', '/resume', '/about', '/privacy'];
 
 const urls = [
   ...staticRoutes,

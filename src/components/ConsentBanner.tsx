@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import {
   getStoredConsent,
   setConsent,
@@ -39,8 +40,12 @@ export default function ConsentBanner() {
       <div className="max-w-[1100px] mx-auto px-6 py-5 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
         <p className="font-body text-sm text-muted leading-relaxed md:max-w-[640px]">
           This site uses Google Analytics to understand how visitors use it. No
-          tracking cookies are set unless you accept. You can change your choice
-          anytime via <span className="text-ink">Cookie settings</span> in the footer.
+          tracking cookies are set unless you accept. See our{' '}
+          <Link to="/privacy" className="text-accent hover:underline" onClick={() => setOpen(false)}>
+            privacy notice
+          </Link>
+          ; you can change your choice anytime via{' '}
+          <span className="text-ink">Cookie settings</span> in the footer.
         </p>
         <div className="flex items-center gap-3 shrink-0">
           <Button as="button" variant="secondary" onClick={() => choose('denied')}>

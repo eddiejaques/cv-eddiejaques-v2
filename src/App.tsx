@@ -6,6 +6,7 @@ import BlogHub from './pages/BlogHub';
 import BlogPostDetail from './pages/BlogPostDetail';
 import Resume from './pages/Resume';
 import Contact from './pages/Contact';
+import Privacy from './pages/Privacy';
 import NotFound from './pages/NotFound';
 import Header from './components/Header';
 import Footer from './components/Footer';
@@ -25,6 +26,7 @@ function App() {
         <Route path="/blog/:slug" element={<BlogPostDetail />} />
         <Route path="/resume" element={<Resume />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path="/privacy" element={<Privacy />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
       <Footer />
