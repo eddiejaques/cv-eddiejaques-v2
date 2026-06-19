@@ -277,7 +277,7 @@ export const caseStudies: CaseStudy[] = [
     category: 'Data Platforms',
     organization: 'Joyn',
     experienceStage: 'Joyn',
-    description: 'Joyn\'s event pipeline was an unbounded, unbilled firehose — 144M calls a month on track to cost $1.05M over three years. Rebuilt in seven deliberate steps into a governed, cost-controlled, and now agent-operated data platform — without a single big-bang migration.',
+    description: 'Joyn\'s event pipeline was an unbounded, unbilled firehose — 1B calls a month on track to cost $1.05M over three years. Rebuilt in seven deliberate steps into a governed, cost-controlled, and now agent-operated data platform — without a single big-bang migration.',
     keyMetrics: [
       { label: 'Cost avoided', value: '$1M+' },
       { label: 'Year 1 savings', value: '$700K' },
