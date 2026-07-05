@@ -1,4 +1,3 @@
-import { Link } from 'react-router-dom';
 import type { CaseStudy } from '../types/CaseStudy';
 import Card from './Card';
 
@@ -10,7 +9,11 @@ export default function CaseStudyCard({ caseStudy }: CaseStudyCardProps) {
   const metrics = caseStudy.keyMetrics.slice(0, 2);
 
   return (
-    <Link to={`/case-studies/${caseStudy.slug}`} className="block group">
+    // Hard navigation (not React Router <Link>): a real request lets Vercel's
+    // rewrite serve the case study HTML server-side at its own URL, keeping the
+    // browser Back button and the SPA shell intact. A client-side transition
+    // would instead mount CaseStudyDetail, whose document.write wipes the SPA.
+    <a href={`/case-studies/${caseStudy.slug}`} className="block group">
       <Card className="h-full flex flex-col transition-colors duration-200 group-hover:border-accent">
         {/* Eyebrow */}
         <div className="font-mono text-[10px] uppercase tracking-[0.14em] text-accent mb-3">
@@ -50,6 +53,6 @@ export default function CaseStudyCard({ caseStudy }: CaseStudyCardProps) {
           Read full case →
         </span>
       </Card>
-    </Link>
+    </a>
   );
 }

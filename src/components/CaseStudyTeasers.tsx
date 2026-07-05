@@ -94,9 +94,11 @@ export default function CaseStudyTeasers() {
         {current.map((cs, i) => {
           const metric = cs.keyMetrics[0];
           return (
-            <Link
+            // Hard navigation (see CaseStudyCard): a real request lets Vercel
+            // serve the case study server-side, preserving Back + the SPA shell.
+            <a
               key={`${groupIndex}-${cs.slug}`}
-              to={`/case-studies/${cs.slug}`}
+              href={`/case-studies/${cs.slug}`}
               className="ej-teaser ej-teaser-breathe group relative flex flex-col justify-between rounded-DEFAULT border border-border bg-surface p-7 transition-colors duration-200 hover:border-accent focus-visible:border-accent focus-visible:outline-none"
               style={{ animationDelay: `${i * 0.12}s`, animationFillMode: 'forwards' }}
             >
@@ -126,7 +128,7 @@ export default function CaseStudyTeasers() {
                   <span className="ej-teaser-arrow inline-block">→</span>
                 </span>
               </div>
-            </Link>
+            </a>
           );
         })}
       </div>
