@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import SEO from '../components/SEO';
 import CaseStudyTeasers from '../components/CaseStudyTeasers';
+import BlogTeasers from '../components/BlogTeasers';
 import { resumeData } from '../data/resume';
 
 const heroMetrics = [
@@ -38,7 +39,7 @@ export default function Home() {
         }}
       />
 
-      <section className="relative min-h-screen overflow-hidden px-6 md:px-10 py-20 flex flex-col justify-center">
+      <section className="relative min-h-[80vh] overflow-hidden px-6 md:px-10 pt-20 pb-10 flex flex-col">
       {/* Accent glow behind the headline */}
       <div
         aria-hidden
@@ -116,7 +117,7 @@ export default function Home() {
       </div>
 
       <p
-        className={`relative font-mono text-[11px] uppercase tracking-[0.2em] text-faint text-center mt-20 transition-opacity duration-500 ${
+        className={`relative font-mono text-[11px] uppercase tracking-[0.2em] text-faint text-center mt-auto pt-16 transition-opacity duration-500 ${
           showScrollHint ? 'opacity-100' : 'opacity-0'
         }`}
       >
@@ -125,6 +126,7 @@ export default function Home() {
       </section>
 
       <CaseStudyTeasers />
+      <BlogTeasers />
     </main>
   );
 }
