@@ -3,7 +3,7 @@ id: "8"
 slug: "two-tower-recommendations-part-2"
 title: "Two Tower Recommendation Models: A Guide for Product Managers (Part 2)"
 description: "The Two Tower model solves the scale and cold-start problems collaborative filtering can't. Part 2 demystifies the two towers, shows them working across streaming and e-commerce, and gives backend/data PMs a concrete playbook and KPI set to drive it."
-publishedDate: "2026-07-05"
+publishedDate: "2026-07-04"
 tags: ["AI", "Recommendations", "Product Management"]
 featured: true
 ---
@@ -78,3 +78,5 @@ A great backend PM ensures the team isn't just optimizing for a single, short-si
 - **Cold-Start Latency:** From a technical backend perspective, how quickly can your data pipelines generate an accurate embedding for a brand-new user or a newly onboarded product?
 
 By understanding how the towers separate the "user" from the "item," and by fiercely tracking how well your data serves similar user segments, you can ensure your engineering teams are capturing and structuring the exact data points needed to make the entire business smarter.
+
+In [Part 3](/blog/two-tower-recommendations-part-3), we turn this architecture into action — the three ways you can actually deploy the towers, and how to choose based on your business objective.

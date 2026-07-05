@@ -3,7 +3,7 @@ id: "7"
 slug: "two-tower-recommendations-part-1"
 title: "Two Tower Recommendation Models: A Guide for Product Managers (Part 1)"
 description: "You don't need to write the ML code, but you absolutely need its mental framework. Part 1 breaks down collaborative filtering, its scaling limits, and where any PM — not just a Discovery PM — can find recommendation gaps."
-publishedDate: "2026-07-04"
+publishedDate: "2026-07-03"
 tags: ["AI", "Recommendations", "Product Management"]
 featured: true
 ---
