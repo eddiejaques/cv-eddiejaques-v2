@@ -3,7 +3,7 @@ id: "7"
 slug: "two-tower-recommendations-part-1"
 title: "Two Tower Recommendation Models: A Guide for Product Managers (Part 1)"
 description: "You don't need to write the ML code, but you absolutely need its mental framework. Part 1 breaks down collaborative filtering, its scaling limits, and where any PM — not just a Discovery PM — can find recommendation gaps."
-publishedDate: "2026-07-05"
+publishedDate: "2026-07-04"
 tags: ["AI", "Recommendations", "Product Management"]
 featured: true
 ---
@@ -72,4 +72,4 @@ What happens when a brand-new item is added to the catalog, and nobody has inter
 
 To solve this, we use **Content-Based Filtering**, where we recommend items based on the attributes of the item itself — matching a user who likes "Action movies" with a new movie tagged "Action", or matching a shopper who buys "Organic" with a new "Organic" snack.
 
-In our next post, we'll explore how combining both Collaborative and Content filtering gives birth to the powerful **Two Tower Recommendation Model** — and how you can design the data pipelines to fuel it.
+In our [next post](/blog/two-tower-recommendations-part-2), we explore how combining both Collaborative and Content filtering gives birth to the powerful **Two Tower Recommendation Model** — and how you can design the data pipelines to fuel it.
