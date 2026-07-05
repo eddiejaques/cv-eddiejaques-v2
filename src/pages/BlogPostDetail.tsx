@@ -1,5 +1,6 @@
 import { Link, useParams } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 import { loadBlogPosts } from '../utils/loadBlogPosts';
 import SEO from '../components/SEO';
 import NotFound from './NotFound';
@@ -72,6 +73,7 @@ export default function BlogPostDetail() {
 
       <div className="mt-10 font-body text-base text-ink leading-relaxed [&>*+*]:mt-4">
         <ReactMarkdown
+          remarkPlugins={[remarkGfm]}
           components={{
             h2: ({ children }) => (
               <h2 className="font-display font-bold text-2xl text-ink mt-8 mb-2 tracking-tight">{children}</h2>
@@ -88,6 +90,18 @@ export default function BlogPostDetail() {
             ),
             blockquote: ({ children }) => (
               <blockquote className="border-l-[3px] border-accent pl-4 italic text-muted">{children}</blockquote>
+            ),
+            table: ({ children }) => (
+              <div className="overflow-x-auto my-6">
+                <table className="w-full border-collapse font-mono text-sm">{children}</table>
+              </div>
+            ),
+            thead: ({ children }) => <thead className="border-b border-ink">{children}</thead>,
+            th: ({ children }) => (
+              <th className="text-left font-semibold text-ink px-3 py-2 border-b border-border">{children}</th>
+            ),
+            td: ({ children }) => (
+              <td className="text-ink px-3 py-2 border-b border-border tabular-nums">{children}</td>
             ),
             code: ({ children }) => <code className="font-mono text-sm">{children}</code>,
             pre: ({ children }) => (
