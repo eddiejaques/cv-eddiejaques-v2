@@ -81,8 +81,41 @@ export default function BlogPostDetail() {
             h3: ({ children }) => (
               <h3 className="font-display font-semibold text-lg text-ink mt-6 mb-2 tracking-tight">{children}</h3>
             ),
+            h4: ({ children }) => (
+              <h4 className="font-display font-semibold text-base text-ink mt-6 mb-2 tracking-tight">{children}</h4>
+            ),
             p: ({ children }) => <p className="font-body text-base text-ink leading-relaxed">{children}</p>,
+            a: ({ href, children }) => (
+              <a
+                href={href}
+                target={href?.startsWith('http') ? '_blank' : undefined}
+                rel={href?.startsWith('http') ? 'noopener noreferrer' : undefined}
+                className="text-accent underline underline-offset-2 decoration-accent/40 hover:decoration-accent transition-colors duration-200 break-words"
+              >
+                {children}
+              </a>
+            ),
+            hr: () => <hr className="border-0 border-t border-border my-10" />,
+            // Figures arrive inside a <p>, so the wrapper must stay phrasing-level.
+            img: ({ src, alt }) => (
+              <span className="block my-8">
+                <img
+                  src={typeof src === 'string' ? src : undefined}
+                  alt={alt ?? ''}
+                  loading="lazy"
+                  className="block w-full max-w-full h-auto rounded-DEFAULT border border-border"
+                />
+                {alt && (
+                  <span className="block mt-3 font-mono text-[11px] text-muted uppercase tracking-wide">{alt}</span>
+                )}
+              </span>
+            ),
             ul: ({ children }) => <ul className="list-none space-y-2">{children}</ul>,
+            ol: ({ children }) => (
+              <ol className="list-decimal pl-6 space-y-2 marker:font-mono marker:text-accent [&>li]:pl-0 [&>li]:before:hidden">
+                {children}
+              </ol>
+            ),
             li: ({ children }) => (
               <li className="relative pl-5 before:content-[''] before:absolute before:left-0 before:top-[0.6em] before:w-2 before:h-2 before:bg-accent before:rounded-sm">
                 {children}
@@ -103,9 +136,14 @@ export default function BlogPostDetail() {
             td: ({ children }) => (
               <td className="text-ink px-3 py-2 border-b border-border tabular-nums">{children}</td>
             ),
-            code: ({ children }) => <code className="font-mono text-sm">{children}</code>,
+            code: ({ children }) => (
+              <code className="font-mono text-[0.9em] text-accent bg-surface border border-border rounded-sm px-1 py-0.5">
+                {children}
+              </code>
+            ),
+            // Reset the inline-code chip for fenced blocks, which nest a <code> inside.
             pre: ({ children }) => (
-              <pre className="bg-ink text-bg-primary font-mono text-sm p-4 rounded-DEFAULT overflow-x-auto">
+              <pre className="bg-dark text-ink font-mono text-sm leading-relaxed p-4 my-6 rounded-DEFAULT border border-border overflow-x-auto [&_code]:bg-transparent [&_code]:border-0 [&_code]:p-0 [&_code]:text-ink [&_code]:text-sm">
                 {children}
               </pre>
             ),

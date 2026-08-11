@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="680" height="300" viewBox="0 0 680 300" role="img"
+     font-family="system-ui, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif">
+<title>Reconciling Facebook and Google Ads hierarchies</title>
+<desc>Google calls the middle level an ad group and Facebook calls it an ad set. The ontology declares both as subclasses of one shared concept so a single query spans both channels.</desc>
+
+<rect x="0" y="0" width="680" height="300" rx="8" fill="#15120F"/>
+
+<defs>
+  <marker id="kg3arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+    <path d="M2 1L8 5L2 9" fill="none" stroke="#6A6357" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </marker>
+</defs>
+
+<!-- source systems: dashed, receding -->
+<g>
+  <rect x="40" y="40" width="200" height="60" rx="8" fill="#1A1714" stroke="rgba(237,231,218,0.16)" stroke-dasharray="4 4"/>
+  <text x="140" y="65" text-anchor="middle" font-size="14" font-weight="600" fill="#EDE7DA"
+        font-family="ui-monospace, SFMono-Regular, Menlo, monospace">google:AdGroup</text>
+  <text x="140" y="85" text-anchor="middle" font-size="12" fill="#A39B8C">Google Ads export</text>
+</g>
+<g>
+  <rect x="440" y="40" width="200" height="60" rx="8" fill="#1A1714" stroke="rgba(237,231,218,0.16)" stroke-dasharray="4 4"/>
+  <text x="540" y="65" text-anchor="middle" font-size="14" font-weight="600" fill="#EDE7DA"
+        font-family="ui-monospace, SFMono-Regular, Menlo, monospace">fb:AdSet</text>
+  <text x="540" y="85" text-anchor="middle" font-size="12" fill="#A39B8C">Meta Ads export</text>
+</g>
+
+<!-- the shared concept: the accent carries the point -->
+<g>
+  <rect x="240" y="164" width="200" height="60" rx="8" fill="rgba(198,249,78,0.09)" stroke="#C6F94E"/>
+  <text x="340" y="189" text-anchor="middle" font-size="14" font-weight="600" fill="#C6F94E"
+        font-family="ui-monospace, SFMono-Regular, Menlo, monospace">ex:AdSet</text>
+  <text x="340" y="209" text-anchor="middle" font-size="12" fill="#EDE7DA">one shared concept</text>
+</g>
+
+<path d="M140 100 L140 134 L336 134 L336 160" fill="none" stroke="#6A6357" stroke-width="1.5" marker-end="url(#kg3arrow)"/>
+<path d="M540 100 L540 134 L344 134 L344 160" fill="none" stroke="#6A6357" stroke-width="1.5" marker-end="url(#kg3arrow)"/>
+<text x="340" y="127" text-anchor="middle" font-size="12" fill="#A39B8C"
+      font-family="ui-monospace, SFMono-Regular, Menlo, monospace">rdfs:subClassOf</text>
+
+<line x1="40" y1="252" x2="640" y2="252" stroke="rgba(237,231,218,0.12)"/>
+<text x="40" y="274" font-size="12" fill="#A39B8C">Two lines of ontology. Neither source system changes, and one query now returns both channels.</text>
+<text x="40" y="292" font-size="12" fill="#A39B8C">A third channel joins by adding a third line, not by rewriting the query.</text>
+</svg>

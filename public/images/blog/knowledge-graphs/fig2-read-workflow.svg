@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="680" height="448" viewBox="0 0 680 448" role="img"
+     font-family="system-ui, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif">
+<title>Read workflow for an ad-level attribution question</title>
+<desc>Seven numbered steps from a marketing question to a plain-language answer, via the ontology, SPARQL, a mapping engine, SQL and the warehouse.</desc>
+
+<rect x="0" y="0" width="680" height="448" rx="8" fill="#15120F"/>
+
+<defs>
+  <marker id="kg2arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+    <path d="M2 1L8 5L2 9" fill="none" stroke="#6A6357" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </marker>
+</defs>
+
+<!-- the graph: the only accented node, consulted once -->
+<g>
+  <rect x="240" y="28" width="210" height="58" rx="8" fill="rgba(198,249,78,0.09)" stroke="#C6F94E"/>
+  <text x="345" y="52" text-anchor="middle" font-size="14" font-weight="600" fill="#C6F94E">Graph database</text>
+  <text x="345" y="71" text-anchor="middle" font-size="12" fill="#EDE7DA">ad ontology, no ad data</text>
+</g>
+
+<!-- human ends -->
+<g>
+  <rect x="40" y="130" width="150" height="58" rx="8" fill="#1F1B16" stroke="rgba(237,231,218,0.22)"/>
+  <text x="115" y="154" text-anchor="middle" font-size="14" font-weight="600" fill="#EDE7DA">Question</text>
+  <text x="115" y="173" text-anchor="middle" font-size="12" fill="#A39B8C">from marketing</text>
+</g>
+<g>
+  <rect x="40" y="230" width="150" height="58" rx="8" fill="#1F1B16" stroke="rgba(237,231,218,0.22)"/>
+  <text x="115" y="254" text-anchor="middle" font-size="14" font-weight="600" fill="#EDE7DA">Answer</text>
+  <text x="115" y="273" text-anchor="middle" font-size="12" fill="#A39B8C">ranked ad list</text>
+</g>
+
+<!-- machinery -->
+<g>
+  <rect x="230" y="130" width="150" height="58" rx="8" fill="#1A1714" stroke="rgba(237,231,218,0.16)"/>
+  <text x="305" y="154" text-anchor="middle" font-size="14" font-weight="600" fill="#EDE7DA">LLM</text>
+  <text x="305" y="173" text-anchor="middle" font-size="12" fill="#A39B8C">writes SPARQL</text>
+</g>
+<g>
+  <rect x="420" y="130" width="150" height="58" rx="8" fill="#1A1714" stroke="rgba(237,231,218,0.16)"/>
+  <text x="495" y="154" text-anchor="middle" font-size="14" font-weight="600" fill="#EDE7DA">SPARQL</text>
+  <text x="495" y="173" text-anchor="middle" font-size="12" fill="#A39B8C">one query, both channels</text>
+</g>
+<g>
+  <rect x="420" y="230" width="150" height="58" rx="8" fill="#1A1714" stroke="rgba(237,231,218,0.16)"/>
+  <text x="495" y="254" text-anchor="middle" font-size="14" font-weight="600" fill="#EDE7DA">Mapping engine</text>
+  <text x="495" y="273" text-anchor="middle" font-size="12" fill="#A39B8C">rules, not data</text>
+</g>
+<g>
+  <rect x="420" y="330" width="150" height="58" rx="8" fill="#1A1714" stroke="rgba(237,231,218,0.16)" stroke-dasharray="4 4"/>
+  <text x="495" y="354" text-anchor="middle" font-size="14" font-weight="600" fill="#EDE7DA">Warehouse</text>
+  <text x="495" y="373" text-anchor="middle" font-size="12" fill="#A39B8C">FB + Google + viewing</text>
+</g>
+
+<!-- flow -->
+<g stroke="#6A6357" stroke-width="1.5" fill="none" marker-end="url(#kg2arrow)">
+  <line x1="190" y1="159" x2="226" y2="159"/>
+  <line x1="345" y1="86" x2="345" y2="126"/>
+  <line x1="380" y1="159" x2="416" y2="159"/>
+  <line x1="495" y1="188" x2="495" y2="226"/>
+  <line x1="495" y1="288" x2="495" y2="326"/>
+  <path d="M416 359 L305 359 L305 192"/>
+  <path d="M270 188 L270 211 L115 211 L115 226"/>
+</g>
+
+<text x="366" y="112" font-size="12" fill="#A39B8C">vocabulary + attribution rule</text>
+<text x="508" y="313" font-size="12" fill="#A39B8C">SQL</text>
+<text x="316" y="351" font-size="12" fill="#A39B8C">rows</text>
+
+<!-- step numbers -->
+<g font-size="11.5" font-weight="700" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">
+  <g><circle cx="208" cy="159" r="10" fill="#C6F94E"/><text x="208" y="163" text-anchor="middle" fill="#100F0D">1</text></g>
+  <g><circle cx="345" cy="106" r="10" fill="#C6F94E"/><text x="345" y="110" text-anchor="middle" fill="#100F0D">2</text></g>
+  <g><circle cx="398" cy="159" r="10" fill="#C6F94E"/><text x="398" y="163" text-anchor="middle" fill="#100F0D">3</text></g>
+  <g><circle cx="495" cy="207" r="10" fill="#C6F94E"/><text x="495" y="211" text-anchor="middle" fill="#100F0D">4</text></g>
+  <g><circle cx="495" cy="307" r="10" fill="#C6F94E"/><text x="495" y="311" text-anchor="middle" fill="#100F0D">5</text></g>
+  <g><circle cx="360" cy="359" r="10" fill="#C6F94E"/><text x="360" y="363" text-anchor="middle" fill="#100F0D">6</text></g>
+  <g><circle cx="192" cy="211" r="10" fill="#C6F94E"/><text x="192" y="215" text-anchor="middle" fill="#100F0D">7</text></g>
+</g>
+
+<line x1="40" y1="408" x2="640" y2="408" stroke="rgba(237,231,218,0.12)"/>
+<text x="40" y="430" font-size="12" fill="#A39B8C">Steps 4 and 5 involve no model. Between 3 and 6 the pipeline is deterministic and reproducible.</text>
+</svg>

@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="680" height="308" viewBox="0 0 680 308" role="img"
+     font-family="system-ui, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif">
+<title>Three families of semantic tooling</title>
+<desc>One question separates a graph database, a mapping engine and a dimensional semantic layer: does it hold data or only rules.</desc>
+
+<rect x="0" y="0" width="680" height="308" rx="8" fill="#15120F"/>
+
+<!-- the question -->
+<rect x="180" y="22" width="320" height="46" rx="8" fill="#1F1B16" stroke="rgba(237,231,218,0.18)"/>
+<text x="340" y="51" text-anchor="middle" font-size="14.5" font-weight="600" fill="#EDE7DA">Does it hold my data, or only rules?</text>
+
+<!-- bracket -->
+<g stroke="#6A6357" stroke-width="1" fill="none">
+  <path d="M340 68 V88 M140 88 H540 M140 88 V128 M340 88 V128 M540 88 V128"/>
+</g>
+
+<!-- 1. graph database (holds data) -->
+<g>
+  <rect x="40" y="128" width="200" height="80" rx="8" fill="rgba(198,249,78,0.09)" stroke="#C6F94E"/>
+  <text x="140" y="153" text-anchor="middle" font-size="14.5" font-weight="600" fill="#C6F94E">Graph database</text>
+  <text x="140" y="173" text-anchor="middle" font-size="12.5" fill="#EDE7DA">holds triples</text>
+  <text x="140" y="193" text-anchor="middle" font-size="11.5" fill="#A39B8C"
+        font-family="ui-monospace, SFMono-Regular, Menlo, monospace">Stardog · GraphDB</text>
+</g>
+
+<!-- 2. mapping engine (rules only) -->
+<g>
+  <rect x="240" y="128" width="200" height="80" rx="8" fill="#1F1B16" stroke="rgba(237,231,218,0.22)"/>
+  <text x="340" y="153" text-anchor="middle" font-size="14.5" font-weight="600" fill="#EDE7DA">Mapping engine</text>
+  <text x="340" y="173" text-anchor="middle" font-size="12.5" fill="#A39B8C">holds rules only</text>
+  <text x="340" y="193" text-anchor="middle" font-size="11.5" fill="#A39B8C"
+        font-family="ui-monospace, SFMono-Regular, Menlo, monospace">Ontop · Stardog virtual</text>
+</g>
+
+<!-- 3. dimensional layer (rules only) -->
+<g>
+  <rect x="440" y="128" width="200" height="80" rx="8" fill="#1F1B16" stroke="rgba(237,231,218,0.22)"/>
+  <text x="540" y="153" text-anchor="middle" font-size="14.5" font-weight="600" fill="#EDE7DA">Dimensional layer</text>
+  <text x="540" y="173" text-anchor="middle" font-size="12.5" fill="#A39B8C">holds metric defs</text>
+  <text x="540" y="193" text-anchor="middle" font-size="11.5" fill="#A39B8C"
+        font-family="ui-monospace, SFMono-Regular, Menlo, monospace">AtScale · Semantic Views</text>
+</g>
+
+<text x="140" y="240" text-anchor="middle" font-size="12" fill="#A39B8C">answers directly</text>
+<text x="340" y="240" text-anchor="middle" font-size="12" fill="#A39B8C">rewrites SPARQL to SQL</text>
+<text x="540" y="240" text-anchor="middle" font-size="12" fill="#A39B8C">generates SQL from metrics</text>
+
+<line x1="40" y1="264" x2="640" y2="264" stroke="rgba(237,231,218,0.12)"/>
+<text x="340" y="288" text-anchor="middle" font-size="12" fill="#A39B8C">Only the first one stores anything. The other two are configuration.</text>
+</svg>
