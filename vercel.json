@@ -3,6 +3,9 @@
   "buildCommand": "pnpm build",
   "installCommand": "pnpm install",
   "outputDirectory": "dist",
+  "crons": [
+    { "path": "/api/keepalive", "schedule": "0 6 * * *" }
+  ],
   "rewrites": [
     { "source": "/case-studies/:slug([a-z0-9][a-z0-9-]*)", "destination": "/case-studies/:slug-case-study.html" },
     { "source": "/(.*)", "destination": "/index.html" }
