@@ -12,7 +12,7 @@ export interface CaseStudy {
   }[];
   publishedDate: string;       // ISO 8601
   readTime: number;            // Minutes
-  staticHtmlPath: string;      // Path to full standalone HTML page in Supabase Storage
+  staticHtmlPath: string;      // Same-origin path to the full standalone HTML page in public/
   heroImage?: string;          // Path to hero image
   tags?: string[];             // Search/filtering tags
   teaser?: string;             // Conversion-optimized question used in the home-page teaser lane
