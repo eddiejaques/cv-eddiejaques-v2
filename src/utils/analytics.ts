@@ -16,18 +16,30 @@ export function trackEvent(name: string, params?: Record<string, unknown>): void
   gtag()?.('event', name, params ?? {});
 }
 
-/** Send an explicit GA4 page_view for a client-side route. */
+/** Matomo's command queue from index.html; null if the snippet isn't present. */
+function paq(): unknown[][] | null {
+  const w = window as unknown as { _paq?: unknown[][] };
+  return Array.isArray(w._paq) ? w._paq : null;
+}
+
+/** Send an explicit page view (GA4 + Matomo) for a client-side route. */
 export function trackPageView(path: string): void {
   gtag()?.('event', 'page_view', {
     page_path: path,
     page_location: window.location.href,
     page_title: document.title,
   });
+  const q = paq();
+  if (q) {
+    q.push(['setCustomUrl', window.location.href]);
+    q.push(['setDocumentTitle', document.title]);
+    q.push(['trackPageView']);
+  }
 }
 
 /**
  * Track React Router navigations as page_views. The initial load is already
- * counted by gtag('config') in index.html, so we skip the first render to
+ * counted by gtag('config') and Matomo's trackPageView in index.html, so we skip the first render to
  * avoid double-counting the landing page.
  */
 export function usePageViews(): void {

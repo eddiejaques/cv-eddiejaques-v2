@@ -43,6 +43,9 @@ export function setConsent(choice: ConsentChoice): void {
   gtag()?.('consent', 'update', {
     analytics_storage: choice === 'granted' ? 'granted' : 'denied',
   });
+  // Matomo: index.html starts it with requireCookieConsent.
+  const w = window as unknown as { _paq?: unknown[][] };
+  w._paq?.push([choice === 'granted' ? 'setCookieConsentGiven' : 'forgetCookieConsentGiven']);
 }
 
 /** Re-open the consent banner (wired to the footer "Cookie settings" link). */
