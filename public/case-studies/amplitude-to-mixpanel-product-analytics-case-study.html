@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Product Analytics for 750 Self-Serve Users — Amplitude to Mixpanel at Joyn</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;450;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#100F0D;
+    --surface:#FFFFFF;
+    --ink:#15201E;
+    --muted:#56635F;
+    --faint:#8A958F;
+    --teal:#1A8A7A;
+    --teal-deep:#127063;
+    --purple:#6B4FA0;
+    --purple-deep:#553D85;
+    --line:rgba(21,32,30,0.10);
+    --line-soft:rgba(21,32,30,0.06);
+    --teal-wash:rgba(26,138,122,0.07);
+    --purple-wash:rgba(107,79,160,0.07);
+    --display:'Space Grotesk',sans-serif;
+    --body:'Inter',sans-serif;
+    --mono:'JetBrains Mono',monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:var(--body);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    font-feature-settings:"ss01","cv11";
+  }
+  .wrap{max-width:980px;margin:0 auto;padding:0 28px}
+
+  /* ---------- eyebrow / labels ---------- */
+  .eyebrow{
+    font-family:var(--mono);
+    font-size:11px;
+    letter-spacing:.22em;
+    text-transform:uppercase;
+    color:var(--teal-deep);
+    font-weight:600;
+  }
+  .section-tag{
+    font-family:var(--mono);
+    font-size:11px;
+    letter-spacing:.2em;
+    text-transform:uppercase;
+    color:var(--faint);
+    font-weight:500;
+    display:flex;align-items:center;gap:12px;
+    margin-bottom:30px;
+  }
+  .section-tag::after{content:"";flex:1;height:1px;background:var(--line)}
+
+  /* ---------- hero ---------- */
+  header.hero{
+    padding:84px 0 60px;
+    border-bottom:1px solid var(--line);
+    background:
+      radial-gradient(120% 100% at 100% 0%, var(--teal-wash) 0%, transparent 55%),
+      radial-gradient(90% 90% at 0% 10%, var(--purple-wash) 0%, transparent 50%);
+  }
+  .hero .eyebrow{margin-bottom:26px;display:inline-flex;align-items:center;gap:10px}
+  .hero .dot{width:7px;height:7px;border-radius:50%;background:var(--teal);box-shadow:0 0 0 4px var(--teal-wash)}
+  h1{
+    font-family:var(--display);
+    font-weight:600;
+    font-size:clamp(34px,6vw,60px);
+    line-height:1.02;
+    letter-spacing:-0.02em;
+    max-width:15ch;
+  }
+  h1 .accent{
+    background:linear-gradient(100deg,var(--teal),var(--purple));
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+  .sub{
+    margin-top:24px;
+    font-size:18px;
+    color:var(--muted);
+    max-width:60ch;
+    line-height:1.5;
+  }
+  .role{margin-top:14px;font-family:var(--mono);font-size:12px;letter-spacing:.02em;color:var(--muted)}
+  .role b{color:var(--teal-deep);font-weight:600;margin-right:8px}
+  .meta{
+    margin-top:34px;
+    display:flex;flex-wrap:wrap;gap:10px;
+    font-family:var(--mono);
+    font-size:12px;
+    letter-spacing:.02em;
+  }
+  .chip{
+    border:1px solid var(--line);
+    background:var(--surface);
+    padding:7px 13px;
+    border-radius:100px;
+    color:var(--muted);
+  }
+  .chip b{color:var(--ink);font-weight:600}
+
+  /* ---------- generic section ---------- */
+  section{padding:72px 0;border-bottom:1px solid var(--line)}
+  h2{
+    font-family:var(--display);
+    font-weight:600;
+    font-size:clamp(24px,3.4vw,34px);
+    letter-spacing:-0.015em;
+    line-height:1.1;
+  }
+  .lede{margin-top:16px;color:var(--muted);font-size:17px;max-width:64ch}
+
+  /* ---------- problem ---------- */
+  .problems{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:1px;
+    margin-top:44px;background:var(--line-soft);
+    border:1px solid var(--line);border-radius:14px;overflow:hidden;
+  }
+  .prob{
+    background:var(--surface);
+    padding:30px 26px;
+  }
+  .prob .num{
+    font-family:var(--mono);font-size:12px;color:var(--teal-deep);
+    font-weight:600;letter-spacing:.08em;
+  }
+  .prob h3{
+    font-family:var(--display);font-weight:600;font-size:18px;
+    margin:14px 0 10px;letter-spacing:-0.01em;
+  }
+  .prob p{font-size:14.5px;color:var(--muted);line-height:1.58}
+  .prob .stat{
+    margin-top:16px;font-family:var(--mono);font-size:13px;
+    color:var(--ink);font-weight:500;
+    border-top:1px dashed var(--line);padding-top:14px;
+  }
+  .prob .stat span{color:var(--purple);font-weight:600}
+
+  /* ---------- journey timeline ---------- */
+  .timeline{margin-top:48px;position:relative}
+  .spine{
+    position:absolute;left:31px;top:8px;bottom:8px;width:2px;
+    background:linear-gradient(180deg,var(--teal) 0%,var(--teal) 62%,var(--purple) 78%,var(--purple) 100%);
+    border-radius:2px;opacity:.55;
+  }
+  .phase{
+    position:relative;
+    padding:0 0 38px 86px;
+  }
+  .phase:last-child{padding-bottom:0}
+  .node{
+    position:absolute;left:14px;top:2px;
+    width:36px;height:36px;border-radius:10px;
+    background:var(--surface);border:1.5px solid var(--teal);
+    display:flex;align-items:center;justify-content:center;
+    font-family:var(--mono);font-size:14px;font-weight:600;color:var(--teal-deep);
+    z-index:2;
+  }
+  .phase.era-ai .node{border-color:var(--purple);color:var(--purple-deep)}
+  .phase .ptitle{
+    font-family:var(--display);font-weight:600;font-size:19px;
+    letter-spacing:-0.01em;display:flex;flex-wrap:wrap;align-items:baseline;gap:10px;
+  }
+  .phase .flow{
+    font-family:var(--mono);font-size:12.5px;color:var(--teal-deep);
+    font-weight:500;letter-spacing:.01em;
+  }
+  .phase.era-ai .flow{color:var(--purple-deep)}
+  .phase p{margin-top:9px;font-size:15px;color:var(--muted);line-height:1.6;max-width:70ch}
+  .phase .badge{
+    display:inline-block;font-family:var(--mono);font-size:10px;
+    letter-spacing:.14em;text-transform:uppercase;font-weight:600;
+    color:var(--purple-deep);background:var(--purple-wash);
+    padding:3px 9px;border-radius:5px;vertical-align:middle;
+  }
+
+  /* spec/terminal block for the agentic phase */
+  .terminal{
+    margin-top:18px;border:1px solid var(--line);border-radius:12px;
+    background:var(--surface);overflow:hidden;max-width:72ch;
+  }
+  .term-bar{
+    display:flex;align-items:center;gap:7px;padding:11px 16px;
+    border-bottom:1px solid var(--line-soft);background:#1A1714;
+  }
+  .term-bar .d{width:9px;height:9px;border-radius:50%;background:var(--line)}
+  .term-bar .lbl{
+    margin-left:8px;font-family:var(--mono);font-size:11px;
+    color:var(--faint);letter-spacing:.04em;
+  }
+  .term-body{padding:18px 20px;font-family:var(--mono);font-size:13px;line-height:1.85}
+  .term-body .prompt{color:var(--ink)}
+  .term-body .prompt::before{content:"› ";color:var(--purple)}
+  .term-body .step{color:var(--muted);padding-left:18px;position:relative}
+  .term-body .step::before{content:"↳";position:absolute;left:0;color:var(--teal)}
+  .term-body .step b{color:var(--ink);font-weight:600}
+  .term-body .out{color:var(--purple-deep);font-weight:600;padding-left:18px;position:relative}
+  .term-body .out::before{content:"✓";position:absolute;left:0;color:var(--purple)}
+
+  /* ---------- results band ---------- */
+  .results{}
+  .results-inner,.dark-inner{padding:60px 36px}
+    .stat-grid{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:1px;
+    margin-top:40px;background:rgba(255,255,255,.10);
+    border:1px solid rgba(255,255,255,.10);border-radius:14px;overflow:hidden;
+  }
+  .stat-grid .stat{background:#1A2624;padding:30px 24px}
+  .stat-grid .stat .big{
+    font-family:var(--display);font-weight:600;font-size:clamp(30px,4.4vw,44px);
+    letter-spacing:-0.02em;line-height:1;
+    background:linear-gradient(120deg,#C6F94E,#E6FF8A);
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+  .stat-grid .stat .k{margin-top:12px;font-size:14px;font-weight:600;color:#fff}
+  .stat-grid .stat .s{margin-top:4px;font-family:var(--mono);font-size:11.5px;color:rgba(255,255,255,.5);letter-spacing:.02em}
+
+  /* ---------- unlocked ---------- */
+  .unlocked-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;margin-top:44px;
+    background:var(--line-soft);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  .unlock{background:var(--surface);padding:26px 26px}
+  .unlock .ico{
+    width:32px;height:32px;border-radius:8px;background:var(--teal-wash);
+    display:flex;align-items:center;justify-content:center;margin-bottom:14px;
+    color:var(--teal-deep);
+  }
+  .unlock h4{font-family:var(--display);font-weight:600;font-size:16px;letter-spacing:-0.01em}
+  .unlock p{margin-top:7px;font-size:14px;color:var(--muted);line-height:1.55}
+  .unlock.full{grid-column:1 / -1}
+  .unlock.q .ico{background:var(--purple-wash);color:var(--purple-deep)}
+
+  /* ---------- footer ---------- */
+  footer{padding:46px 0 70px}
+  .foot{
+    display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:16px;
+    font-family:var(--mono);font-size:12px;color:var(--faint);letter-spacing:.03em;
+  }
+  .foot .brand{color:var(--ink);font-weight:600}
+  .foot .brand span{color:var(--teal)}
+
+  /* ---------- reveal ---------- */
+  .reveal{opacity:0;transform:translateY(14px);transition:opacity .6s ease,transform .6s ease}
+  .reveal.in{opacity:1;transform:none}
+
+  /* ---------- responsive ---------- */
+  @media(max-width:760px){
+    .stat-grid.three{grid-template-columns:1fr}
+    .stat-grid.four{grid-template-columns:1fr 1fr}
+    .problems{grid-template-columns:1fr}
+    .stat-grid{grid-template-columns:1fr 1fr}
+    .unlocked-grid{grid-template-columns:1fr}
+    .phase{padding-left:64px}
+    .node{left:6px;width:32px;height:32px}
+    .spine{left:21px}
+    section{padding:54px 0}
+  }
+  @media(max-width:440px){
+    .stat-grid{grid-template-columns:1fr}
+  }
+  @media(prefers-reduced-motion:reduce){
+    .reveal{opacity:1;transform:none;transition:none}
+    html{scroll-behavior:auto}
+  }
+  
+  .tags{margin-top:14px;display:flex;flex-wrap:wrap;gap:8px}
+  .tag{font-family:var(--mono);font-size:11px;letter-spacing:.04em;color:var(--teal-deep);background:var(--teal-wash);padding:4px 10px;border-radius:100px}
+
+  /* dark panels */
+  .dark-panel{background:var(--ink);color:#fff;border-bottom:none;border-radius:20px}
+  .dark-panel .section-tag{color:rgba(255,255,255,.5)}
+  .dark-panel .section-tag::after{background:rgba(255,255,255,.15)}
+  .dark-panel h2{color:#fff}
+  .dark-panel .lede{color:rgba(255,255,255,.7)}
+  .dark-panel .wrap{padding-top:0;padding-bottom:0}
+  .dark-panel .phase .ptitle{color:#fff}
+  .dark-panel .phase p{color:rgba(255,255,255,.72)}
+  .dark-panel .phase .flow{color:#C6F94E}
+  .dark-panel .phase.era-ai .flow{color:#B9A3EA}
+  .dark-panel .node{background:#1A2624;border-color:#C6F94E;color:#C6F94E}
+  .dark-panel .phase.era-ai .node{border-color:#E6FF8A;color:#B9A3EA}
+  .dark-panel .tech{display:inline-block;margin-top:10px;font-family:var(--mono);font-size:11px;letter-spacing:.03em;color:#C6F94E;background:rgba(91,211,190,.10);padding:3px 9px;border-radius:5px}
+  .dark-panel .phase.era-ai .tech{color:#B9A3EA;background:rgba(168,139,224,.12)}
+  .dark-panel .spine{opacity:.7}
+
+  /* driver: stat callout terminal box */
+  .callout{background:var(--ink);color:#fff;padding:30px 26px;display:flex;flex-direction:column;justify-content:center}
+  .callout .lbl{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.5)}
+  .callout .eq{margin-top:14px;font-family:var(--mono);font-size:14px;line-height:1.7;color:#fff}
+  .callout .eq span{color:#C6F94E;font-weight:600}
+  .prob .stat.plain{border-top:none;padding-top:0;margin-top:0}
+
+  /* architecture flow */
+  .arch{margin-top:34px;border:1px solid rgba(255,255,255,.14);border-radius:14px;padding:20px 22px;background:#1A2624}
+  .arch .lbl{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.5);margin-bottom:14px}
+  .flowrow{display:flex;flex-wrap:wrap;align-items:center;gap:8px;font-family:var(--mono);font-size:12px}
+  .flowrow .n{border:1px solid rgba(255,255,255,.2);border-radius:8px;padding:6px 10px;color:#fff;background:rgba(255,255,255,.04)}
+  .flowrow .n.sam{border-color:#E6FF8A;color:#D8CCF5}
+  .flowrow .a{color:#C6F94E}
+  .flowrow + .flowrow{margin-top:10px}
+  .flowrow .cap{color:rgba(255,255,255,.5);font-size:11px;margin-right:4px}
+
+  .stat-grid.three{grid-template-columns:repeat(3,1fr)}
+  .stat-grid.four{grid-template-columns:repeat(4,1fr)}
+@media print{
+  @page{size:A4;margin:10mm 12mm}
+  body{background:#1A1714;line-height:1.35;font-size:12px}
+  .reveal{opacity:1;transform:none}
+
+  .results,.dark-panel{background:#15201E !important;-webkit-print-color-adjust:exact;print-color-adjust:exact;break-inside:avoid;page-break-inside:avoid}
+  .stat-grid{break-inside:avoid;page-break-inside:avoid}
+  .results-inner,.dark-inner{padding:24px 20px}
+  .stat-grid .stat{padding:14px 12px}
+  .stat-grid .stat .big{
+    background:none;-webkit-background-clip:initial;background-clip:initial;
+    -webkit-text-fill-color:#C6F94E;color:#C6F94E;
+  }
+
+  header.hero{padding:0 0 16px}
+  .hero .eyebrow,.eyebrow{margin-bottom:10px}
+  h1{font-size:28px;line-height:1.08;max-width:none}
+  h1 .accent{
+    background:none;-webkit-background-clip:initial;background-clip:initial;
+    -webkit-text-fill-color:var(--teal-deep);color:var(--teal-deep);
+  }
+  .sub{margin-top:10px;font-size:13px;max-width:none}
+  .role{margin-top:8px;font-size:11px}
+  .meta{margin-top:14px;gap:6px}
+  .tags{margin-top:8px}
+  .chip{padding:4px 10px}
+
+  section{padding:14px 0;border-bottom:1px solid var(--line)}
+  .section-tag{margin-bottom:12px}
+  h2{font-size:18px}
+  .lede{margin-top:6px;font-size:12.5px;max-width:none}
+
+  .problems{margin-top:14px;break-inside:avoid;page-break-inside:avoid}
+  .prob{padding:14px 14px;break-inside:avoid;page-break-inside:avoid}
+  .prob h3{margin:6px 0 4px}
+  .prob p{font-size:11.5px;line-height:1.4}
+  .callout{padding:14px 14px}
+
+  .spine{display:none}
+  .phase{padding:0 0 16px 60px;break-inside:avoid;page-break-inside:avoid}
+  .phase p{margin-top:4px;font-size:11.5px;line-height:1.4;max-width:none}
+  .arch{margin-top:12px;padding:12px 14px;break-inside:avoid;page-break-inside:avoid}
+
+  .unlocked-grid,.advantages-grid{margin-top:10px}
+  .unlock,.adv{padding:10px 12px;break-inside:avoid;page-break-inside:avoid}
+  .unlock .ico,.adv .ico{margin-bottom:8px}
+  .unlock p,.adv p{margin-top:4px;font-size:11px;line-height:1.4}
+
+  footer{padding:10px 0 8px}
+
+  .problems{grid-template-columns:repeat(3,1fr)}
+  section{padding:10px 0}
+  .section-tag{margin-bottom:8px}
+  .prob{padding:10px 12px}
+  .prob p{font-size:11px;line-height:1.35}
+  .prob .stat{margin-top:8px;padding-top:8px}
+  .callout{padding:10px 12px}
+  header.hero{padding:0 0 10px}
+  .unlocked-grid{grid-template-columns:1fr 1fr}
+  .stat-grid,.stat-grid.three{grid-template-columns:repeat(3,1fr)}
+  .stat-grid.four{grid-template-columns:repeat(4,1fr)}
+  .callout .eq{font-size:12px}
+
+  img,svg{max-width:100%}
+}
+
+</style>
+<!--ej-theme-start-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,600&family=Hanken+Grotesk:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style id="ej-theme">
+  :root{
+    --bg:#100F0D!important;--surface:#1A1714!important;--ink:#EDE7DA!important;
+    --muted:#A39B8C!important;--faint:#6A6357!important;
+    --teal:#C6F94E!important;--teal-deep:#A6D938!important;
+    --purple:#E6FF8A!important;--purple-deep:#C6F94E!important;
+    --line:rgba(237,231,218,0.12)!important;--line-soft:rgba(237,231,218,0.07)!important;
+    --teal-wash:rgba(198,249,78,0.08)!important;--purple-wash:rgba(198,249,78,0.05)!important;
+    --display:'Fraunces',serif!important;--body:'Hanken Grotesk',sans-serif!important;--mono:'IBM Plex Mono',monospace!important;
+  }
+  body{background:#100F0D!important;color:#EDE7DA!important;-webkit-font-smoothing:antialiased}
+  /* inverted panels: used var(--ink)/--dark as background in the light theme */
+  .results,.dark-panel{background:#15201E!important}
+  .results h2,.results .stat .k,.dark-panel,.dark-panel h2,.dark-panel h3{color:#EDE7DA!important}
+  /* injected sticky nav */
+  nav[style*="position:sticky"]{background:#100F0D!important;border-bottom:1px solid rgba(237,231,218,0.12)!important}
+  nav[style*="position:sticky"] a:first-child{color:#C6F94E!important}
+  nav[style*="position:sticky"] a:last-child{color:#A39B8C!important}
+  /* injected CTA */
+  #ej-cta{background:#15130F!important;border-top:1px solid rgba(237,231,218,0.12)!important}
+  #ej-cta a{background:#C6F94E!important;color:#100F0D!important}
+</style>
+<!--ej-theme-end--></head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="eyebrow"><span class="dot"></span>Case Study · Product Analytics</div>
+    <h1>Product analytics that <span class="accent">750</span> people use on their own, for 19% less.</h1>
+    <p class="sub">Joyn's product analytics bill grew with every login and few people trusted the numbers. Moving the product analytics platform from Amplitude to Mixpanel through the existing data layer cut projected cost from $220K to $179K a year and made it the group's daily decision tool.</p>
+    <p class="role"><b>Role</b> Led the migration end to end: vendor evaluation and negotiation, phased delivery, and a year of hands-on adoption</p>
+    <div class="meta">
+      <span class="chip"><b>Joyn</b> · European streaming platform</span>
+      <span class="chip"><b>$41K</b> saved a year</span>
+      <span class="chip"><b>5–7M → 20M</b> monthly users</span>
+      <span class="chip"><b>Segment</b> · Snowflake · Prefect</span>
+    </div>
+    <div class="tags"><span class="tag">Streaming</span><span class="tag">Product Analytics</span><span class="tag">Migration</span><span class="tag">Self-Service</span></div>
+  </div>
+</header>
+
+<section class="reveal">
+  <div class="wrap">
+    <div class="section-tag">01 — The Business Driver</div>
+    <h2>Product analytics everyone could use, at a bill that stops climbing</h2>
+    <p class="lede">The product organisation wanted PMs, CRM and marketing to explore data on their own, without the cost rising every time traffic did.</p>
+    <div class="problems">
+      <div class="prob">
+        <div class="num">NEED</div>
+        <h3>Self-service people can rely on</h3>
+        <p>Joyn had 5–7M monthly users in 2021 and has grown to about 20M. Teams across the group needed one product analytics tool they could open daily and trust.</p>
+      </div>
+      <div class="prob">
+        <div class="num">GAP</div>
+        <h3>Per-event billing punishes accuracy</h3>
+        <p>Amplitude charged for every event. Browsers had become far less persistent with cookies, so users were re-identified constantly and each identify call counted toward the bill.</p>
+      </div>
+      <div class="callout">
+        <div class="lbl">What was at stake</div>
+        <div class="eq">Billing per event = <span>the bill grows with traffic, not insight</span><br>$220K projected = <span>spend rising on re-identification, not new learning</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="reveal">
+  <div class="wrap">
+    <div class="section-tag">02 — The Obstacles</div>
+    <h2>Cost, trust and engineering time all pulled product analytics the wrong way</h2>
+    <p class="lede">Fixing one without the others would have left the platform expensive, ignored, or stuck behind a release queue.</p>
+    <div class="problems">
+      <div class="prob">
+        <div class="num">COST</div>
+        <h3>Identity calls inflated volume</h3>
+        <p>Every new anonymous-ID and user-ID pairing, and every session start for a registered user, needed an identify call. Misconfigured identity events fired several times over, using the event budget without adding information.</p>
+        <div class="stat">Repeat identify calls = <span>paying for events that taught nothing</span></div>
+      </div>
+      <div class="prob">
+        <div class="num">TRUST</div>
+        <h3>Inflated metrics, little training</h3>
+        <p>Teams struggled with numbers that looked too high and had no training on the tool, while the product organisation wanted PMs to self-serve.</p>
+        <div class="stat">Metrics nobody believes = <span>decisions made without the data</span></div>
+      </div>
+      <div class="prob">
+        <div class="num">CAPACITY</div>
+        <h3>No room on the engineering roadmap</h3>
+        <p>A migration that needed app and web releases would have competed with product work for engineering time. Segment was already in place as the CDP, which opened another route.</p>
+        <div class="stat">App releases needed = <span>migration queues behind the roadmap</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="dark-panel reveal">
+  <div class="wrap">
+    <div class="dark-inner">
+      <div class="section-tag">03 — The Solution</div>
+      <h2>Win the commercial case, switch through the data layer, then earn the trust</h2>
+      <p class="lede">Four steps: price it, swap the destination, prove the numbers, then run adoption as a product. The track turns purple where the work moves from the build to the people.</p>
+
+      <div class="timeline">
+        <div class="spine"></div>
+
+        <div class="phase">
+          <div class="node">1</div>
+          <div class="ptitle">Make the commercial case <span class="flow">Amplitude vs Mixpanel</span></div>
+          <p>I ran a vendor evaluation, negotiated directly with both vendors and built a cost model comparing event-based with user-based pricing. The key finding for the product analytics contract: identity calls drive cost under event pricing and are free under user pricing. The Head of Product Ops approved the decision and owned the budget.</p>
+          <span class="tech">Cost model · Vendor negotiation</span>
+        </div>
+
+        <div class="phase">
+          <div class="node">2</div>
+          <div class="ptitle">Switch through Segment, in three phases <span class="flow">foundation → depth → marketing</span></div>
+          <p>The data already flowed through Segment, so apps and web needed no re-instrumentation and no releases. A working group of a data engineer, a warehousing expert, a product analyst, the Head of Reporting and a Mixpanel consultant delivered screen views, identity and video views first, then lane views and click-throughs, then data models for marketing.</p>
+          <span class="tech">Segment · Backend uploads</span>
+        </div>
+
+        <div class="phase era-ai">
+          <div class="node">3</div>
+          <div class="ptitle">Prove the numbers every day <span class="flow">Mixpanel ↔ Snowflake</span></div>
+          <p>An automated daily check in Prefect compared Mixpanel user counts with Snowflake, the source of truth. Early gaps swung between 2% and 19%; the daily check and a phased ramp-up of data brought them to about 5%.</p>
+          <span class="tech">Prefect · Snowflake</span>
+        </div>
+
+        <div class="phase era-ai">
+          <div class="node">4</div>
+          <div class="ptitle">Own adoption for a year <span class="flow">training → support → shared definitions</span></div>
+          <p>After a consultant-led kickoff per user group, I ran adoption myself: office hours every second Friday, in-person help, first-line support on Slack, FAQs written from recurring questions, and the Mixpanel Lexicon so every event and property carried one business definition.</p>
+          <span class="tech">Office hours · Slack · Lexicon</span>
+        </div>
+      </div>
+
+      <div class="arch">
+        <div class="lbl">How the data flows</div>
+        <div class="flowrow"><span class="n">Apps &amp; web</span><span class="a">→</span><span class="n">Segment</span><span class="a">→</span><span class="n">Mixpanel</span><span class="cap">daily check against</span><span class="n sam">Snowflake · via Prefect</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="results dark-panel reveal">
+  <div class="wrap">
+    <div class="results-inner">
+      <div class="section-tag">04 — Quantified Impact</div>
+      <h2>What the switch returned</h2>
+      <div class="stat-grid four">
+        <div class="stat">
+          <div class="big">$41K</div>
+          <div class="k">Saved a year</div>
+          <div class="s">$220K → $179K (~19%)</div>
+        </div>
+        <div class="stat">
+          <div class="big">750</div>
+          <div class="k">Users with logins by year four</div>
+          <div class="s">60 at end of year one · ~150 weekly</div>
+        </div>
+        <div class="stat">
+          <div class="big">~5%</div>
+          <div class="k">Gap to Snowflake on monthly users</div>
+          <div class="s">Down from daily swings of 2–19%</div>
+        </div>
+        <div class="stat">
+          <div class="big">0</div>
+          <div class="k">App releases or re-instrumentation</div>
+          <div class="s">Delivered through the data layer</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="reveal">
+  <div class="wrap">
+    <div class="section-tag">05 — Strategic Outcomes Unlocked</div>
+    <h2>From a doubted dashboard to the group's daily product analytics desk</h2>
+    <div class="unlocked-grid">
+      <div class="unlock q full">
+        <div class="ico">⚡</div>
+        <h4>One tool, used for each team's own job</h4>
+        <p>Engineering tracks errors, drop-offs and feature-flag results. PMs use it for problem discovery and experiment analysis. Data science visualises experiment results. Marketing builds on the models set up for it.</p>
+      </div>
+      <div class="unlock">
+        <div class="ico">⊕</div>
+        <h4>Curators steer the home screen</h4>
+        <p>Content curators review it daily and weekly and use it to promote or demote lanes.</p>
+      </div>
+      <div class="unlock">
+        <div class="ico">↻</div>
+        <h4>Adoption became institutional</h4>
+        <p>Mixpanel training is now part of onboarding for every new engineer, product person and content curator.</p>
+      </div>
+      <div class="unlock">
+        <div class="ico">✕</div>
+        <h4>Shared definitions, fewer arguments</h4>
+        <p>Lexicon definitions and the daily Snowflake check give self-service users a reason to trust what they find.</p>
+      </div>
+      <div class="unlock">
+        <div class="ico">⟲</div>
+        <h4>An open trade-off at 20M users</h4>
+        <p>Full-volume tracking stopped scaling, so Joyn moved to 30% sampling, which cut cost about 70% against full volume. PMs want full volume back, and that decision is still open.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot">
+      <div class="brand">Joyn <span>—</span> Amplitude to Mixpanel Migration</div>
+      <div>Commercial case → Data-layer switch → Adoption</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const io=new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}});
+  },{threshold:0.12});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+
+<section id="ej-cta" style="background:radial-gradient(120% 100% at 0% 0%, rgba(26,138,122,0.10) 0%, transparent 55%),#100F0D;border-top:1px solid rgba(21,32,30,0.10);padding:72px 24px;font-family:Inter,sans-serif">
+  <div style="max-width:680px;margin:0 auto;text-align:center">
+    <p style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:#127063;font-weight:600;margin:0 0 16px">Let's talk</p>
+    <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:clamp(26px,4vw,36px);line-height:1.1;letter-spacing:-0.02em;color:#EDE7DA;margin:0 0 16px">Tackling something like this?</h2>
+    <p style="font-size:17px;line-height:1.6;color:#56635F;margin:0 auto 28px;max-width:52ch">Tell me your biggest data or AI bottleneck and I'll send you how I'd approach it — the same way I worked this problem. No résumé dump, no pitch. Just a useful conversation.</p>
+    <a href="/contact?ref=amplitude-to-mixpanel-product-analytics" style="display:inline-block;background:#C6F94E;color:#fff;font-weight:600;font-size:15px;text-decoration:none;padding:14px 28px;border-radius:6px">Start the conversation →</a>
+  </div>
+</section>
+</body>
+</html>

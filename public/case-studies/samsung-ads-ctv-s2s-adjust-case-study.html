@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Putting a €15M TV Ad Budget to Work — Samsung Ads via Adjust</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;450;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#100F0D;
+    --surface:#FFFFFF;
+    --ink:#15201E;
+    --muted:#56635F;
+    --faint:#8A958F;
+    --teal:#1A8A7A;
+    --teal-deep:#127063;
+    --purple:#6B4FA0;
+    --purple-deep:#553D85;
+    --line:rgba(21,32,30,0.10);
+    --line-soft:rgba(21,32,30,0.06);
+    --teal-wash:rgba(26,138,122,0.07);
+    --purple-wash:rgba(107,79,160,0.07);
+    --display:'Space Grotesk',sans-serif;
+    --body:'Inter',sans-serif;
+    --mono:'JetBrains Mono',monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:var(--body);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    font-feature-settings:"ss01","cv11";
+  }
+  .wrap{max-width:980px;margin:0 auto;padding:0 28px}
+
+  /* ---------- eyebrow / labels ---------- */
+  .eyebrow{
+    font-family:var(--mono);
+    font-size:11px;
+    letter-spacing:.22em;
+    text-transform:uppercase;
+    color:var(--teal-deep);
+    font-weight:600;
+  }
+  .section-tag{
+    font-family:var(--mono);
+    font-size:11px;
+    letter-spacing:.2em;
+    text-transform:uppercase;
+    color:var(--faint);
+    font-weight:500;
+    display:flex;align-items:center;gap:12px;
+    margin-bottom:30px;
+  }
+  .section-tag::after{content:"";flex:1;height:1px;background:var(--line)}
+
+  /* ---------- hero ---------- */
+  header.hero{
+    padding:84px 0 60px;
+    border-bottom:1px solid var(--line);
+    background:
+      radial-gradient(120% 100% at 100% 0%, var(--teal-wash) 0%, transparent 55%),
+      radial-gradient(90% 90% at 0% 10%, var(--purple-wash) 0%, transparent 50%);
+  }
+  .hero .eyebrow{margin-bottom:26px;display:inline-flex;align-items:center;gap:10px}
+  .hero .dot{width:7px;height:7px;border-radius:50%;background:var(--teal);box-shadow:0 0 0 4px var(--teal-wash)}
+  h1{
+    font-family:var(--display);
+    font-weight:600;
+    font-size:clamp(34px,6vw,60px);
+    line-height:1.02;
+    letter-spacing:-0.02em;
+    max-width:15ch;
+  }
+  h1 .accent{
+    background:linear-gradient(100deg,var(--teal),var(--purple));
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+  .sub{
+    margin-top:24px;
+    font-size:18px;
+    color:var(--muted);
+    max-width:60ch;
+    line-height:1.5;
+  }
+  .role{margin-top:14px;font-family:var(--mono);font-size:12px;letter-spacing:.02em;color:var(--muted)}
+  .role b{color:var(--teal-deep);font-weight:600;margin-right:8px}
+  .meta{
+    margin-top:34px;
+    display:flex;flex-wrap:wrap;gap:10px;
+    font-family:var(--mono);
+    font-size:12px;
+    letter-spacing:.02em;
+  }
+  .chip{
+    border:1px solid var(--line);
+    background:var(--surface);
+    padding:7px 13px;
+    border-radius:100px;
+    color:var(--muted);
+  }
+  .chip b{color:var(--ink);font-weight:600}
+
+  /* ---------- generic section ---------- */
+  section{padding:72px 0;border-bottom:1px solid var(--line)}
+  h2{
+    font-family:var(--display);
+    font-weight:600;
+    font-size:clamp(24px,3.4vw,34px);
+    letter-spacing:-0.015em;
+    line-height:1.1;
+  }
+  .lede{margin-top:16px;color:var(--muted);font-size:17px;max-width:64ch}
+
+  /* ---------- problem ---------- */
+  .problems{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:1px;
+    margin-top:44px;background:var(--line-soft);
+    border:1px solid var(--line);border-radius:14px;overflow:hidden;
+  }
+  .prob{
+    background:var(--surface);
+    padding:30px 26px;
+  }
+  .prob .num{
+    font-family:var(--mono);font-size:12px;color:var(--teal-deep);
+    font-weight:600;letter-spacing:.08em;
+  }
+  .prob h3{
+    font-family:var(--display);font-weight:600;font-size:18px;
+    margin:14px 0 10px;letter-spacing:-0.01em;
+  }
+  .prob p{font-size:14.5px;color:var(--muted);line-height:1.58}
+  .prob .stat{
+    margin-top:16px;font-family:var(--mono);font-size:13px;
+    color:var(--ink);font-weight:500;
+    border-top:1px dashed var(--line);padding-top:14px;
+  }
+  .prob .stat span{color:var(--purple);font-weight:600}
+
+  /* ---------- journey timeline ---------- */
+  .timeline{margin-top:48px;position:relative}
+  .spine{
+    position:absolute;left:31px;top:8px;bottom:8px;width:2px;
+    background:linear-gradient(180deg,var(--teal) 0%,var(--teal) 62%,var(--purple) 78%,var(--purple) 100%);
+    border-radius:2px;opacity:.55;
+  }
+  .phase{
+    position:relative;
+    padding:0 0 38px 86px;
+  }
+  .phase:last-child{padding-bottom:0}
+  .node{
+    position:absolute;left:14px;top:2px;
+    width:36px;height:36px;border-radius:10px;
+    background:var(--surface);border:1.5px solid var(--teal);
+    display:flex;align-items:center;justify-content:center;
+    font-family:var(--mono);font-size:14px;font-weight:600;color:var(--teal-deep);
+    z-index:2;
+  }
+  .phase.era-ai .node{border-color:var(--purple);color:var(--purple-deep)}
+  .phase .ptitle{
+    font-family:var(--display);font-weight:600;font-size:19px;
+    letter-spacing:-0.01em;display:flex;flex-wrap:wrap;align-items:baseline;gap:10px;
+  }
+  .phase .flow{
+    font-family:var(--mono);font-size:12.5px;color:var(--teal-deep);
+    font-weight:500;letter-spacing:.01em;
+  }
+  .phase.era-ai .flow{color:var(--purple-deep)}
+  .phase p{margin-top:9px;font-size:15px;color:var(--muted);line-height:1.6;max-width:70ch}
+  .phase .badge{
+    display:inline-block;font-family:var(--mono);font-size:10px;
+    letter-spacing:.14em;text-transform:uppercase;font-weight:600;
+    color:var(--purple-deep);background:var(--purple-wash);
+    padding:3px 9px;border-radius:5px;vertical-align:middle;
+  }
+
+  /* spec/terminal block for the agentic phase */
+  .terminal{
+    margin-top:18px;border:1px solid var(--line);border-radius:12px;
+    background:var(--surface);overflow:hidden;max-width:72ch;
+  }
+  .term-bar{
+    display:flex;align-items:center;gap:7px;padding:11px 16px;
+    border-bottom:1px solid var(--line-soft);background:#1A1714;
+  }
+  .term-bar .d{width:9px;height:9px;border-radius:50%;background:var(--line)}
+  .term-bar .lbl{
+    margin-left:8px;font-family:var(--mono);font-size:11px;
+    color:var(--faint);letter-spacing:.04em;
+  }
+  .term-body{padding:18px 20px;font-family:var(--mono);font-size:13px;line-height:1.85}
+  .term-body .prompt{color:var(--ink)}
+  .term-body .prompt::before{content:"› ";color:var(--purple)}
+  .term-body .step{color:var(--muted);padding-left:18px;position:relative}
+  .term-body .step::before{content:"↳";position:absolute;left:0;color:var(--teal)}
+  .term-body .step b{color:var(--ink);font-weight:600}
+  .term-body .out{color:var(--purple-deep);font-weight:600;padding-left:18px;position:relative}
+  .term-body .out::before{content:"✓";position:absolute;left:0;color:var(--purple)}
+
+  /* ---------- results band ---------- */
+  .results{}
+  .results-inner,.dark-inner{padding:60px 36px}
+    .stat-grid{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:1px;
+    margin-top:40px;background:rgba(255,255,255,.10);
+    border:1px solid rgba(255,255,255,.10);border-radius:14px;overflow:hidden;
+  }
+  .stat-grid .stat{background:#1A2624;padding:30px 24px}
+  .stat-grid .stat .big{
+    font-family:var(--display);font-weight:600;font-size:clamp(30px,4.4vw,44px);
+    letter-spacing:-0.02em;line-height:1;
+    background:linear-gradient(120deg,#C6F94E,#E6FF8A);
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+  .stat-grid .stat .k{margin-top:12px;font-size:14px;font-weight:600;color:#fff}
+  .stat-grid .stat .s{margin-top:4px;font-family:var(--mono);font-size:11.5px;color:rgba(255,255,255,.5);letter-spacing:.02em}
+
+  /* ---------- unlocked ---------- */
+  .unlocked-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;margin-top:44px;
+    background:var(--line-soft);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  .unlock{background:var(--surface);padding:26px 26px}
+  .unlock .ico{
+    width:32px;height:32px;border-radius:8px;background:var(--teal-wash);
+    display:flex;align-items:center;justify-content:center;margin-bottom:14px;
+    color:var(--teal-deep);
+  }
+  .unlock h4{font-family:var(--display);font-weight:600;font-size:16px;letter-spacing:-0.01em}
+  .unlock p{margin-top:7px;font-size:14px;color:var(--muted);line-height:1.55}
+  .unlock.full{grid-column:1 / -1}
+  .unlock.q .ico{background:var(--purple-wash);color:var(--purple-deep)}
+
+  /* ---------- footer ---------- */
+  footer{padding:46px 0 70px}
+  .foot{
+    display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:16px;
+    font-family:var(--mono);font-size:12px;color:var(--faint);letter-spacing:.03em;
+  }
+  .foot .brand{color:var(--ink);font-weight:600}
+  .foot .brand span{color:var(--teal)}
+
+  /* ---------- reveal ---------- */
+  .reveal{opacity:0;transform:translateY(14px);transition:opacity .6s ease,transform .6s ease}
+  .reveal.in{opacity:1;transform:none}
+
+  /* ---------- responsive ---------- */
+  @media(max-width:760px){
+    .stat-grid.three{grid-template-columns:1fr}
+    .problems{grid-template-columns:1fr}
+    .stat-grid{grid-template-columns:1fr 1fr}
+    .unlocked-grid{grid-template-columns:1fr}
+    .phase{padding-left:64px}
+    .node{left:6px;width:32px;height:32px}
+    .spine{left:21px}
+    section{padding:54px 0}
+  }
+  @media(max-width:440px){
+    .stat-grid{grid-template-columns:1fr}
+  }
+  @media(prefers-reduced-motion:reduce){
+    .reveal{opacity:1;transform:none;transition:none}
+    html{scroll-behavior:auto}
+  }
+  
+  .tags{margin-top:14px;display:flex;flex-wrap:wrap;gap:8px}
+  .tag{font-family:var(--mono);font-size:11px;letter-spacing:.04em;color:var(--teal-deep);background:var(--teal-wash);padding:4px 10px;border-radius:100px}
+
+  /* dark panels */
+  .dark-panel{background:var(--ink);color:#fff;border-bottom:none;border-radius:20px}
+  .dark-panel .section-tag{color:rgba(255,255,255,.5)}
+  .dark-panel .section-tag::after{background:rgba(255,255,255,.15)}
+  .dark-panel h2{color:#fff}
+  .dark-panel .lede{color:rgba(255,255,255,.7)}
+  .dark-panel .wrap{padding-top:0;padding-bottom:0}
+  .dark-panel .phase .ptitle{color:#fff}
+  .dark-panel .phase p{color:rgba(255,255,255,.72)}
+  .dark-panel .phase .flow{color:#C6F94E}
+  .dark-panel .phase.era-ai .flow{color:#B9A3EA}
+  .dark-panel .node{background:#1A2624;border-color:#C6F94E;color:#C6F94E}
+  .dark-panel .phase.era-ai .node{border-color:#E6FF8A;color:#B9A3EA}
+  .dark-panel .tech{display:inline-block;margin-top:10px;font-family:var(--mono);font-size:11px;letter-spacing:.03em;color:#C6F94E;background:rgba(91,211,190,.10);padding:3px 9px;border-radius:5px}
+  .dark-panel .phase.era-ai .tech{color:#B9A3EA;background:rgba(168,139,224,.12)}
+  .dark-panel .spine{opacity:.7}
+
+  /* driver: stat callout terminal box */
+  .callout{background:var(--ink);color:#fff;padding:30px 26px;display:flex;flex-direction:column;justify-content:center}
+  .callout .lbl{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.5)}
+  .callout .eq{margin-top:14px;font-family:var(--mono);font-size:14px;line-height:1.7;color:#fff}
+  .callout .eq span{color:#C6F94E;font-weight:600}
+  .prob .stat.plain{border-top:none;padding-top:0;margin-top:0}
+
+  /* architecture flow */
+  .arch{margin-top:34px;border:1px solid rgba(255,255,255,.14);border-radius:14px;padding:20px 22px;background:#1A2624}
+  .arch .lbl{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.5);margin-bottom:14px}
+  .flowrow{display:flex;flex-wrap:wrap;align-items:center;gap:8px;font-family:var(--mono);font-size:12px}
+  .flowrow .n{border:1px solid rgba(255,255,255,.2);border-radius:8px;padding:6px 10px;color:#fff;background:rgba(255,255,255,.04)}
+  .flowrow .n.sam{border-color:#E6FF8A;color:#D8CCF5}
+  .flowrow .a{color:#C6F94E}
+  .flowrow + .flowrow{margin-top:10px}
+  .flowrow .cap{color:rgba(255,255,255,.5);font-size:11px;margin-right:4px}
+
+  .stat-grid.three{grid-template-columns:repeat(3,1fr)}
+@media print{
+  @page{size:A4;margin:10mm 12mm}
+  body{background:#1A1714;line-height:1.35;font-size:12px}
+  .reveal{opacity:1;transform:none}
+
+  .results,.dark-panel{background:#15201E !important;-webkit-print-color-adjust:exact;print-color-adjust:exact;break-inside:avoid;page-break-inside:avoid}
+  .stat-grid{break-inside:avoid;page-break-inside:avoid}
+  .results-inner,.dark-inner{padding:24px 20px}
+  .stat-grid .stat{padding:14px 14px}
+  .stat-grid .stat .big{
+    background:none;-webkit-background-clip:initial;background-clip:initial;
+    -webkit-text-fill-color:#C6F94E;color:#C6F94E;
+  }
+
+  header.hero{padding:0 0 16px}
+  .hero .eyebrow,.eyebrow{margin-bottom:10px}
+  h1{font-size:28px;line-height:1.08;max-width:none}
+  h1 .accent{
+    background:none;-webkit-background-clip:initial;background-clip:initial;
+    -webkit-text-fill-color:var(--teal-deep);color:var(--teal-deep);
+  }
+  .sub{margin-top:10px;font-size:13px;max-width:none}
+  .role{margin-top:8px;font-size:11px}
+  .meta{margin-top:14px;gap:6px}
+  .tags{margin-top:8px}
+  .chip{padding:4px 10px}
+
+  section{padding:14px 0;border-bottom:1px solid var(--line)}
+  .section-tag{margin-bottom:12px}
+  h2{font-size:18px}
+  .lede{margin-top:6px;font-size:12.5px;max-width:none}
+
+  .problems{margin-top:14px;break-inside:avoid;page-break-inside:avoid}
+  .prob{padding:14px 14px;break-inside:avoid;page-break-inside:avoid}
+  .prob h3{margin:6px 0 4px}
+  .prob p{font-size:11.5px;line-height:1.4}
+  .callout{padding:14px 14px}
+
+  .spine{display:none}
+  .phase{padding:0 0 16px 60px;break-inside:avoid;page-break-inside:avoid}
+  .phase p{margin-top:4px;font-size:11.5px;line-height:1.4;max-width:none}
+  .arch{margin-top:12px;padding:12px 14px;break-inside:avoid;page-break-inside:avoid}
+
+  .unlocked-grid,.advantages-grid{margin-top:10px}
+  .unlock,.adv{padding:10px 12px;break-inside:avoid;page-break-inside:avoid}
+  .unlock .ico,.adv .ico{margin-bottom:8px}
+  .unlock p,.adv p{margin-top:4px;font-size:11px;line-height:1.4}
+
+  footer{padding:10px 0 8px}
+
+  .problems{grid-template-columns:repeat(3,1fr)}
+  .unlocked-grid{grid-template-columns:1fr 1fr}
+  .stat-grid,.stat-grid.three{grid-template-columns:repeat(3,1fr)}
+  .callout .eq{font-size:12px}
+
+  img,svg{max-width:100%}
+}
+
+</style>
+<!--ej-theme-start-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,600&family=Hanken+Grotesk:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style id="ej-theme">
+  :root{
+    --bg:#100F0D!important;--surface:#1A1714!important;--ink:#EDE7DA!important;
+    --muted:#A39B8C!important;--faint:#6A6357!important;
+    --teal:#C6F94E!important;--teal-deep:#A6D938!important;
+    --purple:#E6FF8A!important;--purple-deep:#C6F94E!important;
+    --line:rgba(237,231,218,0.12)!important;--line-soft:rgba(237,231,218,0.07)!important;
+    --teal-wash:rgba(198,249,78,0.08)!important;--purple-wash:rgba(198,249,78,0.05)!important;
+    --display:'Fraunces',serif!important;--body:'Hanken Grotesk',sans-serif!important;--mono:'IBM Plex Mono',monospace!important;
+  }
+  body{background:#100F0D!important;color:#EDE7DA!important;-webkit-font-smoothing:antialiased}
+  /* inverted panels: used var(--ink)/--dark as background in the light theme */
+  .results,.dark-panel{background:#15201E!important}
+  .results h2,.results .stat .k,.dark-panel,.dark-panel h2,.dark-panel h3{color:#EDE7DA!important}
+  /* injected sticky nav */
+  nav[style*="position:sticky"]{background:#100F0D!important;border-bottom:1px solid rgba(237,231,218,0.12)!important}
+  nav[style*="position:sticky"] a:first-child{color:#C6F94E!important}
+  nav[style*="position:sticky"] a:last-child{color:#A39B8C!important}
+  /* injected CTA */
+  #ej-cta{background:#15130F!important;border-top:1px solid rgba(237,231,218,0.12)!important}
+  #ej-cta a{background:#C6F94E!important;color:#100F0D!important}
+</style>
+<!--ej-theme-end--></head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="eyebrow"><span class="dot"></span>Case Study · Marketing Attribution</div>
+    <h1>Putting a <span class="accent">€15M</span> TV ad budget to work with server-side attribution.</h1>
+    <p class="sub">Joyn had €15M a year to spend on Samsung Smart TVs and no reliable way to tie that spend to paying subscribers. A server-to-server pipeline through Adjust closed the gap.</p>
+    <p class="role"><b>Role</b> Architected the server-to-server event pipeline, the Samsung Ads attribution setup, and the revenue reporting on top</p>
+    <div class="meta">
+      <span class="chip"><b>Joyn</b> · European streaming platform</span>
+      <span class="chip"><b>€15M</b> annual CTV budget</span>
+      <span class="chip"><b>Samsung</b> Tizen Smart TVs</span>
+      <span class="chip"><b>Adjust</b> · Snowflake · Tableau</span>
+    </div>
+    <div class="tags"><span class="tag">Streaming</span><span class="tag">Connected TV</span><span class="tag">Attribution</span><span class="tag">Data Pipeline</span></div>
+  </div>
+</header>
+
+<section class="reveal">
+  <div class="wrap">
+    <div class="section-tag">01 — The Business Driver</div>
+    <h2>A big budget needs proof of what it buys</h2>
+    <p class="lede">Marketing wanted to spend on Samsung TVs the way it spends on phones: bid by bid, tuned on real subscriptions.</p>
+    <div class="problems">
+      <div class="prob">
+        <div class="num">NEED</div>
+        <h3>Know which TV ads create subscribers</h3>
+        <p>Samsung Tizen TV was one of Joyn's largest untapped acquisition channels. The €15M budget only pays off if each campaign can be judged on downloads, streaming and paid sign-ups.</p>
+      </div>
+      <div class="prob">
+        <div class="num">GAP</div>
+        <h3>Standard tools don't see TVs</h3>
+        <p>TVs have no browser cookies and no phone-style ad IDs. Samsung uses its own identifiers, so the usual tracking set-up has nothing to match on.</p>
+      </div>
+      <div class="callout">
+        <div class="lbl">What was at stake</div>
+        <div class="eq">TV identifiers, not cookies = <span>installs the usual tools can't match</span><br>€15M a year = <span>every unmatched install is unmeasured spend</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="reveal">
+  <div class="wrap">
+    <div class="section-tag">02 — The Obstacles</div>
+    <h2>Three problems standing between the budget and the screen</h2>
+    <p class="lede">Hardware limits, a closed ad network, and revenue that arrives after the ad.</p>
+    <div class="problems">
+      <div class="prob">
+        <div class="num">HARDWARE</div>
+        <h3>Low-spec TVs can't carry heavy tracking</h3>
+        <p>Embedding a tracking SDK in the TV app slows it down and adds upkeep. Startup speed and playback stability had to stay intact.</p>
+        <div class="stat">SDK on a low-spec TV = <span>slower app start, more maintenance</span></div>
+      </div>
+      <div class="prob">
+        <div class="num">NETWORK</div>
+        <h3>Samsung grades its own homework</h3>
+        <p>Samsung Ads is a self-attributing network: it matches installs to its own ads. To optimise bids it needs Joyn to send back what happened after the install.</p>
+        <div class="stat">No postbacks = <span>Samsung can't improve targeting or bids</span></div>
+      </div>
+      <div class="prob">
+        <div class="num">REVENUE</div>
+        <h3>Money arrives after the install</h3>
+        <p>Installs and first opens are easy to count. Paid subscriptions and retention come later and sit in a separate database from the ad data.</p>
+        <div class="stat">Install-only tracking = <span>campaign profit stays invisible</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="dark-panel reveal">
+  <div class="wrap">
+    <div class="dark-inner">
+      <div class="section-tag">03 — The Solution</div>
+      <h2>Move tracking off the TV and into the backend</h2>
+      <p class="lede">Four steps: identify the TV, feed Samsung, respect consent, then join every ad to the revenue it produced. The track turns purple where the data moves from collection to answering the ROI question.</p>
+
+      <div class="timeline">
+        <div class="spine"></div>
+
+        <div class="phase">
+          <div class="node">1</div>
+          <div class="ptitle">Send events from the backend <span class="flow">TV → Joyn backend → Adjust</span></div>
+          <p>At app launch the TV's own advertising ID and its ad-tracking opt-out flag are read and linked to the Joyn account. Events then travel server to server into Adjust, signed with a security token so spoofed requests are rejected.</p>
+          <span class="tech">Adjust S2S · Samsung TIFA / PSID</span>
+        </div>
+
+        <div class="phase">
+          <div class="node">2</div>
+          <div class="ptitle">Close the loop with Samsung <span class="flow">Adjust → Samsung Ads</span></div>
+          <p>Samsung Ads was switched on as a self-attributing network inside Adjust. Installs, engagement and subscription events now flow to Samsung in real time, so its bidding and targeting learn from what Joyn actually cares about. A retry queue keeps events from being lost when the network drops.</p>
+          <span class="tech">SAN postbacks · Retry queue</span>
+        </div>
+
+        <div class="phase era-ai">
+          <div class="node">3</div>
+          <div class="ptitle">Name the events, honour consent <span class="flow">taxonomy + privacy</span></div>
+          <p>TV-specific moments such as first open, registration and 30 minutes of streaming were mapped to standard Adjust events. User consent choices travel with the data, so GDPR and Samsung's interest-based-ads opt-outs are respected automatically.</p>
+          <span class="tech">Event taxonomy · GDPR consent</span>
+        </div>
+
+        <div class="phase era-ai">
+          <div class="node">4</div>
+          <div class="ptitle">Join ads to subscriptions <span class="flow">Amazon Feeds → Snowflake → Tableau</span></div>
+          <p>Postbacks, click and impression logs and conversion data are pulled out through Amazon Feeds and loaded into Snowflake. There they are joined to the subscription database on the Joyn account ID. Tableau dashboards show campaign ROI, trial-to-paid conversion and 30, 60 and 90-day retention for Samsung spend.</p>
+          <span class="tech">Snowflake · Tableau · Amazon Feeds</span>
+        </div>
+      </div>
+
+      <div class="arch">
+        <div class="lbl">How the data flows</div>
+        <div class="flowrow"><span class="n">Samsung TV</span><span class="a">→</span><span class="n">Joyn event &amp; queue service</span><span class="a">→</span><span class="n">Adjust</span></div>
+        <div class="flowrow"><span class="cap">Adjust splits to</span><span class="n sam">Samsung Ads · bid feedback</span><span class="cap">and</span><span class="n">Amazon Feeds</span><span class="a">→</span><span class="n">Snowflake</span><span class="a">→</span><span class="n">Tableau · LTV &amp; subscription ROI</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="results dark-panel reveal">
+  <div class="wrap">
+    <div class="results-inner">
+      <div class="section-tag">04 — Quantified Impact</div>
+      <h2>What the pipeline made possible</h2>
+      <div class="stat-grid three">
+        <div class="stat">
+          <div class="big">€15M</div>
+          <div class="k">Annual TV budget put to work</div>
+          <div class="s">Deployed on Samsung devices</div>
+        </div>
+        <div class="stat">
+          <div class="big">0</div>
+          <div class="k">Tracking code added to the TV app</div>
+          <div class="s">Startup and playback unaffected</div>
+        </div>
+        <div class="stat">
+          <div class="big">30/60/90</div>
+          <div class="k">Day retention by Samsung campaign</div>
+          <div class="s">Plus trial-to-paid conversion</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="reveal">
+  <div class="wrap">
+    <div class="section-tag">05 — Strategic Outcomes Unlocked</div>
+    <h2>From ad impressions to a cost per subscriber</h2>
+    <div class="unlocked-grid">
+      <div class="unlock q full">
+        <div class="ico">⚡</div>
+        <h4>The full budget could be spent with confidence</h4>
+        <p>Marketing launched the entire €15M CTV programme on Samsung screens, with each campaign judged on subscriptions and retention rather than installs alone.</p>
+      </div>
+      <div class="unlock">
+        <div class="ico">⊕</div>
+        <h4>No attribution blind spots</h4>
+        <p>Smart TV ad exposure is linked directly to trial starts, paid activations and retention.</p>
+      </div>
+      <div class="unlock">
+        <div class="ico">↻</div>
+        <h4>Lower acquisition cost through bidding</h4>
+        <p>Campaign-level ROI in Tableau and live feedback to Samsung let teams shift bids toward what pays back, bringing down CTV cost per customer.</p>
+      </div>
+      <div class="unlock">
+        <div class="ico">✕</div>
+        <h4>A fast, stable TV app</h4>
+        <p>Because collection lives in the backend, the Tizen app keeps its startup speed and playback stability.</p>
+      </div>
+      <div class="unlock">
+        <div class="ico">⟲</div>
+        <h4>Privacy built into the flow</h4>
+        <p>Consent states are passed along with every event, so opt-outs are honoured without manual checks.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot">
+      <div class="brand">Joyn <span>—</span> Samsung Ads CTV Attribution via Adjust</div>
+      <div>Backend events → Samsung feedback → Subscription ROI</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const io=new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}});
+  },{threshold:0.12});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+
+<section id="ej-cta" style="background:radial-gradient(120% 100% at 0% 0%, rgba(26,138,122,0.10) 0%, transparent 55%),#100F0D;border-top:1px solid rgba(21,32,30,0.10);padding:72px 24px;font-family:Inter,sans-serif">
+  <div style="max-width:680px;margin:0 auto;text-align:center">
+    <p style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:#127063;font-weight:600;margin:0 0 16px">Let's talk</p>
+    <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:clamp(26px,4vw,36px);line-height:1.1;letter-spacing:-0.02em;color:#EDE7DA;margin:0 0 16px">Tackling something like this?</h2>
+    <p style="font-size:17px;line-height:1.6;color:#56635F;margin:0 auto 28px;max-width:52ch">Tell me your biggest data or AI bottleneck and I'll send you how I'd approach it — the same way I worked this problem. No résumé dump, no pitch. Just a useful conversation.</p>
+    <a href="/contact?ref=samsung-ads-ctv-s2s-adjust" style="display:inline-block;background:#C6F94E;color:#fff;font-weight:600;font-size:15px;text-decoration:none;padding:14px 28px;border-radius:6px">Start the conversation →</a>
+  </div>
+</section>
+</body>
+</html>
