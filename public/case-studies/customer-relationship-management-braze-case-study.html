@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Building Joyn's Customer Engagement Layer with Braze</title>
+<title>Rolling Out Joyn's Consent-Gated CRM Stack on Braze</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;450;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -234,9 +234,9 @@
 <header class="hero">
   <div class="wrap">
     <div class="eyebrow"><span class="dot"></span>Case Study · Customer Engagement</div>
-    <h1>Launching <span class="accent">6 retention campaigns</span> across push, in-app, and email with a consent-first Braze rollout.</h1>
-    <p class="sub">Joyn had no CRM channel to reach anonymous or registered users, and messaging could only run with explicit consent. We built a consent-gated Braze integration with identity sync and conversion-event tracking, then launched a full set of retention and contractual campaigns across channels.</p>
-    <p class="role"><b>Role</b> Led the Braze CRM rollout — consent flow, identity sync, event tracking, and multichannel campaign launch</p>
+    <h1>Rolling out Joyn's consent-gated <span class="accent">Braze CRM stack</span> across push, in-app, and email.</h1>
+    <p class="sub">Joyn needed a way to message both anonymous and registered viewers across push, in-app, and email while strictly respecting German privacy consent. We built a consent-gated Braze integration with identity resolution and launched six core lifecycle programs.</p>
+    <p class="role"><b>Role</b> Led the Braze CRM rollout: consent flow, identity sync, conversion event tracking, and multichannel campaign launch</p>
     <div class="meta">
       <span class="chip"><b>2021-current</b></span>
       <span class="chip"><b>Braze</b> CRM/CEP</span>
@@ -255,9 +255,9 @@
     <div class="problems">
       <div class="prob">
         <div class="num">RETENTION</div>
-        <h3>Weekly return is the real win</h3>
-        <p>A user who tunes into Joyn week in, week out is the core retention target — but nothing was driving that habit proactively.</p>
-        <div class="stat">No proactive nudges = <span>retention left to chance</span></div>
+        <h3>Weekly viewing habits needed lifecycle triggers</h3>
+        <p>Bringing viewers back week after week is the core retention driver in streaming, but Joyn had no automated lifecycle nudges tied to viewing history.</p>
+        <div class="stat">No proactive nudges = <span>repeat viewing left to organic habit</span></div>
       </div>
       <div class="prob">
         <div class="num">REACH</div>
@@ -283,9 +283,9 @@
     <div class="problems">
       <div class="prob">
         <div class="num">CONSENT</div>
-        <h3>Messaging requires opt-in first</h3>
-        <p>Push and in-app messaging could only be enabled after the user explicitly consented — the SDK couldn't simply run by default.</p>
-        <div class="stat">No consent flow = <span>SDK couldn't run by default</span></div>
+        <h3>Strict GDPR opt-in before SDK initialization</h3>
+        <p>Push and in-app messaging could only initialize after the viewer explicitly granted consent in the CMP; the Braze SDK could not run by default on install.</p>
+        <div class="stat">No consent gate = <span>SDK cannot initialize on client devices</span></div>
       </div>
       <div class="prob">
         <div class="num">IDENTITY</div>
@@ -306,8 +306,8 @@
 <section class="reveal">
   <div class="wrap">
     <div class="section-tag">03 — The Solution</div>
-    <h2>A consent-first Braze rollout, end to end</h2>
-    <p class="lede">From SDK initialization through identity sync to event-driven campaigns — each step unlocked the next layer of engagement.</p>
+    <h2>A consent-gated Braze integration from SDK init to campaign launch</h2>
+    <p class="lede">We wired CMP consent checks into SDK initialization, synced app user IDs on registration, and instrumented key playback milestones to trigger campaigns.</p>
     <div class="timeline">
       <div class="spine"></div>
 
@@ -332,7 +332,7 @@
       <div class="phase era-ai">
         <div class="node">4</div>
         <div class="ptitle">Multichannel campaign rollout</div>
-        <p>Launched six campaign types across push, in-app, and email — covering retention, recommendations, and contractual communication.<span class="tech">Push · in-app · email</span></p>
+        <p>Launched six campaign programs across push, in-app, and email covering episode alerts, personalized recommendations, and mandatory contractual notices.<span class="tech">Push · in-app · email</span></p>
       </div>
     </div>
   </div>
@@ -412,9 +412,9 @@
 <section id="ej-cta" style="background:radial-gradient(120% 100% at 0% 0%, rgba(26,138,122,0.10) 0%, transparent 55%),#100F0D;border-top:1px solid rgba(21,32,30,0.10);padding:72px 24px;font-family:Inter,sans-serif">
   <div style="max-width:680px;margin:0 auto;text-align:center">
     <p style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:#127063;font-weight:600;margin:0 0 16px">Let's talk</p>
-    <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:clamp(26px,4vw,36px);line-height:1.1;letter-spacing:-0.02em;color:#EDE7DA;margin:0 0 16px">Tackling something like this?</h2>
-    <p style="font-size:17px;line-height:1.6;color:#56635F;margin:0 auto 28px;max-width:52ch">Tell me your biggest data or AI bottleneck and I'll send you how I'd approach it — the same way I worked this problem. No résumé dump, no pitch. Just a useful conversation.</p>
-    <a href="/contact?ref=customer-relationship-management-braze" style="display:inline-block;background:#C6F94E;color:#fff;font-weight:600;font-size:15px;text-decoration:none;padding:14px 28px;border-radius:6px">Start the conversation →</a>
+    <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:clamp(26px,4vw,36px);line-height:1.1;letter-spacing:-0.02em;color:#EDE7DA;margin:0 0 16px">Working on a similar problem?</h2>
+    <p style="font-size:17px;line-height:1.6;color:#56635F;margin:0 auto 28px;max-width:52ch">If you're dealing with a similar data, AI, or martech problem—or hiring for a senior product role—send over a note and I'll share how I'd approach it.</p>
+    <a href="/contact?ref=customer-relationship-management-braze" style="display:inline-block;background:#C6F94E;color:#fff;font-weight:600;font-size:15px;text-decoration:none;padding:14px 28px;border-radius:6px">Get in touch →</a>
   </div>
 </section>
 </body>

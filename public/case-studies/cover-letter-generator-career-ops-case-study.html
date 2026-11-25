@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AI Cover Letter Generator — career-ops Open-Source Contribution</title>
+<title>Shipping the Cover Letter Generator for career-ops (PR #807)</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;450;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -245,9 +245,9 @@
 <header class="hero">
   <div class="wrap">
     <div class="eyebrow"><span class="dot"></span>Case Study · Open-Source Contribution</div>
-    <h1>The most-requested missing mode — merged on the <span class="accent">first contribution.</span></h1>
-    <p class="sub">career-ops already evaluated job offers and generated CVs. Cover letters were the only manual gap. This case study covers designing and building end-to-end cover letter generation: a 10-step conversational flow, a Node.js PDF renderer, and strict language rules — all enforced before any PDF is produced.</p>
-    <p class="role"><b>Role</b> Designed and built the cover letter feature end to end — conversational flow, achievement selection, PDF renderer, and language rules</p>
+    <h1>Shipping the most-requested mode in career-ops on the <span class="accent">first PR.</span></h1>
+    <p class="sub">The career-ops project already evaluated job offers and generated tailored CVs, leaving cover letters as the last manual step. I designed and shipped the end-to-end cover letter mode (PR #807): a 10-step conversational workflow, strict CV-grounded metric verification, and a zero-dependency Node.js and Playwright PDF renderer.</p>
+    <p class="role"><b>Role</b> Designed and built the cover letter feature end to end: conversational flow, achievement selection, PDF renderer, and writing rules</p>
     <div class="meta">
       <span class="chip"><b>15+</b> letters generated</span>
       <span class="chip"><b>3</b> markets (DACH · UK · India)</span>
@@ -267,26 +267,26 @@
 <section class="reveal">
   <div class="wrap">
     <div class="section-tag">01 — The Business Driver</div>
-    <h2>A fully automated pipeline with one manual step left in it</h2>
-    <p class="lede">career-ops handled offer evaluation and CV generation, but cover letters required the user to write from scratch — or accept generic AI output. Both paths undermined the pipeline's value.</p>
+    <h2>Closing the last manual step in the career-ops application pipeline</h2>
+    <p class="lede">career-ops automated job evaluation and CV generation, but users still had to write cover letters from scratch or paste generic LLM drafts.</p>
     <div class="problems">
       <div class="prob">
         <div class="num">GAP</div>
-        <h3>No path from job description to approved PDF</h3>
-        <p>The pipeline had no structured way to go from a job description to a finished cover letter. Users fell back to manual writing or copied boilerplate.</p>
-        <div class="stat">Manual gap = <span>cover letters disconnected from the rest of the pipeline</span></div>
+        <h3>No structured path from JD to finished PDF</h3>
+        <p>The repo had no workflow to turn a job description and user profile into a formatted cover letter PDF, leaving issue #199 as the project's top open feature request.</p>
+        <div class="stat">Missing workflow = <span>cover letters stayed manual and disconnected</span></div>
       </div>
       <div class="prob">
         <div class="num">QUALITY</div>
-        <h3>Generic letters and over-automated ones both fail</h3>
-        <p>Copy-paste templates are spotted immediately. AI-drafted letters that stuff keywords or invent metrics are worse — they break trust with the interviewer.</p>
-        <div class="stat">AI hallucinations = <span>invented claims that collapse under interview questioning</span></div>
+        <h3>Preventing invented metrics and keyword stuffing</h3>
+        <p>Unconstrained LLM prompts routinely exaggerate numbers or fabricate experience. Any claim not backed by the candidate's actual CV creates an immediate liability in interviews.</p>
+        <div class="stat">Invented claims = <span>broken credibility during technical screens</span></div>
       </div>
       <div class="prob">
         <div class="num">CONTROL</div>
-        <h3>No approval gate before submission</h3>
-        <p>Without an explicit sign-off step, auto-generated content could reach employers before the user had read it, creating risk on every application.</p>
-        <div class="stat">No review gate = <span>application sent on AI output, not user intent</span></div>
+        <h3>Mandatory user sign-off before PDF rendering</h3>
+        <p>Users needed to review and approve the exact text in chat before the tool generated a final application PDF.</p>
+        <div class="stat">Explicit approval gate = <span>no unreviewed draft ever becomes a PDF</span></div>
       </div>
     </div>
   </div>
@@ -295,26 +295,26 @@
 <section class="reveal">
   <div class="wrap">
     <div class="section-tag">02 — The Obstacles</div>
-    <h2>Three constraints that couldn't be traded away</h2>
-    <p class="lede">Solving the gap meant navigating content integrity, repo architecture, and maintainer standards — any one of which could have blocked the PR.</p>
+    <h2>Three technical and editorial constraints</h2>
+    <p class="lede">Getting the PR merged required strict factual grounding against the user's CV, zero new runtime dependencies, and support for two different entry workflows.</p>
     <div class="problems">
       <div class="prob">
         <div class="num">INTEGRITY</div>
-        <h3>AI models paraphrase metrics — and get them wrong</h3>
-        <p>Standard AI drafting extrapolates or invents numbers from CV bullet points. Every invented metric is a claim the user can't defend at interview.</p>
-        <div class="stat">Extrapolated metric = <span>candidate flagged as untrustworthy on first question</span></div>
+        <h3>LLMs round or extrapolate resume numbers</h3>
+        <p>Left to themselves, language models frequently alter percentages or combine separate project metrics when summarizing CV bullets.</p>
+        <div class="stat">Altered metrics = <span>numbers that don't match the attached CV</span></div>
       </div>
       <div class="prob">
         <div class="num">ARCHITECTURE</div>
-        <h3>The repo is Node.js-only — no new runtimes</h3>
-        <p>An early draft used a Python helper for PDF generation. The maintainer's explicit standard: zero new deps, one runtime. That draft would have been rejected.</p>
-        <div class="stat">New runtime = <span>PR blocked before any feature review</span></div>
+        <h3>Strict Node.js-only repository standard</h3>
+        <p>An early prototype used a Python script to build the PDF. The maintainer required a single Node.js runtime with zero new package dependencies.</p>
+        <div class="stat">Second runtime = <span>PR rejected on architecture grounds</span></div>
       </div>
       <div class="prob">
         <div class="num">SCOPE</div>
-        <h3>Two entry points, one coherent flow</h3>
-        <p>Letters had to work from a standalone JD paste and from the existing offer evaluation report. Both paths needed to produce the same quality output without duplicating logic.</p>
-        <div class="stat">Duplicated logic = <span>two flows to maintain, guaranteed to diverge</span></div>
+        <h3>Supporting both raw JDs and evaluated offers</h3>
+        <p>The mode had to run equally well from a freshly pasted job description or from an existing career-ops evaluation report without duplicating prompt logic.</p>
+        <div class="stat">Shared logic = <span>single code path for both entry points</span></div>
       </div>
     </div>
   </div>
@@ -324,33 +324,33 @@
   <div class="wrap">
     <div class="dark-panel-inner">
       <div class="section-tag">03 — The Solution</div>
-      <h2>One flow, one gate, one output</h2>
-      <p class="lede">The design principle was simple: the PDF is the last thing produced, not the first. Everything before it is research, selection, and approval.</p>
+      <h2>Research, CV-grounded bullet selection, human sign-off, and Playwright rendering</h2>
+      <p class="lede">The workflow gathers company context, locks metrics to the source CV, requires explicit user approval in chat, and renders the final A4 PDF through Playwright.</p>
       <div class="timeline">
         <div class="spine"></div>
 
         <div class="phase">
           <div class="node">1</div>
           <div class="ptitle">10-step conversational flow <span class="flow">JD → research → prompts → draft → approval</span></div>
-          <p>A mode file drives the letter from JD input through company research (three web searches), keyword extraction (ATS-critical vs. human trust signals), four mandatory prompts the user must answer before any draft is written, and an explicit approval gate before the PDF is produced. "Just generate it" has no effect — the gate cannot be bypassed.<span class="tech">modes/cover.md · Claude Code</span></p>
+          <p>The mode file walks from JD ingestion through company web search, competency extraction, four clarifying questions for the candidate, and a mandatory approval gate before calling the PDF renderer.<span class="tech">modes/cover.md · Claude Code</span></p>
         </div>
 
         <div class="phase">
           <div class="node">2</div>
           <div class="ptitle">Achievement selection from cv.md <span class="flow">score → select → preserve</span></div>
-          <p>Every bullet point in cv.md is scored against the JD's top competencies. The 4–5 highest-scoring bullets are selected, with at least one metric per bullet. Exact wording from the CV is preserved — keyword mirroring shifts vocabulary around the bullets, never the metrics themselves.<span class="tech">Achievement scoring · cv.md</span></p>
+          <p>Every bullet in <code>cv.md</code> is scored against the role's primary competencies. The top 4 to 5 bullets are selected and their exact figures are locked so surrounding prose can adapt terminology without altering any metric.<span class="tech">Achievement scoring · cv.md</span></p>
         </div>
 
         <div class="phase era-p">
           <div class="node">3</div>
-          <div class="ptitle">Node.js PDF renderer <span class="flow">JSON payload → HTML template → A4 PDF</span></div>
-          <p>A Node.js ESM script accepts a structured JSON payload, performs HTML-escaped token replacement into a print-optimized A4 template, then renders to PDF via the same Playwright pipeline used for CV generation. No new runtime, no new dependency — the PR was mergeable from day one.<span class="tech">generate-cover-letter.mjs · Playwright</span></p>
+          <div class="ptitle">Zero-dependency Node.js PDF renderer <span class="flow">JSON payload → HTML template → A4 PDF</span></div>
+          <p>An ESM script takes a validated JSON payload, injects HTML-escaped tokens into an A4 print template, and renders the PDF using the repo's existing Playwright setup with zero added packages.<span class="tech">generate-cover-letter.mjs · Playwright</span></p>
         </div>
 
         <div class="phase era-p">
           <div class="node">4</div>
-          <div class="ptitle">10 language rules baked in <span class="flow">active voice · no buzzwords · every claim grounded</span></div>
-          <p>Ten rules enforced at the drafting step: active voice only, a hard-banned buzzword list (leverage, synergy, spearheaded, actionable insights, north star), no filler openers, every claim backed by a number or a named system, and a 350–420 word body target. Rules apply on every letter and cannot be turned off.<span class="tech">Language rules · 350–420 word target</span></p>
+          <div class="ptitle">10 enforced writing constraints <span class="flow">active voice · no buzzwords · 350–420 words</span></div>
+          <p>The drafting step enforces ten editorial rules: active voice, a blocklist of corporate clichés (leverage, synergy, spearheaded, north star), no generic openings, every claim tied to a named system or number, and a 350 to 420 word count.<span class="tech">Language rules · 350–420 word target</span></p>
         </div>
       </div>
     </div>
@@ -391,32 +391,32 @@
 <section class="reveal">
   <div class="wrap">
     <div class="section-tag">05 — What the Feature Makes Possible</div>
-    <h2>Tailored, approved letters in minutes — not hours</h2>
+    <h2>Fast, CV-verified cover letters matched to the resume layout</h2>
     <div class="unlocked-grid">
       <div class="unlock q full">
         <div class="ico">⚡</div>
-        <h4>Every letter is company-specific and human-approved before it leaves the pipeline</h4>
-        <p>The approval gate means the user reads the full draft in chat and says yes before any PDF exists. That single constraint separates this from every AI cover letter tool: no letter goes to an employer the user hasn't read and signed off.</p>
+        <h4>Every letter is company-specific and human-approved before rendering</h4>
+        <p>Because the approval gate requires the user to read and confirm the draft in chat before Playwright runs, no unreviewed text ever gets exported to a PDF.</p>
       </div>
       <div class="unlock">
         <div class="ico">⊕</div>
-        <h4>ATS targeting without keyword stuffing</h4>
-        <p>Keywords from the job description are classified as ATS-critical or human trust signals. Mirroring applies to vocabulary around the bullet points — never to the metrics or the claims themselves.</p>
+        <h4>Role alignment without altered numbers</h4>
+        <p>Job description terms are split into ATS keywords and domain concepts. The prose adapts around the candidate's accomplishments while keeping every number identical to <code>cv.md</code>.</p>
       </div>
       <div class="unlock">
         <div class="ico">✕</div>
-        <h4>Zero new infrastructure added to the repo</h4>
-        <p>Routing PDF generation through the existing Playwright pipeline instead of adding a Python helper kept the repo at one runtime. The maintainer called it out explicitly: "zero new deps is exactly the repo's way."</p>
+        <h4>Zero new dependencies added to the repository</h4>
+        <p>Reusing the existing Node.js and Playwright pipeline kept the repository dependency-free, which the maintainer highlighted when merging PR #807.</p>
       </div>
       <div class="unlock">
         <div class="ico">↻</div>
-        <h4>Works for any user, any role, any country</h4>
-        <p>The renderer reads all identity, credentials, and proof points from cv.md and profile.yml at runtime. No names, metrics, or sentences are hardcoded — the same script generates a letter for a DevOps engineer in Tokyo and a Director of Data in Munich.</p>
+        <h4>Portable across roles and geographies</h4>
+        <p>The renderer reads candidate details and proof points dynamically from <code>cv.md</code> and <code>profile.yml</code>, with zero hardcoded names or regional assumptions.</p>
       </div>
       <div class="unlock">
         <div class="ico">⤳</div>
-        <h4>Consistent with the CV — one application packet</h4>
-        <p>The cover letter uses the same A4 layout, typography, and Playwright renderer as the CV output. Both documents arrive as a matched pair, not a cover letter from one tool and a CV from another.</p>
+        <h4>Matched typography with the generated CV</h4>
+        <p>Sharing the A4 HTML template and Playwright print settings ensures the cover letter and CV arrive as a visually consistent application packet.</p>
       </div>
     </div>
   </div>
@@ -441,9 +441,9 @@
 <section id="ej-cta" style="background:radial-gradient(120% 100% at 0% 0%, rgba(26,138,122,0.10) 0%, transparent 55%),#100F0D;border-top:1px solid rgba(21,32,30,0.10);padding:72px 24px;font-family:Inter,sans-serif">
   <div style="max-width:680px;margin:0 auto;text-align:center">
     <p style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:#127063;font-weight:600;margin:0 0 16px">Let's talk</p>
-    <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:clamp(26px,4vw,36px);line-height:1.1;letter-spacing:-0.02em;color:#EDE7DA;margin:0 0 16px">Tackling something like this?</h2>
-    <p style="font-size:17px;line-height:1.6;color:#56635F;margin:0 auto 28px;max-width:52ch">Tell me your biggest data or AI bottleneck and I'll send you how I'd approach it — the same way I worked this problem. No résumé dump, no pitch. Just a useful conversation.</p>
-    <a href="/contact?ref=cover-letter-generator-career-ops" style="display:inline-block;background:#C6F94E;color:#fff;font-weight:600;font-size:15px;text-decoration:none;padding:14px 28px;border-radius:6px">Start the conversation →</a>
+    <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:clamp(26px,4vw,36px);line-height:1.1;letter-spacing:-0.02em;color:#EDE7DA;margin:0 0 16px">Working on a similar problem?</h2>
+    <p style="font-size:17px;line-height:1.6;color:#56635F;margin:0 auto 28px;max-width:52ch">If you're dealing with a similar data, AI, or martech problem—or hiring for a senior product role—send over a note and I'll share how I'd approach it.</p>
+    <a href="/contact?ref=cover-letter-generator-career-ops" style="display:inline-block;background:#C6F94E;color:#fff;font-weight:600;font-size:15px;text-decoration:none;padding:14px 28px;border-radius:6px">Get in touch →</a>
   </div>
 </section>
 </body>

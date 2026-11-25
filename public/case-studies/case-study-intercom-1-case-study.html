@@ -234,9 +234,9 @@
 <header class="hero">
   <div class="wrap">
     <div class="eyebrow"><span class="dot"></span>Case Study · Customer Engagement</div>
-    <h1>Turning a broken Intercom rollout into <span class="accent">two root causes and a fix list</span>.</h1>
-    <p class="sub">Revenue Institute needed Intercom live across its sales platform — user creation, segmentation, live chat, and product demos — but chat and demos weren't working and the team didn't know why. I audited the Segment-to-Intercom pipeline against all four acceptance criteria and traced the failures to their source.</p>
-    <p class="role"><b>Role</b> Led the Intercom integration audit — traced identify-call, identity-verification, and chat/demo failures across the Segment-to-Intercom pipeline</p>
+    <h1>Auditing a broken Segment-to-Intercom rollout down to <span class="accent">two root causes</span>.</h1>
+    <p class="sub">Revenue Institute had wired Segment into Intercom across its sales platform, but live chat and product demo triggers kept failing in production. I audited the pipeline against all four acceptance criteria, isolated the broken user-sync flows, and documented the exact fixes for engineering.</p>
+    <p class="role"><b>Role</b> Led the Intercom integration audit: traced identify calls, identity verification, and chat/demo failures across the Segment-to-Intercom pipeline</p>
     <div class="meta">
       <span class="chip"><b>2013-2016</b></span>
       <span class="chip"><b>Intercom</b> Engagement Platform</span>
@@ -250,26 +250,26 @@
 <section class="reveal">
   <div class="wrap">
     <div class="section-tag">01 — The Business Driver</div>
-    <h2>Sales needs to know who signed up — and start talking to them</h2>
-    <p class="lede">Revenue Institute sells sales products to sales professionals, and managers wanted Intercom to surface new signups, segment them, and open live chat and product demo conversations automatically.</p>
+    <h2>Sales needed live signup records, behavioral segments, and in-app chat</h2>
+    <p class="lede">Revenue Institute sells training and software to B2B sales teams. Sales managers wanted Intercom to capture new signups immediately, segment them by product activity, and trigger live chat and product demo tours automatically.</p>
     <div class="problems">
       <div class="prob">
         <div class="num">IDENTIFY</div>
         <h3>Every signup should land in Intercom</h3>
-        <p>New users on Revenue Institute needed an Intercom record the moment they signed up, so sales had a single source of truth on who to engage.</p>
+        <p>New users on Revenue Institute needed an Intercom profile created the moment they signed up so sales reps had a reliable list of leads to contact.</p>
         <div class="stat">No Intercom record on signup = <span>sales has no lead to act on</span></div>
       </div>
       <div class="prob">
         <div class="num">SEGMENT</div>
         <h3>Managers need to slice users by behavior</h3>
-        <p>Sales managers wanted to segment users on event or property criteria so they could start the right sales conversation at the right moment.</p>
-        <div class="stat">No usable segments = <span>can't target the right conversation</span></div>
+        <p>Sales managers wanted to filter users by event history and profile traits so they could reach out with the right sales message at the right point in onboarding.</p>
+        <div class="stat">No usable segments = <span>reps cannot target outreach by behavior</span></div>
       </div>
       <div class="prob">
         <div class="num">ENGAGE</div>
         <h3>Live chat and demos drive conversion</h3>
-        <p>Logged-in users were expected to see a working live chat widget and product demo tour as core conversion touchpoints.</p>
-        <div class="stat">Chat widget not rendering = <span>a conversion touchpoint goes unused</span></div>
+        <p>Logged-in users were supposed to see a live chat widget and an interactive product tour as primary conversion touchpoints inside the app.</p>
+        <div class="stat">Chat widget not rendering = <span>primary in-app conversion channel stays dark</span></div>
       </div>
     </div>
   </div>
@@ -278,26 +278,26 @@
 <section class="reveal">
   <div class="wrap">
     <div class="section-tag">02 — The Obstacles</div>
-    <h2>What the audit found broken underneath</h2>
-    <p class="lede">Three separate failures — partial user sync, a rejected API call, and missing company data — were all blocking the same downstream features.</p>
+    <h2>What the audit found broken in the pipeline</h2>
+    <p class="lede">Three separate integration bugs (missing lifecycle identify calls, rejected API hashes, and blank company fields) were breaking the downstream features.</p>
     <div class="problems">
       <div class="prob">
         <div class="num">IDENTIFY CALLS</div>
         <h3>Users only synced on first signup</h3>
-        <p>Intercom user creation worked on the signup journey, but broke on page refresh and on subsequent logins — identify calls weren't firing consistently.</p>
-        <div class="stat">Refresh and login don't sync = <span>most sessions invisible to Intercom</span></div>
+        <p>Intercom user creation fired during initial registration, but failed on page refreshes and subsequent logins because <code>identify</code> calls weren't triggered across the full session lifecycle.</p>
+        <div class="stat">Refresh and login don't sync = <span>returning sessions stay invisible to Intercom</span></div>
       </div>
       <div class="prob">
         <div class="num">403 ERROR</div>
         <h3>Identity verification was blocking events</h3>
-        <p>Intercom's identity verification was enabled but the <code>user_hash</code> wasn't being passed correctly, and the domain wasn't allowlisted — producing 403 Forbidden errors on event calls.</p>
-        <div class="stat">Identity verification misconfigured = <span>every event call gets rejected</span></div>
+        <p>Intercom identity verification was turned on, but the backend wasn't passing a valid <code>user_hash</code> and the app domain wasn't allowlisted, causing 403 Forbidden errors on every event call.</p>
+        <div class="stat">Identity verification misconfigured = <span>Intercom API rejects incoming events</span></div>
       </div>
       <div class="prob">
         <div class="num">COMPANY_ID</div>
-        <h3>Chat and product tour need company data</h3>
-        <p>Live chat and the product tour both required <code>company</code> and <code>company_id</code> from identify calls post-login — without them, Intercom rejected events with "company_id cannot be blank."</p>
-        <div class="stat">No company data passed = <span>chat and product tour can't render</span></div>
+        <h3>Chat and product tour required company fields</h3>
+        <p>Both the live chat widget and product tours depended on <code>company</code> and <code>company_id</code> traits inside post-login identify payloads. Without them, Intercom rejected the calls with "company_id cannot be blank."</p>
+        <div class="stat">Blank company_id = <span>chat widget and product tour fail to initialize</span></div>
       </div>
     </div>
   </div>
@@ -306,33 +306,33 @@
 <section class="reveal">
   <div class="wrap">
     <div class="section-tag">03 — The Solution</div>
-    <h2>Diagnosing the pipeline from signup to chat widget</h2>
-    <p class="lede">Each fix traced one acceptance criterion back to its Segment configuration, isolating exactly where the data dropped.</p>
+    <h2>Tracing the pipeline from Segment payloads to the Intercom widget</h2>
+    <p class="lede">I tested each acceptance criterion end to end, inspecting network payloads and Segment destination logs to pinpoint exactly where calls were dropping.</p>
     <div class="timeline">
       <div class="spine"></div>
 
       <div class="phase">
         <div class="node">1</div>
         <div class="ptitle">Audit user creation across the lifecycle <span class="flow">signup → refresh → login</span></div>
-        <p>Tested identify calls across signup, page refresh, and login, confirming signup worked but refresh and login did not yet create or update Intercom users.<span class="tech">Intercom · Identify calls</span></p>
+        <p>Tested <code>identify</code> calls across initial registration, page refresh, and repeat login, confirming that only registration fired properly while refresh and login dropped user context.<span class="tech">Intercom · Identify calls</span></p>
       </div>
 
       <div class="phase">
         <div class="node">2</div>
-        <div class="ptitle">Enable and verify segmentation events</div>
-        <p>Reviewed Segment's Intercom mappings — Auth, Identify, Account Email Verified, Auth Login — and confirmed all event types were enabled so managers could segment users on event or property criteria.<span class="tech">Segment · Mappings</span></p>
+        <div class="ptitle">Verify Segment event mappings</div>
+        <p>Audited Segment's Intercom destination mappings (Auth, Identify, Account Email Verified, and Auth Login) and verified all four event streams were active for sales segmentation.<span class="tech">Segment · Mappings</span></p>
       </div>
 
       <div class="phase era-ai">
         <div class="node">3</div>
-        <div class="ptitle">Trace the chat widget's 403 and company_id errors</div>
-        <p>Identified that the chat widget needed <code>page</code> and <code>identify</code> calls with a valid <code>user_hash</code>, an allowlisted domain, and non-blank <code>company</code>/<code>company_id</code> fields to render and stay enabled.<span class="tech">Identity verification · company_id</span></p>
+        <div class="ptitle">Isolate the 403 user_hash and company_id errors</div>
+        <p>Traced the missing chat widget to failed <code>page</code> and <code>identify</code> calls that lacked a valid <code>user_hash</code>, domain allowlisting, and non-null <code>company</code> / <code>company_id</code> traits.<span class="tech">Identity verification · company_id</span></p>
       </div>
 
       <div class="phase era-ai">
         <div class="node">4</div>
-        <div class="ptitle">Reconcile destinations and cross-check user counts</div>
-        <p>Confirmed one Segment destination (cloud or web) is sufficient per event, and that unique email counts in Mixpanel and Intercom should match once the system stabilizes in production.<span class="tech">Segment destinations · Mixpanel</span></p>
+        <div class="ptitle">Deduplicate destinations and reconcile user counts</div>
+        <p>Documented how to route events cleanly through a single Segment connection mode and cross-checked unique user email counts between Mixpanel and Intercom.<span class="tech">Segment destinations · Mixpanel</span></p>
       </div>
     </div>
   </div>
@@ -342,7 +342,7 @@
   <div class="wrap">
     <div class="results-inner reveal">
       <div class="section-tag">04 — Quantified Impact</div>
-      <h2>Audit turned four open questions into a fix list</h2>
+      <h2>Four acceptance criteria audited, two root causes isolated</h2>
       <div class="stat-grid">
         <div class="stat">
           <div class="big">4</div>
@@ -352,7 +352,7 @@
         <div class="stat">
           <div class="big">1/3</div>
           <div class="k">User-sync flows working</div>
-          <div class="s">Signup only — refresh &amp; login open</div>
+          <div class="s">Signup live; refresh &amp; login flagged</div>
         </div>
         <div class="stat">
           <div class="big">4</div>
@@ -372,22 +372,22 @@
 <section class="reveal">
   <div class="wrap">
     <div class="section-tag">05 — Strategic Outcomes Unlocked</div>
-    <h2>From four open questions to two root causes and a fix list</h2>
+    <h2>A clear engineering fix list and reusable verification checklist</h2>
     <div class="unlocked-grid">
       <div class="unlock q full">
         <div class="ico">⚡</div>
-        <h4>A reusable Intercom diagnostics playbook</h4>
-        <p>The same checklist — identify calls on every lifecycle event, user_hash on identity verification, domain allowlisting, and company_id population — applies to any future Segment-to-Intercom rollout.</p>
+        <h4>A reusable Segment-to-Intercom QA checklist</h4>
+        <p>The four-point verification checklist (identify calls on every lifecycle transition, valid HMAC user_hash, allowlisted domains, and populated company_id traits) became the standard pre-release check for customer messaging changes.</p>
       </div>
       <div class="unlock">
         <div class="ico">↻</div>
-        <h4>Identify calls as the foundation</h4>
-        <p>Consistent identify calls on signup, refresh, and login are the prerequisite for user sync, segmentation, chat, and product tours alike.</p>
+        <h4>Lifecycle identify calls specified for engineering</h4>
+        <p>Gave engineering the exact payload specifications needed on signup, page refresh, and login to keep user records, segments, chat, and product tours in sync.</p>
       </div>
       <div class="unlock">
         <div class="ico">⊕</div>
-        <h4>One destination is enough</h4>
-        <p>Cloud or web mappings alone are sufficient to forward events — running both isn't required for event setup.</p>
+        <h4>Simplified Segment destination setup</h4>
+        <p>Confirmed that a single Segment connection mode covers the required event forwarding without duplicating calls across cloud and web destinations.</p>
       </div>
     </div>
   </div>
@@ -412,9 +412,9 @@
 <section id="ej-cta" style="background:radial-gradient(120% 100% at 0% 0%, rgba(26,138,122,0.10) 0%, transparent 55%),#100F0D;border-top:1px solid rgba(21,32,30,0.10);padding:72px 24px;font-family:Inter,sans-serif">
   <div style="max-width:680px;margin:0 auto;text-align:center">
     <p style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:#127063;font-weight:600;margin:0 0 16px">Let's talk</p>
-    <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:clamp(26px,4vw,36px);line-height:1.1;letter-spacing:-0.02em;color:#EDE7DA;margin:0 0 16px">Tackling something like this?</h2>
-    <p style="font-size:17px;line-height:1.6;color:#56635F;margin:0 auto 28px;max-width:52ch">Tell me your biggest data or AI bottleneck and I'll send you how I'd approach it — the same way I worked this problem. No résumé dump, no pitch. Just a useful conversation.</p>
-    <a href="/contact?ref=case-study-intercom-1" style="display:inline-block;background:#C6F94E;color:#fff;font-weight:600;font-size:15px;text-decoration:none;padding:14px 28px;border-radius:6px">Start the conversation →</a>
+    <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:clamp(26px,4vw,36px);line-height:1.1;letter-spacing:-0.02em;color:#EDE7DA;margin:0 0 16px">Working on a similar problem?</h2>
+    <p style="font-size:17px;line-height:1.6;color:#56635F;margin:0 auto 28px;max-width:52ch">If you're dealing with a similar data, AI, or martech problem—or hiring for a senior product role—send over a note and I'll share how I'd approach it.</p>
+    <a href="/contact?ref=case-study-intercom-1" style="display:inline-block;background:#C6F94E;color:#fff;font-weight:600;font-size:15px;text-decoration:none;padding:14px 28px;border-radius:6px">Get in touch →</a>
   </div>
 </section>
 </body>
