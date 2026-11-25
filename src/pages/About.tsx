@@ -10,10 +10,10 @@ const stats = [
 ];
 
 const principles = [
-  'Ship first, theorize later — production data beats roadmap debates.',
-  'Every product decision should trace back to a measurable outcome.',
-  'AI products need to be designed around being wrong, not just being smart.',
-  'Data platforms are products too — they deserve the same rigor as customer-facing ones.',
+  'Put working software in front of real traffic early. Production data settles arguments faster than roadmap slides.',
+  'Tie product work to a clear business metric before writing the first ticket.',
+  'Models fail and hallucinate. Good AI products are built with fallbacks, guardrails, and clear recovery paths.',
+  'Internal data platforms need the same product discipline, SLAs, and usability as customer-facing apps.',
 ];
 
 const socialLinks = [
@@ -27,15 +27,16 @@ export default function About() {
     <main className="px-6 py-16 max-w-[760px] mx-auto">
       <SEO
         title="About"
-        description="14+ years moving fast across data platforms, AI products, and marketing tech — based in Munich, open to Director roles across DACH, India, Singapore, and the UAE."
+        description="Director of Data & AI Products based in Munich. 14+ years across data platforms, AI products, and marketing tech. Open to leadership roles in DACH, India, Singapore, and the UAE."
         path="/about"
       />
       <h1 className="font-display font-bold text-ink text-[clamp(2rem,5vw,3rem)]">About</h1>
       <div className="mt-6 font-body text-base text-ink leading-relaxed flex flex-col gap-4 max-w-[70ch]">
         <p>{resumeData.summary}</p>
         <p>
-          Based in Munich, I work at the intersection of data platforms, AI products, and marketing technology —
-          building systems that hold up under real production load, not just in a deck.
+          I live in Munich and spend my time where data engineering, machine learning, and commercial
+          growth meet. Most of my career has involved taking messy, high-volume data stacks and turning
+          them into products that teams can actually run and measure.
         </p>
       </div>
 
@@ -44,11 +45,11 @@ export default function About() {
       </section>
 
       <section className="mt-12">
-        <h2 className="font-display font-semibold text-lg text-ink mb-4">What I Care About</h2>
+        <h2 className="font-display font-semibold text-lg text-ink mb-4">How I Work</h2>
         <ul className="flex flex-col gap-2">
           {principles.map((principle) => (
             <li key={principle} className="font-body text-[15px] text-ink leading-relaxed pl-5 relative">
-              <span className="absolute left-0 text-accent">—</span>
+              <span className="absolute left-0 text-accent">·</span>
               {principle}
             </li>
           ))}
@@ -58,8 +59,8 @@ export default function About() {
       <section className="mt-12">
         <h2 className="font-display font-semibold text-lg text-ink mb-4">Currently</h2>
         <p className="font-body text-[15px] text-muted leading-relaxed max-w-[70ch]">
-          Rebuilding how Joyn's product works — recommendation, search, and data platform foundations — while
-          exploring agentic AI workflows for marketing and customer operations. Open to Director-level Data &amp; AI
+          Leading the recommendation, search, and data platform teams at Joyn, while building agentic
+          workflows for marketing and customer operations. I am open to Director and VP-level Data &amp; AI
           Product roles across DACH, India, Singapore, and the UAE.
         </p>
       </section>

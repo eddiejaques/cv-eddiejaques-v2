@@ -51,10 +51,9 @@ export default function Privacy() {
 
         <Section title="Information you send">
           <p>
-            If you use the contact form or request the résumé, the details you enter (such as your
-            name, email, company, and message) are stored securely in a Supabase database and may
-            trigger an email notification to me. This is used only to respond to you — never for
-            marketing lists.
+            If you use the contact form or unlock the résumé, the details you enter (name, email,
+            company, and message) are stored in a Supabase database and trigger an email
+            notification to me. I only use those details to reply to you, never for mailing lists.
           </p>
         </Section>
 

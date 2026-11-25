@@ -1,21 +1,19 @@
 ---
 id: "3"
 slug: "ai-products-vs-ai-features"
-title: "AI Products vs. AI Features: A Distinction Worth Keeping"
-description: "Adding a chat box to an existing product is a feature decision. Designing for a non-deterministic system is a product decision."
+title: "AI Products vs. AI Features"
+description: "Putting a model behind an existing button is a feature. Building a workflow where the system can be wrong is a product problem."
 publishedDate: "2025-08-20"
 tags: ["AI", "Product Management"]
 featured: false
 ---
 
-<!-- TODO: expand -->
+When a team says "we're adding AI to the product," they usually mean one of two very different things. Mixing them up causes most of the failed rollouts I see.
 
-"We're adding AI to the product" usually means one of two very different things, and conflating them causes most of the pain I've seen in AI rollouts.
+An **AI feature** tucks a model behind an existing, predictable workflow. Think auto-filling a form field, summarizing a support ticket for an agent, or ranking a search dropdown slightly better. The user's mental model of the app doesn't change. You measure it like any normal feature: adoption, task completion rate, and time saved.
 
-**An AI feature** bolts a model onto an existing, deterministic product surface. The product's contract with the user doesn't change — the model just makes one step faster or smarter. Success criteria look like any other feature: adoption, task completion, time saved.
+An **AI product** puts a probabilistic system directly in the path of the outcome. Because the model will occasionally hallucinate, misclassify, or miss context, the product itself has to be built around uncertainty. That means designing confidence thresholds, human override tools, trace evaluations, and clean fallback paths when the model fails.
 
-**An AI product** has non-determinism as part of its core contract. The user has to understand, even implicitly, that the system might be wrong, and the product has to be designed around that — confidence signals, fallback paths, correction loops.
+Our recommendation work at Joyn went through both stages. It started as a feature: replacing third-party ranking logic on existing homepage rails. Over time, it grew into a full product platform with an editorial override tool in Streamlit, automated cold-start lanes, and a conversational discovery assistant used by 100,000 viewers. Early on, whenever we treated a new ML surface like a standard deterministic feature, we got burned by edge cases in production. Once we built trace evaluation and instant model rollback into the platform from day one, iteration got much faster.
 
-The recommendation engine I built at Joyn started as a feature (better rankings on an existing rail) and grew into a product (a discovery assistant with its own surface, its own failure modes, and its own evaluation framework). The team that kept treating it like a feature kept getting surprised by edge cases that a product mindset would have designed for from day one.
-
-If you're not sure which one you're building, ask: when the model is wrong, does the user notice inside your product, or only after they've acted on bad information? If it's the latter, you're building a product, whether you planned to or not.
+A quick test to tell which one you are building: when the model gets an answer wrong, does the user have a way to spot it and recover inside the interface, or does it silently corrupt their work? If it's the second one, you have an AI product on your hands and need the guardrails to match.

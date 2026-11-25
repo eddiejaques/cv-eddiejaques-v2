@@ -46,7 +46,7 @@ export default function CaseStudiesHub() {
     <main className="px-6 py-16 max-w-7xl mx-auto">
       <SEO
         title="Case Studies"
-        description="Case studies on data platforms, AI products, and growth from Joyn, Optum, Vodafone, and earlier roles — with quantified before/after metrics."
+        description="Project breakdowns covering data platforms, AI products, marketing tech, and conversion optimization at Joyn, Optum, and Vodafone."
         path="/case-studies"
       />
 
@@ -57,8 +57,7 @@ export default function CaseStudiesHub() {
           Case Studies
         </h1>
         <p className="font-body text-lg text-muted mt-4 max-w-[58ch]">
-          14+ years of shipping data platforms, AI products, and growth wins —
-          filterable by category and career stage.
+          Detailed breakdowns of data platforms, ML systems, and growth projects I&apos;ve led over the last 14 years. Filter by domain or company below.
         </p>
       </div>
 

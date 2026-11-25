@@ -26,7 +26,7 @@ export default function Home() {
     <main className="relative">
       <SEO
         title="Home"
-        description="Director of Data & AI Products with 14+ years shipping data platforms, AI products, and marketing tech. Metrics-first portfolio and case studies."
+        description="Director of Data & AI Products in Munich. 14+ years building data platforms, recommendation engines, and marketing technology at scale."
         path="/"
         jsonLd={{
           '@context': 'https://schema.org',
@@ -80,9 +80,10 @@ export default function Home() {
             style={{ boxShadow: '0 0 0 1px var(--color-border), 0 0 0 5px rgba(198,249,78,0.18)' }}
           />
           <p className="font-body text-lg md:text-xl text-muted max-w-[48ch] leading-relaxed">
-            14+ years moving fast across data platforms, AI products, and marketing tech.
-            Currently rebuilding how Joyn's product works — measured in dollars saved and
-            engagement earned, not slideware.
+            14+ years building data platforms, AI products, and marketing tech.
+            Right now I run Data &amp; AI Products at Joyn in Munich, focused on
+            recommendation engines, search, and event infrastructure that cut costs
+            and grow watch time.
           </p>
         </div>
 

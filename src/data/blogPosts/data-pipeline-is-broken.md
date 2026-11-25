@@ -1,25 +1,23 @@
 ---
 id: "2"
 slug: "why-your-data-pipeline-is-broken"
-title: "Why Your Data Pipeline Is Broken (And It's Not the Tooling)"
-description: "Most pipeline incidents I've debugged trace back to a missing contract, not a missing feature."
+title: "Why Your Data Pipeline Is Broken (Hint: It's Not the Tooling)"
+description: "Most broken dashboards and billing spikes start weeks earlier when someone changes an event payload without telling downstream teams."
 publishedDate: "2025-11-03"
 tags: ["Data Platforms", "Engineering"]
 featured: true
 ---
 
-<!-- TODO: expand -->
+Almost every broken data pipeline I've walked into had the same underlying problem: nobody agreed on what an event meant before it went to production.
 
-Every data pipeline I've inherited has had the same root problem: nobody agreed on what an event meant before it shipped.
+Teams usually blame the tooling because the tool is where the pain shows up. A Mixpanel dashboard flatlines, a dbt job fails at 3 a.m., or a monthly CDP invoice comes in $30,000 over budget. When you trace the incident back, though, the failure almost always started weeks earlier when an app team renamed a property during a refactor or a marketer changed a campaign parameter without telling analytics.
 
-Tooling gets blamed because it's visible — a dashboard goes blank, a job times out, a bill spikes. But the actual failure happened weeks earlier, when an engineer added a new property to an event without telling anyone downstream, or a marketer renamed a campaign parameter mid-flight.
+When we rebuilt the event pipeline at Joyn, people outside the team called it a CDP migration. Internally, it was a governance project supported by a few pieces of software. Moving compute to Cloud Run and routing events through Segment helped, but what actually stopped the outages was compiling the event spec into our client tracking library so a malformed payload failed the build before it ever reached production.
 
-At Joyn, rebuilding the event pipeline wasn't primarily a migration project. It was a governance project that happened to require migrating some infrastructure. The technical work — schema validation, contracts, monitoring — only mattered because it gave the governance teeth.
+Before kicking off any data pipeline project now, I ask three questions:
 
-Three questions I now ask before any pipeline work starts:
+1. **Who can change an event schema, and what breaks at build time if they get it wrong?** If the answer is "anyone can push any JSON payload and we catch it in dbt," you don't have a contract yet.
+2. **What happens to invalid events automatically?** Do they fail the build, get routed to a dead-letter queue, or pass straight into the warehouse and quietly corrupt a revenue report two hops later?
+3. **If event volume doubles overnight after an app release, who sees the alert and who pays the overage bill?**
 
-1. Who is allowed to change this schema, and how do downstream consumers find out?
-2. What happens automatically when an event doesn't match its contract — does it get dropped, quarantined, or does it silently pass through and corrupt a report three hops later?
-3. If this pipeline doubled in volume overnight, who gets the bill, and do they know that?
-
-If those three questions don't have confident answers, no amount of new tooling will make the pipeline reliable.
+Until a team has straight answers to those three questions, swapping out one data stack for another just moves the mess to a new invoice.

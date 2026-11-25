@@ -50,15 +50,15 @@ export default function Contact() {
         <SEO title="Let's talk" description="Start a conversation." path="/contact" />
         <p className="font-mono text-xs text-accent uppercase tracking-[0.14em] mb-3">Got it</p>
         <h1 className="font-display font-bold text-ink text-[clamp(1.8rem,4vw,2.5rem)] leading-tight">
-          I'll be in touch within 24 hours
+          I'll get back to you within 24 hours
         </h1>
         <p className="font-body text-lg text-muted mt-4">
-          I'll read what you sent and reply personally with how I'd approach it — no canned pitch.
+          Thanks for reaching out. I read every note myself and will reply with concrete thoughts on what you shared.
         </p>
         <div className="mt-8 flex flex-col items-center gap-3">
-          <p className="font-body text-sm text-muted">Prefer to talk sooner?</p>
+          <p className="font-body text-sm text-muted">Want to talk sooner?</p>
           <Button as="link" to={CALENDAR_URL} variant="primary" reloadDocument>
-            Grab 15 minutes on my calendar →
+            Book 15 minutes on my calendar →
           </Button>
         </div>
       </main>
@@ -69,18 +69,18 @@ export default function Contact() {
     <main className="px-6 py-16 max-w-[560px] mx-auto">
       <SEO
         title="Let's talk"
-        description="Tell me your biggest data or AI bottleneck and I'll send you how I'd approach it."
+        description="Working through a data platform, recommendation, or martech problem, or hiring a product leader? Get in touch."
         path="/contact"
       />
 
       <p className="font-mono text-xs text-accent uppercase tracking-[0.14em] mb-3">Let's talk</p>
       <h1 className="font-display font-bold text-ink text-[clamp(1.9rem,4.5vw,2.75rem)] leading-[1.05]">
-        Tackling something like this?
+        Working on a similar problem?
       </h1>
       <p className="font-body text-lg text-muted mt-4">
-        Tell me your biggest data or AI bottleneck and I'll send you how I'd approach it —
-        the same way I worked the problems in these case studies. No résumé dump, no pitch.
-        Just a useful conversation.
+        If you're dealing with a messy data pipeline, an underperforming recommendation setup,
+        or hiring for a senior Data &amp; AI Product role, send over a few details and I'll share
+        how I'd approach it.
       </p>
 
       <form onSubmit={handleSubmit} className="flex flex-col gap-5 mt-10" noValidate>

@@ -53,12 +53,12 @@ export default function BlogHub() {
     <main className="px-6 py-16 max-w-[720px] mx-auto">
       <SEO
         title="Run Logs"
-        description="Notes on data platforms, AI products, and the difference between shipping and theorizing."
+        description="Field notes on data architecture, recommendation systems, agent evaluations, and product leadership."
         path="/blog"
       />
       <h1 className="font-display font-bold text-ink text-[clamp(2rem,5vw,3rem)]">Run Logs</h1>
       <p className="font-body text-base text-muted mt-3">
-        Notes on data platforms, AI products, and the difference between shipping and theorizing.
+        Field notes on data architecture, recommendation systems, agent evaluations, and product leadership.
       </p>
 
       {selectedTag && (

@@ -63,13 +63,13 @@ export default function CaseStudyTeasers() {
               style={{ boxShadow: '0 0 12px 2px rgba(198,249,78,0.6)' }}
             />
             <p className="font-mono text-xs uppercase tracking-[0.3em] text-muted">
-              Where do I start?
+              Selected Work
             </p>
           </div>
           <h2 className="font-display font-semibold text-ink text-[clamp(1.8rem,4vw,3rem)] leading-[1.02]">
-            Pick a problem. I&apos;ll show you{' '}
+            Real problems,{' '}
             <span className="italic text-accent" style={{ fontVariationSettings: '"SOFT" 8, "opsz" 96' }}>
-              how I solved it.
+              measured outcomes.
             </span>
           </h2>
         </div>

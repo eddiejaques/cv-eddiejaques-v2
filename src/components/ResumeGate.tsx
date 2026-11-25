@@ -45,10 +45,10 @@ export default function ResumeGate({ onUnlock }: Props) {
     <main style={{ minHeight: 'calc(100vh - 72px)', padding: '64px 24px' }}>
       <div style={{ maxWidth: '448px', margin: '0 auto', width: '100%' }}>
         <h1 className="font-display font-bold text-ink text-[32px] leading-tight">
-          Request the Resume
+          View the Resume
         </h1>
         <p className="font-body text-muted mt-3 mb-8">
-          Leave your details and the resume will open instantly. No spam — just a record of who's looking.
+          Enter your name and email to open the full resume right away. I only use this to see who is visiting, never for newsletters or outreach lists.
         </p>
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-5" noValidate>
