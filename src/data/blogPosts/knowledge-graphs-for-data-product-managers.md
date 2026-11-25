@@ -2,7 +2,7 @@
 id: "10"
 slug: "knowledge-graphs-for-data-product-managers"
 title: "What a Knowledge Graph Actually Is (and What It Isn't)"
-description: "Notes from trying to get this straight, written for data product managers. One question separates every product in this space \u2014 does it hold data, or only rules? Worked through one concrete problem: ad-level attribution reporting across Meta and Google."
+description: "Notes on knowledge graphs and semantic layers for data product managers. One question separates every product in this space: does it store data, or only translation rules? Worked through a concrete problem: ad-level attribution across Meta and Google."
 publishedDate: "2026-08-11"
 tags: ["Knowledge Graphs", "Semantic Layer", "Data Platform", "Product Management"]
 featured: true

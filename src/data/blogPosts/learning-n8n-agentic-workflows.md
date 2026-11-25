@@ -1,8 +1,8 @@
 ---
 id: "11"
 slug: "learning-n8n-agentic-workflows"
-title: "I Replaced a €15,000 Research Process With a Weekend and €50 a Month"
-description: "What I learned building my first agentic workflows in n8n — classifying every app review and survey comment with an LLM, into a warehouse you can actually query. The confusing parts, the bugs, the debt I can already see, and the sanitised workflows to take."
+title: "I Replaced a €15,000 Research Process With a Weekend Build and €50 a Month"
+description: "What I learned building my first LLM classification workflows in n8n: tagging every app review and survey comment into a warehouse table you can query. Covers the auth headaches, pagination bugs, technical debt, and sanitized workflow JSONs."
 publishedDate: "2026-08-19"
 tags: ["n8n", "Agentic Workflows", "Automation", "LLM", "Data Pipelines"]
 featured: true
@@ -30,22 +30,21 @@ And the questions they answered were genuinely good ones:
 - We shipped a release last week. Did the mix of complaints change?
 - Is anyone talking about the new feature, and are they happy about it?
 - Is there an idea buried in the free-text comments that we haven't thought of?
-- Is sentiment moving, and can we respond at scale so people feel heard — so they can see that
+- Is sentiment moving, and can we respond at scale so people feel heard and see that
   we actually act on what they tell us?
 
-That last one matters more than it sounds. Feedback isn't a reporting exercise. It's the loop that
-turns an annoyed user into someone who stays.
+That last one matters more than it sounds. User feedback only helps retention when you close the loop with the people who took the time to write in.
 
 So the work was worth doing. The problem was everything around it.
 
-It was **slow** — insight landed weeks after the release it described, by which point the next
+It was **slow**: insight landed weeks after the release it described, by which point the next
 release was out. It was **expensive**: ten to fifteen thousand euros a year in licences and vendor
 time, for what is fundamentally *read a comment, put it in a bucket, count the buckets*. It was
 **inconsistent**, because different analysts bucketed the same comment differently, so comparing
 quarters partly measured your users and partly measured who did the tagging.
 
 And it was **not queryable**. The output was a deck. You cannot filter a deck, or join one to your
-release dates. When a new question came up — and it always did — you couldn't answer it, you could
+release dates. When a new question came up (and it always did), you couldn't answer it; you could
 only commission it.
 
 I kept hitting that wall. A release would go out, I'd want to know that week whether playback
@@ -70,11 +69,11 @@ needs me to explain it. That's the difference between a thing I maintain forever
 owns.
 
 The boring parts were also already built. Signing a JWT, calling an API with a bearer token, talking
-to Snowflake, calling Gemini — all nodes, already there. I spent my time on logic, not on library
+to Snowflake, calling Gemini: all standard nodes, already there. I spent my time on logic, not on library
 archaeology.
 
 The third reason is the one I've become most convinced by since. With a bit of AI help, a business
-user can genuinely build one of these. Not a toy — a real one. That changes who is allowed to
+user can genuinely build a production workflow on their own. That changes who is able to
 automate their own work.
 
 I had never opened n8n before. The whole thing took a weekend.
@@ -127,9 +126,9 @@ Four decisions inside that are worth stealing.
 
 ### The model gets a menu, not a blank page
 
-The prompt doesn't ask for "a category". It gives eleven exact names — *Technical Playback &
-Stability Issues*, *Advertising Experience Issues*, *Value Perception & Monetization Critique* and
-so on — each with a one-line definition, and says: pick one, copy the string exactly, return only
+The prompt doesn't ask for "a category". It gives eleven exact names (*Technical Playback &
+Stability Issues*, *Advertising Experience Issues*, *Value Perception & Monetization Critique*, and
+so on), each with a one-line definition, and says: pick one, copy the string exactly, return only
 JSON.
 
 Then, and this is the part people skip, **the code checks the answer**:
@@ -173,7 +172,7 @@ is the same again. Once the shape exists, adding a source is an afternoon, not a
 
 ## The one that fought back
 
-The backfill workflow — the one that loads history rather than yesterday — is where I hit the only
+The backfill workflow (the one that loads historical comments rather than yesterday's batch) is where I hit the only
 real wall.
 
 Usersnap's history endpoint is cursor-paginated: each response tells you whether there's more and
@@ -202,15 +201,13 @@ all night.
 
 The built-in pagination did everything in that picture except the one arrow that loops back.
 
-That's the real lesson about low-code tools, and it isn't the one on the marketing pages. The
-question isn't whether the tool covers everything — it won't. It's what happens at the exact point
-where it stops. Here I replaced one node and left the rest visual. Without that escape hatch I'd
+That's the practical test for any low-code tool: what happens at the exact point where a built-in node falls short? Here I replaced one node with fifteen lines of JavaScript and left the rest visual. Without that escape hatch I'd
 have binned the whole thing and gone back to Python.
 
 ## The bit that genuinely surprised me
 
 Those eleven categories weren't invented for this project. They're the product of five or six years
-of iteration — first people reading comments and grouping them by hand, then pre-LLM NLP clustering,
+of iteration: first people reading comments and grouping them by hand, then pre-LLM NLP clustering,
 then years of arguing about the edges.
 
 Here's the uncomfortable part. Today, you can hand a model your backlog of comments, ask it to find
@@ -218,7 +215,7 @@ the natural clusters, and get something in that neighbourhood back in an afterno
 on the fly to everything new.
 
 That doesn't make the six years worthless. Somebody still has to look at the clusters and decide
-which ones a team can actually *do* something about — that's product judgment, and no model has it.
+which ones a team can actually *do* something about. That's product judgment, and no model has it.
 But the expensive part, grinding through thousands of comments to find the shape hiding in them, is
 now nearly free.
 
@@ -235,9 +232,9 @@ minutes and goes back to sleep. That's a post of its own.
 
 All in: about **fifty euros a month**, against ten to fifteen thousand a year.
 
-That gap is the actual story. Not that a big company saved money — that a small startup, a
-two-person research team, or a vendor who could never justify the licence can now have the same
-capability. The floor has dropped through.
+That cost drop matters beyond saving money at a large company. It means a small startup, a
+two-person research team, or an agency that could never justify a €15K enterprise licence can now run the same
+daily pipeline.
 
 On top of it today: a dashboard of theme trends over time, and the post-release check that started
 all this. Ship, look at the distribution next morning, see whether anything moved. The question that
@@ -247,9 +244,9 @@ took a month now takes a query.
 
 What's next on my list:
 
-- **Automated insight delivery.** The table is not the deliverable, the narrative is. Generating the
+- **Automated insight delivery.** The table is only the raw material; the narrative is what teams read. Generating the
   deck and the digest from the data, inside n8n, so nobody assembles slides by hand.
-- **Drafted responses.** The prompt already returns a suggested `response_tone` for every review —
+- **Drafted responses.** The prompt already returns a suggested `response_tone` for every review,
   a thread I started and left hanging. Closing the loop back to the user is the whole point.
 - **More sources.** Support tickets, social, NPS. Same eleven buckets, more inlets. That's where the
   one-shape-three-sources design pays off.
@@ -265,7 +262,7 @@ And the technical debt I can already see in my own canvas:
   every category after it by one. Every row still looks plausible. Every row after the gap is wrong.
   Make the model return the id alongside its answer and match on that, so a dropped item comes back
   as `N/A` where you can see it.
-- **Let the database enforce the dedup.** My dedup is entirely application-level — read the existing
+- **Let the database enforce the dedup.** My dedup is entirely application-level: read the existing
   ids, filter in code, insert the rest. Nothing in the table stops a duplicate. Run the backfill
   while the daily job fires over the same survey and both runs read "this is new" before either
   writes, so both insert. No error, two rows. A `MERGE` on the key fixes it properly, and it also
@@ -273,11 +270,11 @@ And the technical debt I can already see in my own canvas:
   survive growth.
 
   The trap here is assuming a primary key solves it. On Postgres it does. On **Snowflake and
-  BigQuery, `PRIMARY KEY` and `UNIQUE` are informational and unenforced** — you can declare one and
+  BigQuery, `PRIMARY KEY` and `UNIQUE` are informational and unenforced**: you can declare one and
   still insert the duplicate. I'd have bet money the other way.
 - **Stop concatenating strings into SQL.** The survey dedup query builds its `IN (...)` list by
   gluing quoted ids together. That was safe while the list was hardcoded and mine. Then I moved the
-  list into an environment variable — which is the improvement I'd been recommending, and which is
+  list into an environment variable, which is the improvement I'd been recommending, and which is
   exactly what makes concatenation start to matter. So the config node now validates every id as a
   UUID before it can reach the query. That's a guard, not a fix; query parameters are the fix.
   Worth noticing that tidying one thing quietly loaded the gun on another.
@@ -296,17 +293,16 @@ And the technical debt I can already see in my own canvas:
 
 Somewhere around the third branch I realised I wasn't designing any more, I was copying. Same nine
 steps, different API on the front, different table on the back. So I wrote the shape down as a
-prompt — one you can hand to a model along with "the source is Zendesk, the warehouse is Postgres,
+prompt you can hand to a model along with "the source is Zendesk, the warehouse is Postgres,
 here are my themes" and get a workflow JSON back.
 
-What makes it useful isn't the outline. It's the list of constraints, and every one of them is a
-scar:
+What makes it useful is the list of hard constraints, each one learned the slow way:
 
 - The loop node's output 0 is the *finished* one, not the first one.
 - The theme names in the prompt and the theme names in the validation list must match byte for
   byte, or every row silently becomes `N/A`.
 - A field only evaluates `{{ ... }}` if the string starts with `=`. Forget the `=` in a SQL query
-  and it doesn't error — it just quietly doesn't substitute.
+  and it doesn't error; it just quietly doesn't substitute.
 - Don't turn the classification prompt into an expression, because it contains JSON braces and n8n
   will try to parse them as templating.
 - Hash the author's name into the id, then throw the name away.
@@ -321,24 +317,24 @@ It's in the repo as [`PROMPT.md`](https://github.com/eddiejaques/aura/blob/main/
 
 ## Take it
 
-Sanitised copies of both workflows are in [`generic/`](https://github.com/eddiejaques/aura/tree/main/generic) — the
+Sanitised copies of both workflows are in [`generic/`](https://github.com/eddiejaques/aura/tree/main/generic) (the
 [daily pipeline](https://github.com/eddiejaques/aura/blob/main/generic/feedback-pipeline-daily.json) and the
-[backfill](https://github.com/eddiejaques/aura/blob/main/generic/feedback-pipeline-backfill.json) — along with a
+[backfill](https://github.com/eddiejaques/aura/blob/main/generic/feedback-pipeline-backfill.json)), along with a
 [`schema.sql`](https://github.com/eddiejaques/aura/blob/main/generic/schema.sql), an
 [`.env.example`](https://github.com/eddiejaques/aura/blob/main/generic/.env.example), a
 [`PROMPT.md`](https://github.com/eddiejaques/aura/blob/main/generic/PROMPT.md) for generating your own, and an
 [`ADAPT.md`](https://github.com/eddiejaques/aura/blob/main/generic/ADAPT.md) that walks through the credentials, the environment
 variables, and how to swap Snowflake for BigQuery or Postgres.
 
-The repo also has the earlier version of this pipeline, [`aura/`](https://github.com/eddiejaques/aura/tree/main/aura) — BigQuery, OpenAI, drafting replies
-instead of sorting themes. Same node skeleton. It's a decent illustration that none of this arrives
+The repo also has the earlier version of this pipeline, [`aura/`](https://github.com/eddiejaques/aura/tree/main/aura) (BigQuery, OpenAI, drafting replies
+instead of sorting themes). Same node skeleton. It's a decent illustration that none of this arrives
 fully formed; you build one, live with it, and the second one is the one you'd defend.
 
 The most important section of the guide is the one about choosing your own categories. Everything
 else is plumbing. The list of buckets is the product.
 
-If you take one thing from this: the reason this worked isn't that AI is clever. It's that AI is
-now cheap enough to run on *every* comment instead of a sample, and tools like n8n are simple
-enough that the person who wants the answer can build the thing that produces it.
+What made this work is that LLM inference is
+now cheap enough to run on *every* comment instead of a small sample, and workflow tools like n8n are approachable
+enough that the person who wants the answer can build the pipeline that produces it.
 
-That's a genuinely different world from the one where you file a request and wait a month.
+That's a very different workflow from filing a research request and waiting a month.

@@ -2,72 +2,74 @@
 id: "5"
 slug: "evaluating-data-agents-part-2"
 title: "Evaluating Data Agents, Part 2: A Metrics Framework"
-description: "Five dimensions for measuring a data agent before it goes to production — accuracy, robustness, trajectory, safety, and the LLM-as-judge layer that ties them together."
+description: "How to put concrete numbers on a data agent before shipping to production: task accuracy, semantic robustness, P95 latency, safety intercept rate, and automated LLM-as-judge scoring."
 publishedDate: "2026-06-16"
 tags: ["AI", "Data Platforms", "Evaluation"]
 featured: false
 ---
 
-> This post continues from [Evaluating Data Agents, Part 1](/blog/evaluating-data-agents-part-1) (also on [LinkedIn](https://www.linkedin.com/pulse/evaluating-data-agents-part-1-gaurav-kumar-dani-5fgwf)). If you haven't read that one, it's worth starting there.
+> This post picks up from [Evaluating Data Agents, Part 1](/blog/evaluating-data-agents-part-1) (also published on [LinkedIn](https://www.linkedin.com/pulse/evaluating-data-agents-part-1-gaurav-kumar-dani-5fgwf)). Start there if you want the background on the four evaluation axes.
 
-## Why metrics matter
+## Why you need numbers before going live
 
-You're probably already in a situation where you need to evaluate an agent or a fine-tuned LLM.
+Last week I sat in a review where someone remarked, "This agent is answering accurately about 99% of the time." When I asked how they measured that, the answer was, "That's what I've seen from trying it out."
 
-Just last week I was in a meeting where someone said, "This agent seems to be answering correctly 99% of the time." I asked how they arrived at that number. The answer was, "That's what I've observed."
+Spot-checking ten prompts by hand is fine when you are hacking together a prototype. Once executives or operational teams rely on an agent to pull numbers from your warehouse, gut feel won't hold up. You need an empirical baseline you can run on every prompt, schema, or model change.
 
-For small or low-risk use cases, that kind of human judgment might be fine. But once the system becomes business-critical or starts handling large volumes of data, observation isn't enough. You need an empirical way to measure performance.
+A proper metrics suite does three jobs:
+1. It tells you how often the agent actually gets the numbers right within an acceptable error bound.
+2. It exposes gaps in your semantic layer where business jargon fails to map to your physical tables.
+3. It gives you a clear pass/fail bar for moving an agent from a sandbox demo into production.
 
-Metrics do a few things for you. They let you express confidence in the agent's output and build trust over time that it responds within acceptable error bounds. They surface the blind spots — especially gaps in the Semantic Layer for data agents. And they give you a path from proof of concept to something mature enough for production.
-
-What follows is the framework I use: five dimensions, each with a metric you can actually compute.
+Here are the four core metrics I track, plus the automated judging layer that makes running them practical.
 
 ## 1. Accuracy
 
-Accuracy is the easiest metric to understand and usually the first one people reach for. The question is simple: is my agent accurate, and does it deliver value? In most cases, value is tied directly to correctness.
+Accuracy is the first number everyone asks for: when a user asks a question with a known answer, how often does the agent return the right result?
 
-To measure it, you run the agent against a set of test queries with known answers, compare its output to the expected results, and calculate the error rate. Subtract that from one and you have the task completion rate.
+To measure it, you assemble a golden test set of questions paired with verified answers (and verified SQL), run the agent across the batch, and compute the pass rate:
 
 ```
 Accuracy = (Total correct answers) / (Total answers)
 ```
 
-For a data agent that generates SQL, accuracy is the percentage of queries that return correct results when executed. This is essentially the QA and regression work many of us have done for years — the task completion rate feels very similar. Time saved in man-hours at a high completion rate is a solid rationale for moving an agent toward production. For data agents, answers are often deterministic early on, which makes this clean to measure.
+For a SQL-generating data agent, an answer counts as accurate when the generated query executes cleanly and returns the expected result set. This looks very similar to classic regression testing. If an agent hits a high first-try completion rate and saves analysts hours of routine data pulling, the business case is straightforward.
 
-For large-scale LLM systems serving hundreds of thousands of users — where responses are stochastic — it can make sense to think in Voice-of-Customer terms like NPS. Plenty of LLM products already ship a simple "Did you like the answer?" prompt to gauge value. Personally, I'd want to review conversations to see whether the user got the right answer on the first attempt or had to prompt several times.
+When you move from deterministic SQL lookups to open-ended analytical summaries for thousands of users, binary pass/fail gets harder to grade offline. In production, many teams add a lightweight thumbs-up/thumbs-down prompt to track user satisfaction alongside offline accuracy. Even then, I still inspect conversation logs to see whether users got their answer on the first prompt or had to rephrase three times to get a usable query.
 
 ## 2. Robustness
 
-This is where things start to feel overwhelming, so I'll keep it simple. Robustness runs the same accuracy checks, but asks the questions differently.
+Robustness runs the exact same accuracy test, except you rewrite the questions the way colleagues actually talk in Slack.
 
-If the expected answers are deterministic — funnel completion rates, growth rates, trend metrics — you're in good shape and can reuse the same accuracy numbers. Robustness exposes gaps in the Semantic Layer when questions are asked in a natural, messy, "urban-dictionary" way instead of strict literal language:
+When the target answer is a single number (funnel conversion, month-over-month growth, active users), you can score robustness with the same pass-rate formula as accuracy. What you are really testing here is your semantic layer. If users ask questions using internal shorthand or loose phrasing instead of strict table definitions, does the agent still map the terms properly?
 
+For example:
 - "What was the sAI rate last month?"
 - "How many ad impressions did we sell last month?"
-- "How many video views happened last month where at least one ad was played?"
+- "How many video views happened last month where at least one ad played?"
 
-Sometimes the question changes shape entirely and the expected output becomes stochastic — for example: "What do you think the growth rate will be on a unique-user table if everything else stays constant? Walk me through your analysis and why you arrived at that conclusion." There's no single correct number here; the output is an analysis, which needs a slightly more involved measurement.
+When the question asks for an open-ended explanation rather than a single number—say, *"What happens to our unique-user growth rate if retention holds flat next quarter? Walk me through your assumptions"*—there is no single scalar value to compare.
 
-**Cosine similarity** is the common tool for semantic correctness. It measures how aligned two vectors are, which makes it useful for comparing text embeddings, preferences, or recommendation signals. It ranges from −1 to 1, and higher scores indicate stronger alignment.
+For text-heavy outputs, **cosine similarity** between the embedding of the agent's response and a reference answer is a standard automated check. Scores range from -1 to 1, where higher values mean the response stayed semantically close to the reference analysis.
 
-It's also possible the model simply hallucinates — generating SQL with columns that don't exist. Tracking those cases as a custom metric is extremely useful for improving model quality.
+Alongside similarity, I track a separate counter for **schema hallucinations**: how often the agent invents column or table names that don't exist in the warehouse catalog. Watching that error rate drop is one of the fastest ways to tell if improvements to your semantic layer descriptions are working.
 
 ## 3. Trajectory
 
-I don't want my data agent getting lost in loops or taking unnecessary steps. One practical way to gauge that is the cost of computation end to end — how long it takes from the moment a user asks a question to the moment results come back.
+An agent that loops through four broken queries and takes 90 seconds to answer a simple question will frustrate users and run up your warehouse bill.
 
-At scale, the metric worth tracking is **Latency P95**: 95% of queries finish within a given time threshold. Establish a baseline. As a rule of thumb, agent cost shouldn't exceed the 80th percentile of overall cost per query — the 50th if you want to be stricter.
+In production, the cleanest proxy for trajectory health is end-to-end **P95 Latency** (the time threshold within which 95% of user questions finish) paired with **compute cost per query**. As a practical guardrail, an agent's per-query warehouse cost should stay below the 80th percentile of your normal BI dashboard queries, or the 50th percentile if you run a tight FinOps budget.
 
 ## 4. Safety
 
-Safety came up as an important dimension in Part 1. Metric-wise, it ends up looking a lot like task completion rate.
+In Part 1, I noted that database permissions should do the heavy lifting on safety. At the evaluation layer, you still want to measure how reliably the agent catches and refuses unsafe requests before touching the warehouse.
 
-As an evaluator, I deliberately write queries designed to push the agent past the safety boundaries set in its prompt. The more often safety is breached, the more work is needed to plug the gaps.
+To test this, we maintain a bank of red-team prompts designed to trick the agent into bypassing its instructions, querying restricted schemas, or dumping user-level PII.
 
-The metric here is the **Safety Intercept Rate**: the percentage of unsafe queries correctly blocked before execution. Ideally the agent is strongly typed so problems are caught upfront — in the best case, stopped during the initial reasoning phase, before it executes anything.
+The metric to track is the **Safety Intercept Rate**: the percentage of unsafe test queries blocked before execution. In a well-structured agent, the guardrail or reasoning step catches and rejects the request before any SQL is sent to the database.
 
-## Closing thought: AI evaluating AI
+## Automating the loop with an LLM judge
 
-Doing all of this by hand would take a very long time. That's why it helps to build an evaluation ecosystem where agents are tested and scored automatically.
+Grading a few hundred test runs by hand works once, and then nobody on the team wants to do it again next sprint.
 
-This is where LLM-based evaluation earns its place. Using an LLM as a judge can simulate human evaluation behavior, especially when you want to generate large volumes of synthetic queries for testing. In other words, you end up using AI to evaluate AI — and at scale, that may be the only practical way to do it.
+To make evaluation part of CI, you need an automated harness that generates synthetic variations of your core business questions, runs the agent against them, and uses a separate evaluator LLM (with strict grading rubrics and reference SQL) to score the results. Using an LLM to grade another LLM has its own failure modes, so you still have to audit a sample of the judge's scores by hand, but it is the only practical way to run hundreds of regression checks on every pull request.

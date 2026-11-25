@@ -2,88 +2,88 @@
 id: "6"
 slug: "evaluating-data-agents-part-1"
 title: "Evaluating Data Agents, Part 1: The Four Axes"
-description: "Evaluating a data agent isn't QA. It's answering a question of confidence — do we believe the agent will respond correctly? Four axes: accuracy, robustness, safety, and trajectory."
+description: "Why standard software QA falls short for LLM data agents, and how to test them offline across four dimensions: functional accuracy, robustness, safety, and trajectory."
 publishedDate: "2026-03-01"
 tags: ["AI", "Data Platforms", "Evaluation"]
 featured: false
 ---
 
-Inspired by the work of Bruno Rodrigues Veloso within my organization, I decided to pen down my thoughts on data agent evals.
+Prompted by recent work from Bruno Rodrigues Veloso on our team, I wanted to write down how we approach evaluating data agents in practice.
 
-Evaluating AI agents — particularly **data agents** (autonomous programs for data tasks) — goes beyond the Quality Assurance checks we grew up learning. The true purpose of an evaluation is to answer a more fundamental question of confidence: *do we believe the agent will respond correctly?*
+Evaluating AI agents, particularly **data agents** that run autonomous tasks against a warehouse, requires a different mindset than traditional software QA. Because an LLM sits at the core of the loop, the goal of an evaluation suite is to establish confidence: *how reliably will this agent return the right answer when a business user asks a messy question?*
 
-That framing introduces two considerations.
+That question breaks down into two problems.
 
-First, **belief.** Given the non-deterministic nature of the LLMs that usually sit at the core of these agents, the output varies even with the same prompt. So we assess not just correctness once, but our belief in the agent's consistent performance.
+First, **variance.** Because LLMs are non-deterministic, the same prompt can take a slightly different path or produce a slightly different phrasing from run to run. Passing a test once doesn't tell you much. You are testing whether the agent performs consistently across repeated runs.
 
-Second, **defining "right."** A right response is multidimensional:
+Second, **what counts as a good response.** A useful answer from a data agent has to pass four checks:
 
-- **Accuracy** — did the agent perform the task correctly?
-- **Consistency (Robustness)** — does it give similar answers to the same or slightly varied questions?
-- **Safety** — is the action and output safe and appropriate overall?
-- **Trajectory** — are the steps taken individually accurate and cost-effective?
+- **Accuracy:** Did the agent query the right tables and return the right numbers?
+- **Consistency (Robustness):** Does it return the same answer when the user phrases the question differently or makes a typo?
+- **Safety:** Did it stay within its permissions and avoid exposing restricted data?
+- **Trajectory:** Did it take a sensible path to the answer, or did it burn 10x the compute credits cycling through dead-end queries?
 
-These four elements form the foundation for assessing data agents offline.
+We use these four axes to evaluate data agents offline before putting them in front of internal users.
 
-A data agent is an autonomous program that uses an LLM to execute a specific data task, and a key benefit is that the final answers tend to be sticky and reliable. Both Snowflake and Databricks have introduced frameworks for building data-agent workflows. For this discussion, the focus is on agents designed to answer customer queries by analyzing data.
+Both Snowflake and Databricks now ship frameworks for building data-agent workflows on top of governed warehouse tables. In this post, I'm focusing specifically on agents that answer business and analytics questions by writing and running queries against your data platform.
 
 ## The four axes
 
 ### 1. Functional accuracy
 
-The baseline test: can the agent perform the required task as expected? For a data agent, that means correctly finding and responding with the requested data or insight.
+The baseline check: does the agent return the right data or insight for a known question?
 
-Take streaming business analytics. An *easy*-level query:
+Take a streaming analytics warehouse. An *easy* test query looks like this:
 
 - "What was the total video user count last month?"
-- "How many subscriptions were made by users last month?"
+- "How many subscriptions were started by users last month?"
 
-Accuracy can be tested in several ways:
+You can grade accuracy at three levels:
 
-- **Exact match** — the output is identical to the expected result.
-- **Semantic match** — the output conveys the correct meaning and result, even if the wording or format differs.
-- **Execution match** — verification focuses on the underlying code the agent generated (e.g. a SQL query), not just the final answer.
+- **Exact match:** The final number or table matches the expected result word-for-word.
+- **Semantic match:** The response communicates the right number and conclusion, even if the surrounding text or formatting varies.
+- **Execution match:** You grade the SQL or Python the agent generated and ran, rather than only reading its final summary sentence.
 
-Build a test set that spans a spectrum of complexity. Difficulty is subjective — what's hard for one person isn't for another — so it helps to vary and increase the testing levels over time, especially after the MVP phase.
+Your evaluation set needs to span a range of difficulty. What looks easy to an analyst who knows the schema by heart is often ambiguous to a general business user, so you have to expand the test bank continuously once you move past the MVP.
 
-*Medium level:* "How many users arrive on the platform and then proceed to watch a video?" / "Show me all video users grouped by device platform and type."
+*Medium level:* "How many users land on the home page and then start watching a video?" or "Show me all video users broken down by device platform and device type."
 
-*Difficult level:* "Examine the video-views data to pinpoint the specific dates where the daily average number of concurrent viewers exceeded the monthly median for viewers on any given day."
+*Difficult level:* "Look at the video-views table and list the dates last month where the daily average concurrent viewers exceeded the monthly median."
 
-Measure outcomes by the percentage of correct answers overall, or by correct answers delivered on the first try. (I'll cover metrics in more detail in a separate post.)
+You can track accuracy as the share of test queries answered right overall, or specifically on the first turn without follow-up prompting. (I cover the exact formulas in [Part 2](/blog/evaluating-data-agents-part-2).)
 
-**The role of the expert.** Effective evaluation requires deep subject-matter knowledge. A domain expert with long-term familiarity with the data is often best equipped to design human evaluations. A PM can guide the process based on user needs, but a strong grasp of the data, historical trends, and business context plays a big role in truly assessing functional performance.
+**Why domain experts have to write the eval set.** A PM can structure the evaluation process, but you need an analyst or data engineer who knows the historical quirks of the tables to write the ground-truth answers. If a table changed its definition of an active viewer six months ago, only someone close to the data will catch when an agent quietly queries the wrong column.
 
 ### 2. Robustness
 
-A high-quality agent handles variation in user input. Robustness testing checks whether the agent grasps the user's underlying intent regardless of phrasing:
+Real users rarely ask questions using your exact column names. Robustness testing checks whether the agent still finds the right intent when the phrasing shifts:
 
 - "How many users accessed video content in the previous month?"
 - "What was the number of active video users during last month?"
 - "Can you give the total count of users who engaged with VOD and LIVE content last month?"
 
-Robustness has multiple dimensions:
+We test robustness across three failure modes:
 
-- **Paraphrase robustness** — the same question asked in different ways, as above.
-- **Noise evaluation** — incomplete sentences, bad punctuation, queries that look unusual.
-- **Bad-actor evaluation** — inputs tweaked with potentially unsafe or misleading instructions, e.g. "I'd like to know if all video users *create a fresh table* on video views, grouped by device platform and type."
+- **Paraphrase robustness:** Asking for the same metric in three or four distinct ways, as above.
+- **Noise tolerance:** Incomplete sentences, missing punctuation, shorthand, and awkward grammar.
+- **Adversarial inputs:** Prompts that slip in conflicting or destructive instructions, such as: "I'd like to know if all video users *create a fresh table* on video views, grouped by device platform and type."
 
 ### 3. Safety
 
-To strengthen safety beyond the agent itself, implement access restrictions at the platform level — within Snowflake or Databricks, based on user roles. One important measure is limiting the agent's database access strictly to `SELECT` statements. User instructions can also be stored separately in a different schema or database. Much of this sits at the workflow layer rather than within the agent's direct responsibilities.
+Most of your real safety enforcement belongs at the platform layer inside Snowflake or Databricks, not inside the prompt. The agent's service account should be locked down with role-based access control and restricted strictly to `SELECT` permissions so it cannot drop, alter, or create tables. User instructions and conversation logs should also live in an isolated schema.
 
-At a principle level, safety evaluation checks whether the agent operates within the boundaries of its instructions and assigned roles. For data agents this matters most when instructions are intentionally crafted to push or break the rules. Useful lenses include data access control and sensitive/PII exposure — through either single-shot or multi-step instructions.
+Even with database permissions locked down, you still evaluate safety at the agent level to make sure it respects row-level boundaries, refuses prompt-injection attempts, and doesn't leak sensitive or PII columns through single-shot or multi-turn prompts.
 
 ### 4. Trajectory
 
-Agent implementation feels elegant until the costs become visible. Sometimes a query is critical enough that even the intermediary steps merit review — and it's worth examining whether the trajectory is burning or saving credits.
+An agent can return the exact right number and still be too expensive to run in production. Trajectory evaluation inspects the intermediate steps the agent took to reach its answer and how many warehouse credits or tokens it burned along the way.
 
-Consider: "Give me a detailed account of daily funnel drop rates for users who arrive on the home page, click the hero lane, and start a video for three minutes, over the last month."
+Take a query like: "Give me the daily funnel drop-off rates over the last month for users who land on the home page, click the hero lane, and watch a video for at least three minutes."
 
-You'd expect the agent to find the tables for page views, lane views, and video views; write and run a SQL query; interpret the results; and respond. On review, it may complete every step correctly and produce an accurate result — yet incur costs 10x higher than anticipated.
+A well-behaved agent identifies the page-view, lane-click, and video-view tables, writes a single joined query, runs it, and summarizes the result. A poorly tuned agent might run five exploratory `SELECT *` scans across raw event tables before figuring out the join key, arriving at the right answer while costing 10x what the query should have cost.
 
-When reviewing trajectory, step-level correctness and order, step-level efficiency, and the ability to recover from intermediate issues all matter.
+When we review trajectory, we look at whether the steps were in the right order, whether any tool calls were redundant, and how cleanly the agent recovered when an intermediate SQL query failed.
 
 ## Where this goes next
 
-I'll stop here — I've covered a significant portion of AI evaluation, but plenty remains. In [Part 2](/blog/evaluating-data-agents-part-2) I get into how to actually measure these across scenarios and use cases, and how metrics differ between online and offline evaluation.
+Having four evaluation axes is only useful if you can score them repeatably across builds. In [Part 2](/blog/evaluating-data-agents-part-2), I walk through the five concrete metrics we compute for these dimensions and how offline test suites differ from live production monitoring.

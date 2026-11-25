@@ -1,28 +1,26 @@
 ---
 id: "7"
 slug: "two-tower-recommendations-part-1"
-title: "Two Tower Recommendation Models: A Guide for Product Managers (Part 1)"
-description: "You don't need to write the ML code, but you absolutely need its mental framework. Part 1 breaks down collaborative filtering, its scaling limits, and where any PM — not just a Discovery PM — can find recommendation gaps."
+title: "Two-Tower Recommendation Models: A Guide for Product Managers (Part 1)"
+description: "A plain-English breakdown of collaborative and content-based filtering, why classic user-item matrices hit a wall at scale, and where data and backend PMs can spot recommendation opportunities."
 publishedDate: "2026-07-03"
 tags: ["AI", "Recommendations", "Product Management"]
 featured: true
 ---
 
-As a Product Manager, you don't need to know how to write the code for a machine learning model, but you absolutely need to understand its mental framework. If you handle backend data platforms, core checkout pipelines, or traditional business features, you might think recommendation systems are purely the domain of a specialized "Discovery PM."
+As a product manager, you don't need to write PyTorch training loops, but you do need a clear mental model of how recommendation systems work under the hood. Even if you manage backend data pipelines, checkout flows, or core platform services rather than a homepage discovery squad, understanding how recommenders consume signals lets you spot high-value product gaps.
 
-They aren't. Every PM, regardless of their domain, can identify recommendation gaps and unlock massive user value.
+Before getting into the **Two-Tower** architecture in Part 2, let's walk through the fundamentals from first principles: collaborative filtering, why it hits a scaling wall, and content-based filtering.
 
-Before we look at the advanced "Two Tower" approach, let's use the Feynman technique to break the foundational concepts down into plain, simple terms.
+## 1. Collaborative filtering in plain terms
 
-## Part 1: What is Collaborative Filtering?
+Imagine you run a small store. Instead of trying to analyze every attribute of every product on the shelf, you watch what customers buy together. When two customers share similar buying histories, you recommend the items one bought to the other.
 
-Imagine you run a shop. Instead of guessing what a customer wants based on the item itself, you look at how different people interact with different items. You find people who behave similarly, and swap their preferences.
+In code, this starts as a user-item interaction grid (a matrix) where rows represent items, columns represent users, and cells record whether an interaction happened (`1` for watched, liked, or bought; blank for no history).
 
-Mathematically, we map this out using a simple grid (a matrix) where rows are items, columns are users, and the cells show interactions. Let's normalize interactions simply as `1` (liked / watched / bought) and blank (no interaction).
+### Streaming example
 
-### The "Family" Example (Streaming)
-
-Let's assume Gaurav, Sarah, and Vini are part of one family.
+Suppose Gaurav, Sarah, and Vini share a household account:
 
 | Movie | Gaurav | Sarah | Vini |
 | --- | --- | --- | --- |
@@ -30,13 +28,12 @@ Let's assume Gaurav, Sarah, and Vini are part of one family.
 | K3G | | 1 | 1 |
 | Baadshah | 1 | 1 | |
 
-**Insight 1:** If Sarah and Vini both like K3G, and Gaurav belongs to the same family, Gaurav might also like K3G.
+- **Observation 1:** Sarah and Vini both watched *Kuch Kuch Hota Hai* and *K3G*. Since Gaurav also watched *Kuch Kuch Hota Hai*, *K3G* is a strong next candidate for him.
+- **Observation 2:** Vini hasn't watched *Baadshah* yet, but two people with overlapping watch histories (Gaurav and Sarah) both liked it.
 
-**Insight 2:** Vini might like Baadshah because Sarah and Gaurav — who already share tastes with Vini on other things — have both liked it.
+### E-commerce example
 
-### The "Shopping Cart" Example (E-Commerce)
-
-Let's apply the exact same logic to an e-commerce backend platform handling grocery sales:
+The exact same matrix applies to an online grocery checkout flow:
 
 | Product | Gaurav | Sarah | Vini |
 | --- | --- | --- | --- |
@@ -44,32 +41,31 @@ Let's apply the exact same logic to an e-commerce backend platform handling groc
 | Oat Milk | | 1 | 1 |
 | Croissants | 1 | 1 | |
 
-**Insight 1:** Sarah and Vini both buy Oat Milk. Since Sarah also buys Croissants, Vini is highly likely to buy Croissants too if prompted at checkout.
+- **Observation 1:** Sarah and Vini both buy oat milk. Because Sarah also buys croissants, showing croissants to Vini on the cart page is a high-probability cross-sell.
+- **Observation 2:** Gaurav and Sarah both buy croissants. Since Gaurav also buys espresso pods, espresso pods are a sensible candidate for Sarah's weekly restock email.
 
-**Insight 2:** Gaurav and Sarah share a love for Croissants. Gaurav buys Espresso Pods, so maybe Sarah wants Espresso Pods recommended in her weekly email digest.
+### How the model scores similarity
 
-### How does the computer know they are similar?
+To measure how close two users or two items are in that grid, systems compute **cosine similarity**, which treats each user's row of 1s and 0s as a vector and measures the angle between them. A small angle means two users behave very similarly.
 
-It uses a concept called **Cosine Similarity**. Think of it as a mathematical compass that measures the "angle" between two users' behaviors. If the angle is tiny, their tastes are closely aligned.
+## 2. Why classic collaborative filtering hits a wall at scale
 
-## Part 2: The Core Drawbacks of This Approach
+A raw user-item matrix is easy to reason about on a whiteboard, but it runs into two hard problems in production:
 
-While collaborative filtering is intuitive, it breaks down quickly in the real world due to scale:
+- **Sparsity:** Most of the grid is empty. A shopper might buy 5 items out of a catalog of 5 million. Comparing billions of mostly empty cells in real time wastes compute and produces noisy matches.
+- **Matrix size:** On a streaming platform with 15 million monthly active users and 4,000 shows, the interaction matrix has 60 billion cells. Engineers use **matrix factorization** to compress that giant table into smaller lower-dimensional factors, but recomputing it continuously as users click around in real time is still slow and rigid.
 
-- **The Sparsity Problem:** At scale, most cells are completely empty. Gaurav might buy 5 things out of a store containing 5 million items. Computing recommendations in real-time across billions of empty cells takes massive compute effort.
-- **The Size Problem:** Matrices become giant monstrosities. Imagine a streaming service with 15 million MAUs and 4,000 titles. To solve these large matrix problems efficiently without crashing the servers, engineers use a mathematical shortcut called **Matrix Factorization** — breaking one giant matrix into smaller, bite-sized ones.
+## 3. Where a data or backend PM adds value here
 
-## Part 3: What Can an Entry-Level PM Actually Do Here?
+Even if you don't own the recommendation UI, you likely own the events, attributes, or surfaces where recommendations could run:
 
-If you are a backend data PM, an infrastructure PM, or a non-discovery PM, here is how you can directly contribute to these initiatives:
+- **Audit similar user cohorts:** Look at your product analytics for user segments that behave similarly (for example, users on the same subscription tier, payment method, or purchase cadence) and check whether they actually see tailored cross-sells or default bestsellers.
+- **Size the uncaptured revenue or engagement:** If your checkout flow, onboarding screen, or email digest still serves static lists, pull the historical overlap data to show how much incremental order value or watch time is sitting untouched in those cohorts.
 
-- **Audit for Patterns:** Look at user segments that your product analytics show are qualitatively similar (e.g. users on the same payment methods, or users with similar checkout frequencies). Check if they are actually being offered the same relevant products as recommendations.
-- **Build the Business Case:** If your specific business sphere lacks recommendations entirely, you can spot the gaps. Show the data: *"Why aren't we maximizing value within this highly similar user segment by cross-recommending these exact products?"*
+## 4. Content-based filtering (the cold-start problem)
 
-## Part 4: Content-Based Filtering (The Next Step)
+What happens the day a new show or product lands in the catalog? Because nobody has watched or bought it yet, its row in the interaction matrix is completely blank, and pure collaborative filtering cannot recommend it to anyone.
 
-What happens when a brand-new item is added to the catalog, and nobody has interacted with it yet? Collaborative filtering fails because there are no 1s to compare.
+**Content-based filtering** fills that gap by matching item metadata rather than user overlap. If a user frequently watches action thrillers, the system can recommend a newly added movie tagged *Action / Thriller* on day one. If a grocery shopper consistently buys organic snacks, a new snack tagged *Organic* gets matched immediately.
 
-To solve this, we use **Content-Based Filtering**, where we recommend items based on the attributes of the item itself — matching a user who likes "Action movies" with a new movie tagged "Action", or matching a shopper who buys "Organic" with a new "Organic" snack.
-
-In our [next post](/blog/two-tower-recommendations-part-2), we explore how combining both Collaborative and Content filtering gives birth to the powerful **Two Tower Recommendation Model** — and how you can design the data pipelines to fuel it.
+In [Part 2](/blog/two-tower-recommendations-part-2), we look at how the **Two-Tower Recommendation Model** combines collaborative interaction signals and content metadata into a single architecture that scales to millions of users in milliseconds.
