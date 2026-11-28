@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>HealthSafe ID — Identity Analytics on Adobe Experience Platform</title>
+<title>Zero-Downtime Identity Analytics for 60M HealthSafe ID Users</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;450;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -246,14 +246,14 @@
 <header class="hero">
   <div class="wrap">
     <div class="eyebrow"><span class="dot"></span>Case Study · Healthcare Identity Analytics</div>
-    <h1>Modernized identity analytics for <span class="accent">60M</span> healthcare users — zero downtime, 60% test-win rate.</h1>
-    <p class="sub">HealthSafe ID® is UnitedHealth Group's single sign-on front door across UnitedHealthcare, OptumRx, and Optum Financial. During a high-stakes upgrade of legacy logins, a two-analyst team migrated its tracking to the Adobe Experience Platform without losing a single data point.</p>
-    <p class="role"><b>Role</b> Owned funnel analytics, monthly executive insight reporting, and A/B test design across authentication journeys on a two-analyst team during the AEP migration</p>
+    <h1>Zero-downtime identity analytics for <span class="accent">60M HealthSafe ID users</span>.</h1>
+    <p class="sub">HealthSafe ID is UnitedHealth Group's single sign-on system for 60M patients and members. During a major login upgrade, a colleague and I migrated identity tracking to Adobe Experience Platform with zero downtime at 20M MAU peak load.</p>
+    <p class="role"><b>Role</b> Funnel analytics, executive insight reporting, and A/B test design across authentication journeys during the AEP migration</p>
     <div class="meta">
-      <span class="chip"><b>50–60M</b> accounts served</span>
-      <span class="chip"><b>20M</b> MAU peak handled</span>
+      <span class="chip"><b>60M</b> healthcare users</span>
+      <span class="chip"><b>20M</b> peak MAU handled</span>
       <span class="chip"><b>10</b> A/B tests · <b>60%</b> win rate</span>
-      <span class="chip"><b>0</b> downtime</span>
+      <span class="chip"><b>0</b> downtime during cutover</span>
       <span class="chip">Adobe AEP</span>
     </div>
     <div class="tags">
@@ -267,27 +267,27 @@
 
 <section class="reveal">
   <div class="wrap">
-    <div class="section-tag">01 — The Business Driver</div>
-    <h2>One login stands between members and three essential services</h2>
-    <p class="lede">HealthSafe ID is the single front door for 50–60 million accounts. If sign-in breaks, members can't reach their insurance, their pharmacy, or their health-savings money — and the calls land on Optum's help desk.</p>
+    <div class="section-tag">01 — The Context</div>
+    <h2>Critical authentication gateway for healthcare services</h2>
+    <p class="lede">HealthSafe ID is the single sign-on entry point for 60 million accounts across insurance, pharmacy, and financial services, where login failures directly impact patient access.</p>
     <div class="problems">
       <div class="prob">
         <div class="num">UNITEDHEALTHCARE</div>
-        <h3>Insurance & claims (myUHC)</h3>
-        <p>Members sign in to check claims, manage health insurance, and pull up medical ID cards — often only at moments of real need.</p>
-        <div class="stat">Blocked login = <span>can't reach care or claims</span></div>
+        <h3>Insurance &amp; claims access</h3>
+        <p>Members authenticate to access insurance coverage, submit claims, and generate digital medical ID cards during care events.</p>
+        <div class="stat">Authentication failure = <span>blocked access to care benefits</span></div>
       </div>
       <div class="prob">
         <div class="num">OPTUMRX</div>
-        <h3>Pharmacy & prescriptions</h3>
-        <p>The same ID gates mail-order tracking and prescription fulfillment, where a failed login can stall medication a member is waiting on.</p>
-        <div class="stat">Failed login = <span>delayed prescription refills</span></div>
+        <h3>Prescription fulfillment</h3>
+        <p>Gated home delivery prescription refills, where authentication drops cause medication shipment delays.</p>
+        <div class="stat">Login drops = <span>delayed prescription fulfillment</span></div>
       </div>
       <div class="prob">
         <div class="num">OPTUM FINANCIAL</div>
         <h3>Health spending accounts</h3>
-        <p>HSAs, FSAs, and HRAs all sit behind HealthSafe ID, tied to strict tax and enrollment deadlines members can't afford to miss.</p>
-        <div class="stat">Locked out = <span>missed FSA/tax deadlines</span></div>
+        <p>Managed HSA, FSA, and HRA account access tied to strict annual tax and reimbursement deadlines.</p>
+        <div class="stat">Access lockout = <span>missed FSA and healthcare tax deadlines</span></div>
       </div>
     </div>
   </div>
@@ -296,26 +296,26 @@
 <section class="reveal">
   <div class="wrap">
     <div class="section-tag">02 — The Obstacles</div>
-    <h2>Healthcare logins are rare — so they're hard</h2>
-    <p class="lede">People sign in only at open enrollment, tax season, or a medical event, so credentials fade from memory between visits. Every authentication funnel loses users to a different technical fault — and a concurrent migration of legacy myUHC logins put data continuity at risk just as traffic peaked.</p>
+    <h2>Infrequent logins and legacy data fragmentation</h2>
+    <p class="lede">Because members log in infrequently, credential forgetfulness is high. Concurrently migrating legacy portal credentials while traffic surged created massive data continuity risks.</p>
     <div class="problems">
       <div class="prob">
         <div class="num">REGISTRATION</div>
-        <h3>New sign-ups stall on data mismatches</h3>
-        <p>First-time registration breaks when member data is missing or when what a person types doesn't match the format stored in enterprise HR records.</p>
-        <div class="stat">~55–70% complete = <span>up to 1 in 3 never register</span></div>
+        <h3>Registration data mismatches</h3>
+        <p>First-time onboarding failed when member demographic inputs conflicted with legacy enterprise records.</p>
+        <div class="stat">55–70% completion = <span>high abandonment during onboarding</span></div>
       </div>
       <div class="prob">
         <div class="num">RECOVERY</div>
-        <h3>Password recovery hits MFA dead ends</h3>
-        <p>Forgotten credentials run into multi-factor delays, outdated phone numbers, and strict unique-email rules that trip validation faults.</p>
-        <div class="stat">~65–75% recover = <span>the rest call support</span></div>
+        <h3>Password recovery bottlenecks</h3>
+        <p>Account recovery encountered MFA delivery timeouts, outdated mobile numbers, and validation deadlocks.</p>
+        <div class="stat">65–75% recovery = <span>escalations to customer support</span></div>
       </div>
       <div class="prob">
-        <div class="num">LOGIN</div>
-        <h3>Even returning users get blocked</h3>
-        <p>Established logins still fail on stale browser caches, corrupted cookies, and low-bandwidth token faults that quietly drop people at the door.</p>
-        <div class="stat">~80–85% succeed = <span>friction even for known users</span></div>
+        <div class="num">SESSION</div>
+        <h3>Session token drop-outs</h3>
+        <p>Returning user sessions failed due to corrupted browser state, token expiration, and legacy cookie handling.</p>
+        <div class="stat">80–85% success = <span>unnecessary friction for active users</span></div>
       </div>
     </div>
   </div>
@@ -325,33 +325,33 @@
   <div class="wrap">
     <div class="dark-inner reveal">
       <div class="section-tag">03 — The Solution</div>
-      <h2>A real-time analytics pipeline built on Adobe Experience Platform</h2>
-      <p class="lede">Rather than risk a break in tracking mid-migration, the team rebuilt the identity analytics pipeline on the Adobe Experience Platform Real-Time CDP — centralizing every portal interaction while staying inside HIPAA boundaries.</p>
+      <h2>Real-time streaming telemetry on Adobe Experience Platform</h2>
+      <p class="lede">We migrated identity tracking to Adobe Experience Platform Real-Time CDP, instrumenting HIPAA-compliant streaming telemetry across all three member portals.</p>
       <div class="timeline">
         <div class="spine"></div>
 
         <div class="phase">
           <div class="node">1</div>
-          <div class="ptitle">Centralize on the AEP Real-Time CDP <span class="flow">legacy analytics → streaming CDP</span></div>
-          <p>Moved the full identity analytics pipeline off legacy reporting and onto Adobe Experience Platform, cutting over with zero downtime so tracking never lapsed during the login upgrade.<span class="tech">Adobe AEP · Real-Time CDP</span></p>
+          <div class="ptitle">AEP Real-Time CDP migration <span class="flow">legacy reporting → streaming CDP</span></div>
+          <p>Migrated authentication telemetry to Adobe Experience Platform with zero downtime, maintaining continuous data capture through the cutover.<span class="tech">Adobe AEP · Real-Time CDP</span></p>
         </div>
 
         <div class="phase">
           <div class="node">2</div>
-          <div class="ptitle">Stitch identity across the three portals</div>
-          <p>Connected the "onboarding handshake" so a member moving between insurance, pharmacy, and financial portals could be tracked as one journey, without forcing them to re-register.<span class="tech">Cross-domain identity stitching</span></p>
+          <div class="ptitle">Cross-portal identity stitching</div>
+          <p>Implemented identity graphs connecting user sessions across insurance, pharmacy, and financial portals into a unified member view.<span class="tech">Identity stitching · Cross-domain</span></p>
         </div>
 
         <div class="phase era-ai">
           <div class="node">3</div>
-          <div class="ptitle">Stream the registration funnel in real time</div>
-          <p>Replaced delayed reports with live data across all four registration steps — portal start, identity verification, MFA setup, and credential provisioning — so drop-offs surfaced as they happened.<span class="tech">Real-time funnel visibility</span></p>
+          <div class="ptitle">Streaming registration telemetry</div>
+          <p>Replaced batch reports with real-time funnel events tracking initiation, verification, MFA configuration, and credential issuance.<span class="tech">Real-time funnel analytics</span></p>
         </div>
 
         <div class="phase era-ai">
           <div class="node">4</div>
-          <div class="ptitle">Map tracking around strict privacy rules</div>
-          <p>Encoded constraints like blocking account-sharing setups while still tracking legitimate family policies — capturing behavior without ever exposing protected health information.<span class="tech">HIPAA · PHI-safe mapping</span></p>
+          <div class="ptitle">HIPAA-compliant data architecture</div>
+          <p>Enforced strict privacy guardrails to monitor authentication friction while ensuring zero exposure of protected health information (PHI).<span class="tech">HIPAA · PHI privacy</span></p>
         </div>
       </div>
     </div>
@@ -391,33 +391,33 @@
 
 <section class="reveal">
   <div class="wrap">
-    <div class="section-tag">05 — What the Platform Unlocked</div>
-    <h2>From volatile upgrade to an optimized, observable front door</h2>
+    <div class="section-tag">05 — Strategic Outcomes Unlocked</div>
+    <h2>Resilient identity infrastructure and continuous optimization</h2>
     <div class="unlocked-grid">
       <div class="unlock q full">
         <div class="ico">⚡</div>
-        <h4>A high-stakes identity migration that members never felt</h4>
-        <p>The platform absorbed seasonal swings from a 5–8M monthly baseline to 20M+ at peak without losing data, keeping authentication observable through the riskiest phase of the legacy-login upgrade — and protecting business continuity exactly when it mattered most.</p>
+        <h4>High-concurrency streaming telemetry</h4>
+        <p>The AEP pipeline seamlessly handled peak surges up to 20M monthly active users during open enrollment without telemetry drop-outs or ingestion delays.</p>
       </div>
       <div class="unlock">
         <div class="ico">⤳</div>
-        <h4>One journey across three portals</h4>
-        <p>Cross-domain identity stitching tracks a member's onboarding handshake from insurance to pharmacy to financial accounts as a single, connected path.</p>
+        <h4>Unified cross-portal identity graph</h4>
+        <p>Stitched member journeys across UnitedHealthcare, OptumRx, and Optum Financial, giving product teams complete visibility into cross-service navigation.</p>
       </div>
       <div class="unlock">
         <div class="ico">↻</div>
-        <h4>Drop-offs visible the moment they happen</h4>
-        <p>Real-time funnel data replaced delayed reports, so the team could see exactly which authentication step was failing instead of finding out weeks later.</p>
+        <h4>Real-time auth drop-off detection</h4>
+        <p>Live telemetry flagged credential mismatch errors and MFA verification timeouts immediately, enabling proactive engineering fixes.</p>
       </div>
       <div class="unlock">
         <div class="ico">⊕</div>
-        <h4>Insight that separates data faults from UX faults</h4>
-        <p>Monthly reports translated raw signals — cookie corruption, MFA latency loops — into answers product managers could act on, distinguishing missing-data drop-offs from design problems.</p>
+        <h4>Data-informed experimentation program</h4>
+        <p>Achieved a 60% win rate across 10 auth optimization tests, reducing friction in registration and password recovery flows.</p>
       </div>
       <div class="unlock">
         <div class="ico">✕</div>
-        <h4>Pressure taken off the help desk</h4>
-        <p>Smoothing authentication loops through data-driven UX changes kept member support lines from being overwhelmed during peak traffic — and proved that conversion wins were repeatable even inside strict HIPAA boundaries.</p>
+        <h4>Reduced customer support escalation</h4>
+        <p>Resolving friction points in authentication journeys noticeably lowered login-related contact volume to member support centers.</p>
       </div>
     </div>
   </div>

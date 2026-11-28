@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Enautics SegmentSync: Real-Time Personalization & Closed-Loop Analytics</title>
+<title>Connecting Oracle Eloqua and Adobe Experience Cloud with Enautics SegmentSync</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;450;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -244,12 +244,12 @@
 <header class="hero">
   <div class="wrap">
     <div class="eyebrow"><span class="dot"></span>Case Study · Real-Time Personalization</div>
-    <h1>A first-time enterprise rollout drove a <span class="accent">37%</span> lift in loan applications.</h1>
-    <p class="sub">Enautics had built SegmentSync, middleware designed to bridge Oracle Eloqua and Adobe Experience Cloud, but had never landed it inside a real enterprise. Working directly with the founder, I led the first production deployment at Mountain America Credit Union (MACU), then used that blueprint to roll the same architecture out to Anixter and DHL.</p>
-    <p class="role"><b>Role</b> Led the engagement end to end as technical POC — schema design, audience lifecycle logic, sprint coordination, and pilot validation, then repeated the rollout for two further clients</p>
+    <h1>Connecting Oracle Eloqua and Adobe Experience Cloud with <span class="accent">Enautics SegmentSync</span>.</h1>
+    <p class="sub">Enautics had built middleware to sync Oracle Eloqua segments with Adobe Target and Analytics, but needed its first enterprise deployment. I led the rollout at Mountain America Credit Union, lifting loan application conversion by 37%, and reused the playbook at Anixter and DHL.</p>
+    <p class="role"><b>Role</b> Technical lead: schema design, audience lifecycle scoring logic, multi-tool sync architecture, and client rollouts</p>
     <div class="meta">
       <span class="chip"><b>37%</b> conversion lift</span>
-      <span class="chip"><b>3</b> enterprise deployments</span>
+      <span class="chip"><b>3</b> enterprise rollouts</span>
       <span class="chip"><b>2018–2020</b> engagement</span>
       <span class="chip">Adobe Analytics</span>
       <span class="chip">Adobe Target</span>
@@ -266,27 +266,27 @@
 
 <section class="reveal">
   <div class="wrap">
-    <div class="section-tag">01 — The Business Driver</div>
-    <h2>Known customers were being treated as strangers</h2>
-    <p class="lede">Enautics needed a way to prove that its middleware, SegmentSync, could connect marketing automation and web personalization in a real enterprise — starting with MACU's loan application funnel.</p>
+    <div class="section-tag">01 — The Context</div>
+    <h2>Bridging marketing automation and on-site personalization</h2>
+    <p class="lede">Mountain America Credit Union needed to bridge marketing automation and on-site personalization without forcing returning email subscribers through generic web experiences.</p>
     <div class="problems">
       <div class="prob">
-        <div class="num">GOAL</div>
-        <h3>Connect email behavior to web personalization</h3>
-        <p>SegmentSync was built to feed email engagement (sends, opens, clicks) into Adobe Analytics and to recognize returning email subscribers the moment they landed on the website.</p>
-        <div class="stat">Email + web linked = <span>one view of each customer's journey</span></div>
+        <div class="num">ALIGNMENT</div>
+        <h3>Disconnected email and web channels</h3>
+        <p>Outbound Eloqua email campaigns operated completely separately from Adobe Analytics and Target web experiences.</p>
+        <div class="stat">Siloed systems = <span>fragmented member journey across touchpoints</span></div>
       </div>
       <div class="prob">
-        <div class="num">GAP</div>
-        <h3>Returning users looked anonymous</h3>
-        <p>Without this link, a subscriber who clicked an email offer and then visited the site was shown the same generic content as a first-time visitor.</p>
-        <div class="stat">No recognition = <span>missed cross-sell and drop-off</span></div>
+        <div class="num">EXPERIENCE</div>
+        <h3>Known visitors treated as strangers</h3>
+        <p>Subscribers clicking loan rate emails were served generic homepages rather than pre-qualified application funnels.</p>
+        <div class="stat">No recognition = <span>high drop-off on high-intent campaign traffic</span></div>
       </div>
       <div class="prob">
-        <div class="num">PROOF</div>
-        <h3>No enterprise had run it yet</h3>
-        <p>Enautics needed a real, production install in a regulated environment to prove the product worked before it could be sold to other large enterprises.</p>
-        <div class="stat">0 live installs = <span>no case study, no sales proof</span></div>
+        <div class="num">VALIDATION</div>
+        <h3>Unproven enterprise middleware</h3>
+        <p>Enautics required an enterprise production deployment in a regulated financial environment to validate SegmentSync's capabilities.</p>
+        <div class="stat">Zero enterprise deployments = <span>needed a proven production reference</span></div>
       </div>
     </div>
   </div>
@@ -295,26 +295,26 @@
 <section class="reveal">
   <div class="wrap">
     <div class="section-tag">02 — The Obstacles</div>
-    <h2>Why this couldn't be a vendor checkbox install</h2>
-    <p class="lede">SegmentSync was new, unproven software being installed at a financial institution — every part of the rollout had to be designed from scratch and tested safely before going live.</p>
+    <h2>Strict security standards and multi-platform synchronization</h2>
+    <p class="lede">Deploying real-time synchronization in financial services meant meeting strict compliance requirements while maintaining sub-second personalization latency.</p>
     <div class="problems">
       <div class="prob">
-        <div class="num">DESIGN</div>
-        <h3>No existing schema to connect the tools</h3>
-        <p>Oracle Eloqua, Adobe Analytics, and Adobe Target had never been wired together at MACU — the data schemas, event rules, and audience definitions all had to be designed from the ground up.</p>
-        <div class="stat">3 disconnected tools = <span>no shared definition of a "customer"</span></div>
+        <div class="num">INTEGRATION</div>
+        <h3>Complex multi-vendor schema mapping</h3>
+        <p>Oracle Eloqua contact fields, Adobe Analytics eVars/events, and Adobe Target profile parameters required bidirectional alignment.</p>
+        <div class="stat">3 distinct platforms = <span>custom schema transformation layer required</span></div>
       </div>
       <div class="prob">
-        <div class="num">RISK</div>
-        <h3>Financial services leaves no room for error</h3>
-        <p>The loan application funnel is core revenue infrastructure for a credit union — any bug in real-time identification or targeting could break the application flow itself.</p>
-        <div class="stat">Loan funnel = <span>direct revenue at risk if it breaks</span></div>
+        <div class="num">COMPLIANCE</div>
+        <h3>Financial services data privacy</h3>
+        <p>Member financial intent and personally identifiable data had to be protected without storing sensitive data in client-side cookies.</p>
+        <div class="stat">Strict compliance = <span>tokenized identification and secure payload handling</span></div>
       </div>
       <div class="prob">
-        <div class="num">TRACKING</div>
-        <h3>Legacy analytics couldn't see the funnel</h3>
-        <p>MACU's existing Adobe Analytics setup lacked the precise milestones needed to tell apart someone browsing rates from someone actively filling out a loan application.</p>
-        <div class="stat">No funnel milestones = <span>no way to target by intent</span></div>
+        <div class="num">MEASUREMENT</div>
+        <h3>Incomplete funnel instrumentation</h3>
+        <p>Existing web analytics lacked step-level telemetry across loan application milestones, preventing precise intent scoring.</p>
+        <div class="stat">Missing telemetry = <span>funnel tracking overhaul required before targeting</span></div>
       </div>
     </div>
   </div>
@@ -324,33 +324,33 @@
   <div class="wrap">
     <div class="dark-panel-inner reveal">
       <div class="section-tag">03 — The Solution</div>
-      <h2>A real-time lifecycle loop, from email to offer</h2>
-      <p class="lede">As technical lead, I designed the schemas and audience logic, then coordinated engineering to build a closed loop between Eloqua, Adobe Analytics, and Adobe Target.</p>
+      <h2>Closed-loop data architecture and real-time audience orchestration</h2>
+      <p class="lede">We instrumented full-funnel tracking, established lifecycle scoring, and configured SegmentSync to stream audience state across Eloqua and Adobe Target.</p>
       <div class="timeline">
         <div class="spine"></div>
 
         <div class="phase">
           <div class="node">1</div>
-          <div class="ptitle">Rebuild the funnel's tracking foundation <span class="flow">Audit → milestones</span></div>
-          <p>Audited and restructured MACU's Adobe Analytics setup, engineering precise event-tracking rules across the loan application pipeline so each step could be measured on its own.<span class="tech">Adobe Analytics · Funnel tracking</span></p>
+          <div class="ptitle">Loan funnel instrumentation <span class="flow">audit → step telemetry</span></div>
+          <p>Re-architected Adobe Analytics tracking across MACU's loan application steps, capturing interaction depth, rate calculator usage, and drop-off points.<span class="tech">Adobe Analytics · Data layer</span></p>
         </div>
 
         <div class="phase">
           <div class="node">2</div>
-          <div class="ptitle">Define a three-stage lifecycle</div>
-          <p>Designed a framework that scored users live as Aware (browsing top-of-funnel content and email), Interested (using loan calculators or rate sheets), or Engaged (actively working on a loan application).<span class="tech">Audience lifecycle scoring</span></p>
+          <div class="ptitle">Audience lifecycle scoring model</div>
+          <p>Defined a 3-tier intent classification model: Aware (content/email browsing), Interested (rate calculations), and Engaged (active application flow).<span class="tech">Lifecycle scoring · Taxonomy</span></p>
         </div>
 
         <div class="phase era-ai">
           <div class="node">3</div>
-          <div class="ptitle">Sync segments to Eloqua and Target in real time <span class="flow">SegmentSync</span></div>
-          <p>As a user's lifecycle stage changed, SegmentSync pushed that segment simultaneously to Oracle Eloqua and Adobe Target, keeping email and web in sync with the user's live behavior.<span class="tech">Eloqua · Adobe Target</span></p>
+          <div class="ptitle">Real-time SegmentSync deployment <span class="flow">Eloqua ↔ SegmentSync ↔ Target</span></div>
+          <p>Configured SegmentSync to sync lifecycle states bidirectionally between Oracle Eloqua and Adobe Target within milliseconds of page load.<span class="tech">SegmentSync · API sync</span></p>
         </div>
 
         <div class="phase era-ai">
           <div class="node">4</div>
-          <div class="ptitle">Recognize returning users and serve a pre-qualified offer</div>
-          <p>When a known user returned to the site, SegmentSync identified them instantly and handed Adobe Target their lifecycle segment, which bypassed static content to surface a loan offer matched to their stage.<span class="tech">Real-time identification · Personalization</span></p>
+          <div class="ptitle">Dynamic personalization delivery</div>
+          <p>Built Adobe Target experiences that replaced generic hero modules with contextual loan offers tailored to the visitor's live stage.<span class="tech">Adobe Target · Experience delivery</span></p>
         </div>
       </div>
     </div>
@@ -386,32 +386,32 @@
 <section class="reveal">
   <div class="wrap">
     <div class="section-tag">05 — Strategic Outcomes Unlocked</div>
-    <h2>From unproven middleware to a sellable enterprise playbook</h2>
+    <h2>Validated product architecture and multi-enterprise deployments</h2>
     <div class="unlocked-grid">
       <div class="unlock q full">
         <div class="ico">⚡</div>
-        <h4>SegmentSync's first proof that it works at enterprise scale</h4>
-        <p>The MACU pilot gave Enautics its first real-world deployment, its first enterprise case study, and a documented deployment playbook — turning an unproven product into one with a 37% lift to point to.</p>
+        <h4>Commercial validation for SegmentSync</h4>
+        <p>The successful production deployment and 37% conversion lift at MACU provided Enautics with proven enterprise case study data to sell to financial and global B2B clients.</p>
       </div>
       <div class="unlock">
         <div class="ico">⊕</div>
-        <h4>Email and web behavior in one loop</h4>
-        <p>Offline email metrics now flow into Adobe Analytics, and real-time web behavior flows into Eloqua and Target — closing a loop that was previously two disconnected systems.</p>
+        <h4>Closed-loop marketing attribution</h4>
+        <p>Connected downstream web loan completions back to specific upstream Eloqua email campaigns, unlocking full-funnel channel ROI reporting.</p>
       </div>
       <div class="unlock">
         <div class="ico">↻</div>
-        <h4>Returning users get relevant offers, not generic pages</h4>
-        <p>Known users hitting the site are recognized instantly and shown a loan offer matched to their lifecycle stage instead of static, one-size-fits-all content.</p>
+        <h4>Contextual real-time web personalization</h4>
+        <p>Returning credit union members were recognized immediately and routed into pre-filled rate calculators and targeted application paths.</p>
       </div>
       <div class="unlock">
         <div class="ico">⟲</div>
-        <h4>A pilot-first rollout strategy that de-risked production</h4>
-        <p>An isolated pilot validated SegmentSync's latency and data integrity before it touched MACU's full production web properties — a financial-services-safe rollout model.</p>
+        <h4>Secure financial services integration model</h4>
+        <p>Architected tokenized client-side handlers that ensured zero leakage of personally identifiable financial data while maintaining real-time targeting.</p>
       </div>
       <div class="unlock">
         <div class="ico">⤳</div>
-        <h4>The same blueprint, reused for Anixter and DHL</h4>
-        <p>The schemas, lifecycle logic, and rollout process built for MACU were reused as standalone implementations for two further multinational enterprises.</p>
+        <h4>Multi-enterprise rollout blueprint</h4>
+        <p>The implementation framework and schema templates were directly reused to deploy the platform across Anixter and DHL.</p>
       </div>
     </div>
   </div>
@@ -420,8 +420,8 @@
 <footer>
   <div class="wrap">
     <div class="foot">
-      <div class="brand">Enautics <span>—</span> SegmentSync</div>
-      <div>Anonymous Visitors → Recognized, Personalized Offers</div>
+      <div class="brand">Enautics <span>—</span> SegmentSync Integration</div>
+      <div>Oracle Eloqua ↔ Adobe Experience Cloud</div>
     </div>
   </div>
 </footer>

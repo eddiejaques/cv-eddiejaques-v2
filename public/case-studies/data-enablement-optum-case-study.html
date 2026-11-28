@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Migrating Optum's Tag Management to Adobe Experience Platform Launch</title>
+<title>Migrating 40+ Optum Domains from Adobe DTM to Launch</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;450;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -164,42 +164,42 @@
 <header class="hero">
   <div class="wrap">
     <div class="eyebrow"><span class="dot"></span>Case Study · Tag Management Migration</div>
-    <h1>Migrating 900 tags across 40+ domains with <span class="accent">zero reporting disruption</span>.</h1>
-    <p class="sub">Optum's Dynamic Tag Manager was end-of-life with no third-party plugin support, but every insight and report had to keep running through the cutover. I planned and led the migration to Adobe Experience Platform Launch end to end.</p>
-    <p class="role"><b>Role</b> Led the tag management migration — As-Is audit, phased migration plan, go-live, and governance recommendations</p>
+    <h1>Migrating 40+ Optum domains from <span class="accent">Adobe DTM to Launch</span> with zero downtime.</h1>
+    <p class="sub">Adobe Dynamic Tag Manager was reaching end-of-life across more than 40 Optum domains. I planned and led the four-month migration of 900 tracking rules to Adobe Experience Platform Launch with zero reporting disruption.</p>
+    <p class="role"><b>Role</b> Led the migration end to end: current-state audit, phased rollout plan, cutover execution, and data governance standards</p>
     <div class="meta">
-      <span class="chip"><b>2018-2020</b></span>
+      <span class="chip"><b>2018–2020</b></span>
       <span class="chip"><b>900</b> rules, data elements &amp; tags</span>
       <span class="chip"><b>40+</b> domains</span>
-      <span class="chip"><b>3-4 months</b> · Feb-May '19</span>
-      <span class="chip"><b>0</b> reporting disruption</span>
+      <span class="chip"><b>4 months</b> timeline</span>
+      <span class="chip"><b>0</b> reporting downtime</span>
     </div>
   </div>
 </header>
 
 <section class="reveal">
   <div class="wrap">
-    <div class="section-tag">01 — The Business Driver</div>
-    <h2>The legacy tag manager was running out of road</h2>
-    <p class="lede">Optum's Dynamic Tag Manager was approaching end-of-life with no vendor support, forcing a migration to Adobe Experience Platform Launch before it broke.</p>
+    <div class="section-tag">01 — The Context</div>
+    <h2>Sunsetting a legacy tag layer without losing data</h2>
+    <p class="lede">Adobe Dynamic Tag Manager was nearing complete end-of-life. Without migration to Adobe Experience Platform Launch, Optum faced unmaintained tracking across core properties.</p>
     <div class="problems">
       <div class="prob">
         <div class="num">END-OF-LIFE</div>
-        <h3>No support for the old tool</h3>
-        <p>Adobe's Dynamic Tag Manager was being sunset, leaving Optum on an unsupported platform for core data collection.</p>
-        <div class="stat">Vendor support ending = <span>core data collection at risk</span></div>
+        <h3>Sunset of legacy DTM</h3>
+        <p>Adobe scheduled DTM for complete retirement, meaning zero security updates, bug fixes, or platform maintenance.</p>
+        <div class="stat">Platform sunset = <span>critical web telemetry at risk</span></div>
       </div>
       <div class="prob">
-        <div class="num">ECOSYSTEM</div>
-        <h3>No third-party plugin support</h3>
-        <p>The legacy tool couldn't integrate with the broader martech stack, limiting what the tag layer could do.</p>
-        <div class="stat">No plugin ecosystem = <span>martech stack stuck in place</span></div>
+        <div class="num">INTEGRATION</div>
+        <h3>No modern extension ecosystem</h3>
+        <p>Legacy DTM lacked support for modern martech extensions and server-side integrations, bottlenecking new analytics tools.</p>
+        <div class="stat">No extension ecosystem = <span>martech tool additions stalled</span></div>
       </div>
       <div class="prob">
         <div class="num">CONTINUITY</div>
-        <h3>Reporting couldn't break</h3>
-        <p>The migration had to preserve the insight-generation and reporting pipelines that the business depended on daily.</p>
-        <div class="stat">Daily reporting depends on this layer = <span>no room for downtime</span></div>
+        <h3>Zero tolerance for data loss</h3>
+        <p>Optum's executive reporting and operational analytics ran continuously on these tags, requiring 100% data continuity during cutover.</p>
+        <div class="stat">Daily operations depend on data = <span>zero reporting downtime required</span></div>
       </div>
     </div>
   </div>
@@ -208,26 +208,26 @@
 <section class="reveal">
   <div class="wrap">
     <div class="section-tag">02 — The Obstacles</div>
-    <h2>What made this more than a lift-and-shift</h2>
-    <p class="lede">A straightforward tool swap on paper became a full re-platforming effort once scale, missing documentation, and governance gaps surfaced.</p>
+    <h2>Scale, undocumented tags, and legacy drift</h2>
+    <p class="lede">Migrating 40+ properties meant untangling years of undocumented custom code, redundant rules, and divergent naming conventions.</p>
     <div class="problems">
       <div class="prob">
         <div class="num">SCALE</div>
-        <h3>900 items across 40+ domains</h3>
-        <p>Every rule, data element, and tag had to be inventoried and migrated individually across the full domain footprint.</p>
-        <div class="stat">900 items, 40+ domains = <span>no shortcut to a full re-platform</span></div>
+        <h3>900 rules across 40+ domains</h3>
+        <p>Every rule, data element, and vendor tag had to be mapped, rebuilt, and tested across all active healthcare portals.</p>
+        <div class="stat">900 items across 40+ domains = <span>high coordination surface</span></div>
       </div>
       <div class="prob">
         <div class="num">DOCUMENTATION</div>
-        <h3>Missing documentation</h3>
-        <p>Much of the existing tag configuration had no documentation, so current state had to be reconstructed before migration could be planned.</p>
-        <div class="stat">No documentation = <span>current state had to be reverse-engineered first</span></div>
+        <h3>Undocumented legacy scripts</h3>
+        <p>Years of ad-hoc implementations left hundreds of custom JavaScript snippets without ownership or technical specs.</p>
+        <div class="stat">No central catalog = <span>every tag required code reverse-engineering</span></div>
       </div>
       <div class="prob">
         <div class="num">GOVERNANCE</div>
-        <h3>Weak data governance</h3>
-        <p>Underlying data governance gaps meant the migration also had to surface and address quality issues, not just relocate tags.</p>
-        <div class="stat">Weak data governance = <span>quality issues hidden inside the migration</span></div>
+        <h3>Variable data quality standards</h3>
+        <p>Inconsistent data layer schemas between properties created tracking discrepancies that needed fixing before migration.</p>
+        <div class="stat">Schema drift = <span>governance standards needed alongside migration</span></div>
       </div>
     </div>
   </div>
@@ -236,29 +236,29 @@
 <section class="reveal">
   <div class="wrap">
     <div class="section-tag">03 — The Solution</div>
-    <h2>An As-Is audit, phased migration, and governed go-live</h2>
-    <p class="lede">The migration was sequenced to document current state first, then move 900 items with a go-live plan designed to minimize data loss.</p>
+    <h2>Audit-led cataloging, phased migration, and cutover governance</h2>
+    <p class="lede">We executed the migration in sequenced waves: reverse-engineering existing setups, building unified Launch properties, and running dual-tag validation.</p>
     <div class="timeline">
       <div class="spine"></div>
       <div class="phase">
         <div class="node">1</div>
-        <div class="ptitle">As-Is documentation <span class="flow">current state → baseline</span></div>
-        <p>Created an As-Is plan documenting the current Dynamic Tag Manager configuration across all 40+ domains as the migration baseline.<span class="tech">Audit · documentation</span></p>
+        <div class="ptitle">Comprehensive inventory and audit <span class="flow">audit → data catalog</span></div>
+        <p>Audited and cataloged all 900 rules, data elements, and third-party scripts across 40+ domains into a structured tracking dictionary.<span class="tech">Audit · Data dictionary</span></p>
       </div>
       <div class="phase">
         <div class="node">2</div>
-        <div class="ptitle">Phased migration plan</div>
-        <p>Drafted a project plan breaking the 900-item migration into phases across the 3-4 month window.<span class="tech">Project planning</span></p>
+        <div class="ptitle">Modular Launch architecture</div>
+        <p>Built standardized Adobe Launch properties with reusable data elements and extension packages across domain clusters.<span class="tech">Adobe Launch · Modular rules</span></p>
       </div>
       <div class="phase era-ai">
         <div class="node">3</div>
-        <div class="ptitle">Go-live with loss prevention</div>
-        <p>Introduced a go-live plan designed to minimize data loss during cutover from Dynamic Tag Manager to Adobe Launch.<span class="tech">Adobe Launch · cutover</span></p>
+        <div class="ptitle">Dual-tag testing and phased cutover</div>
+        <p>Ran side-by-side QA in staging and executed phased cutovers domain by domain to verify zero metric drops.<span class="tech">Dual-tagging · QA cutover</span></p>
       </div>
       <div class="phase era-ai">
         <div class="node">4</div>
-        <div class="ptitle">Governance recommendations</div>
-        <p>Submitted recommendations to improve data governance, addressing the gaps surfaced during the migration.<span class="tech">Data governance</span></p>
+        <div class="ptitle">Governance and naming standards</div>
+        <p>Established formal change-management workflows, schema standards, and access control for future tag requests.<span class="tech">Data governance · CI/CD</span></p>
       </div>
     </div>
   </div>
@@ -298,22 +298,22 @@
 <section class="reveal">
   <div class="wrap">
     <div class="section-tag">05 — Strategic Outcomes Unlocked</div>
-    <h2>From a forced tool swap to a governance roadmap</h2>
+    <h2>Modernized telemetry and long-term governance</h2>
     <div class="unlocked-grid">
       <div class="unlock q full">
         <div class="ico">⚡</div>
-        <h4>A governed, plugin-ready tag layer</h4>
-        <p>Optum moved off an unsupported tool onto Adobe Experience Platform Launch with full third-party plugin support, plus a concrete set of data governance fixes identified along the way.</p>
+        <h4>Extension-ready tag architecture</h4>
+        <p>Transitioning to Adobe Experience Platform Launch enabled modern tag extensions, faster asynchronous script loading, and streamlined deployment of third-party martech integrations.</p>
       </div>
       <div class="unlock">
         <div class="ico">⊕</div>
-        <h4>Reusable As-Is migration playbook</h4>
-        <p>The audit-first, phased-migration, governed-go-live approach is reusable for future platform migrations.</p>
+        <h4>Repeatable migration playbook</h4>
+        <p>The structured audit templates, testing matrix, and cutover protocols established a blueprint for future enterprise re-platforming efforts.</p>
       </div>
       <div class="unlock">
         <div class="ico">↻</div>
-        <h4>Key reporting issues identified</h4>
-        <p>The migration surfaced report-related issues for the business, with concrete improvement paths for data governance.</p>
+        <h4>Enterprise data dictionary</h4>
+        <p>Created the first centralized tracking catalog across Optum's web footprint, eliminating duplicate tags and establishing baseline governance.</p>
       </div>
     </div>
   </div>

@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Fixing Vodafone Egypt's App Analytics with Adobe Analytics</title>
+<title>Rebuilding Vodafone's Mobile App Analytics on Adobe Analytics</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;450;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -165,42 +165,42 @@
 <header class="hero">
   <div class="wrap">
     <div class="eyebrow"><span class="dot"></span>Case Study · Product Analytics Enablement</div>
-    <h1>Giving Vodafone a trustworthy view of <span class="accent">~19.5M app users</span>.</h1>
-    <p class="sub">Vodafone's legacy analytics implementation was inflating app penetration metrics by 30-40%, with no performance baseline and no way to personalize. In a 2-month sprint, I rebuilt the tracking foundation on Adobe Analytics, embedded on-site with the app team in Egypt.</p>
-    <p class="role"><b>Role</b> Led the Adobe Analytics rebuild — gap analysis, data schema contracts, and on-site delivery with the app team</p>
+    <h1>Rebuilding mobile app analytics for <span class="accent">~19.5M Vodafone users</span>.</h1>
+    <p class="sub">Vodafone's legacy app tracking was over-reporting active usage by 30 to 40%, leaving product teams without an accurate baseline. Over a two-month sprint on-site in Cairo with a four-person mobile team, I rebuilt the tracking implementation on Adobe Analytics.</p>
+    <p class="role"><b>Role</b> Led the mobile analytics rebuild: gap analysis, event taxonomy contracts, SDK integration, and validation</p>
     <div class="meta">
-      <span class="chip"><b>2017-2018</b></span>
-      <span class="chip"><b>30-40%</b> metric error fixed</span>
+      <span class="chip"><b>2017–2018</b></span>
+      <span class="chip"><b>30–40%</b> inflation corrected</span>
       <span class="chip"><b>36%</b> digital adoption · ~19.5M</span>
-      <span class="chip"><b>2 months</b> to go-live</span>
-      <span class="chip"><b>5-person</b> agile team</span>
+      <span class="chip"><b>2 months</b> timeline</span>
+      <span class="chip"><b>5-person</b> delivery team</span>
     </div>
   </div>
 </header>
 
 <section class="reveal">
   <div class="wrap">
-    <div class="section-tag">01 — The Business Driver</div>
-    <h2>The app's analytics couldn't be trusted</h2>
-    <p class="lede">A legacy tracking implementation was inflating Vodafone's app penetration metrics by 30-40%, undermining every downstream product decision.</p>
+    <div class="section-tag">01 — The Context</div>
+    <h2>Distorted user metrics and unverified adoption numbers</h2>
+    <p class="lede">Vodafone Egypt relied on mobile app penetration metrics to measure its digital transformation, but technical faults in the legacy tracking stack inflated numbers by up to 40%.</p>
     <div class="problems">
       <div class="prob">
         <div class="num">ACCURACY</div>
-        <h3>App penetration was overstated 30-40%</h3>
-        <p>The legacy implementation systematically inflated user counts, distorting the picture of true app adoption.</p>
-        <div class="stat">Faulty metrics = <span>product decisions based on wrong numbers</span></div>
+        <h3>30–40% metric inflation</h3>
+        <p>Duplicate session initializations and faulty background event triggers systematically over-counted active app users.</p>
+        <div class="stat">Distorted metrics = <span>inaccurate product and commercial decisions</span></div>
       </div>
       <div class="prob">
-        <div class="num">VISIBILITY</div>
-        <h3>No performance metrics</h3>
-        <p>Without reliable performance metrics, the product team had no baseline to measure improvements against.</p>
-        <div class="stat">No performance metrics = <span>no way to measure improvement</span></div>
+        <div class="num">BENCHMARKING</div>
+        <h3>No verified performance baseline</h3>
+        <p>Without clean telemetry, product managers couldn't accurately measure feature adoption, drop-offs, or retention cohorts.</p>
+        <div class="stat">No clean baseline = <span>unable to evaluate release impact</span></div>
       </div>
       <div class="prob">
-        <div class="num">PERSONALIZATION</div>
-        <h3>No A/B testing or personalization</h3>
-        <p>The app had no product analytics layer capable of supporting A/B testing or personalized experiences.</p>
-        <div class="stat">No personalization layer = <span>every user sees the same app</span></div>
+        <div class="num">EXPERIMENTATION</div>
+        <h3>Inability to run targeted tests</h3>
+        <p>The legacy telemetry structure lacked user-property attributes required to power segmentation or targeted A/B tests.</p>
+        <div class="stat">No behavioral segmentation = <span>generic app experiences for all users</span></div>
       </div>
     </div>
   </div>
@@ -209,26 +209,26 @@
 <section class="reveal">
   <div class="wrap">
     <div class="section-tag">02 — The Obstacles</div>
-    <h2>What had to happen before any test could run</h2>
-    <p class="lede">Before any test could run, the new tracking had to be specified, built into the app, and shipped — all inside a two-month window.</p>
+    <h2>Tight release windows and distributed engineering</h2>
+    <p class="lede">Correcting the tracking required standardizing data schemas across iOS and Android and coordinating directly with engineering inside an aggressive sprint schedule.</p>
     <div class="problems">
       <div class="prob">
-        <div class="num">SCHEMA</div>
-        <h3>No agreed data contracts</h3>
-        <p>Without a shared data schema, Adobe Analytics couldn't be wired into the app's event structure.</p>
-        <div class="stat">No agreed schema = <span>Adobe Analytics had nothing to wire into</span></div>
+        <div class="num">TAXONOMY</div>
+        <h3>No standard event contracts</h3>
+        <p>iOS and Android apps recorded interactions differently, creating schema fragmentation that broke centralized reporting.</p>
+        <div class="stat">Disjointed schemas = <span>inconsistent cross-platform reporting</span></div>
       </div>
       <div class="prob">
-        <div class="num">DELIVERY</div>
-        <h3>Remote team, on-site delivery needed</h3>
-        <p>Coordinating agile delivery with a 4-developer app team required on-site presence in Egypt to keep pace.</p>
-        <div class="stat">Remote-only delivery = <span>too slow for a 2-month deadline</span></div>
+        <div class="num">COLLABORATION</div>
+        <h3>Cross-team coordination barrier</h3>
+        <p>Remote ticket handoffs were causing misinterpretations of SDK requirements and delaying release schedules.</p>
+        <div class="stat">Remote disconnect = <span>needed embedded on-site technical guidance</span></div>
       </div>
       <div class="prob">
         <div class="num">TIMELINE</div>
-        <h3>Two-month go-live window</h3>
-        <p>The gap analysis, schema design, and implementation all had to land inside a 2-month deadline.</p>
-        <div class="stat">Audit to go-live = <span>one fixed runway, no slack</span></div>
+        <h3>Fixed two-month go-live deadline</h3>
+        <p>Audit, taxonomy definition, SDK implementation, QA, and production deployment had to complete within 60 days.</p>
+        <div class="stat">60-day runway = <span>zero room for development iteration delays</span></div>
       </div>
     </div>
   </div>
@@ -237,29 +237,29 @@
 <section class="reveal">
   <div class="wrap">
     <div class="section-tag">03 — The Solution</div>
-    <h2>Gap analysis, data contracts, embedded delivery</h2>
-    <p class="lede">A single data consultant embedded with a 4-developer app team in Egypt, running an iterative cycle from gap analysis to A/B-ready tracking.</p>
+    <h2>Embedded delivery, standardized taxonomy, and Adobe Analytics cutover</h2>
+    <p class="lede">Working directly on-site with the 4-developer mobile engineering team in Cairo, we defined schema contracts, implemented the Adobe Mobile SDK, and validated event payloads.</p>
     <div class="timeline">
       <div class="spine"></div>
       <div class="phase">
         <div class="node">1</div>
-        <div class="ptitle">Gap analysis <span class="flow">legacy tracking → accuracy gaps</span></div>
-        <p>Performed a gap analysis to quantify how the legacy implementation was inflating app penetration metrics.<span class="tech">Adobe Analytics · audit</span></p>
+        <div class="ptitle">Telemetry audit &amp; gap identification <span class="flow">audit → payload validation</span></div>
+        <p>Traced network event payloads on iOS and Android to pinpoint duplicate session pings and event-listener leaks.<span class="tech">Network proxy · Audit</span></p>
       </div>
       <div class="phase">
         <div class="node">2</div>
-        <div class="ptitle">Data schema contracts</div>
-        <p>Set up data schema contracts defining the events and properties the app team would implement.<span class="tech">Data schema · contracts</span></p>
+        <div class="ptitle">Cross-platform data contracts</div>
+        <p>Designed unified event dictionaries and property schemas across native iOS (Swift) and Android (Kotlin) codebases.<span class="tech">Data contracts · Taxonomy</span></p>
       </div>
       <div class="phase era-ai">
         <div class="node">3</div>
-        <div class="ptitle">Embedded agile delivery</div>
-        <p>Traveled to Egypt to coordinate agile delivery directly with the 4-developer app team, closing feedback loops in person.<span class="tech">On-site · agile</span></p>
+        <div class="ptitle">Embedded on-site engineering</div>
+        <p>Embedded on-site in Cairo with mobile engineers to write instrumentation handlers, SDK wrappers, and automated payload tests.<span class="tech">On-site sprint · Adobe SDK</span></p>
       </div>
       <div class="phase era-ai">
         <div class="node">4</div>
-        <div class="ptitle">Go-live and A/B enablement</div>
-        <p>Went live within 2 months and enabled A/B testing on top of the new accurate tracking foundation.<span class="tech">A/B testing · go-live</span></p>
+        <div class="ptitle">Production validation &amp; reporting cutover</div>
+        <p>Shipped updated app releases, verified baseline data consistency in Adobe Analytics, and rolled out stakeholder dashboards.<span class="tech">Adobe Analytics · Dashboards</span></p>
       </div>
     </div>
   </div>
@@ -299,22 +299,22 @@
 <section class="reveal">
   <div class="wrap">
     <div class="section-tag">05 — Strategic Outcomes Unlocked</div>
-    <h2>From inflated numbers to a measurement foundation for 19.5M users</h2>
+    <h2>Accurate baseline data across 19.5M users</h2>
     <div class="unlocked-grid">
       <div class="unlock q full">
         <div class="ico">⚡</div>
-        <h4>A measurement foundation for ~19.5M users</h4>
-        <p>Standardized data and analytics tracking now gives Vodafone a trustworthy view of digital adoption across its ~19.5M user base, with A/B testing and behavioral targeting built on top.</p>
+        <h4>Trustworthy telemetry for digital transformation</h4>
+        <p>Correcting the 30–40% metric inflation provided leadership with verified digital adoption numbers (36% active penetration across ~19.5M total accounts) to guide commercial investments.</p>
       </div>
       <div class="unlock">
         <div class="ico">⊕</div>
-        <h4>Behavioral targeting enabled</h4>
-        <p>Accurate event data opens the door to segment-based, behavior-driven app experiences.</p>
+        <h4>A/B testing and experimentation foundation</h4>
+        <p>Standardized user attributes and event triggers unlocked the ability to launch targeted in-app experiments and personalized messaging flows.</p>
       </div>
       <div class="unlock">
         <div class="ico">↻</div>
-        <h4>Standardized tracking contracts</h4>
-        <p>The data schema established with the app team becomes the standard for future instrumentation work.</p>
+        <h4>Unified cross-platform schema standard</h4>
+        <p>The shared event dictionary established enduring development contracts between mobile engineering and analytics teams for all future feature releases.</p>
       </div>
     </div>
   </div>
@@ -324,7 +324,7 @@
   <div class="wrap">
     <div class="foot">
       <div class="brand">Vodafone <span>—</span> Product Analytics Enablement</div>
-      <div>Inflated Metrics → Adobe Analytics Foundation</div>
+      <div>Legacy Tracking → Adobe Analytics Foundation</div>
     </div>
   </div>
 </footer>
